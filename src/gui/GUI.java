@@ -34,6 +34,9 @@ public class GUI {
     private JButton randomStart;
     private JButton manuelStart;
 
+    private ImageIcon preview;
+    private JLabel previewLabel;
+
 
     public GUI(Control control) {
 
