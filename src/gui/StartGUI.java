@@ -38,7 +38,7 @@ public class StartGUI{
 
         jf.setTitle("CT-Conway's Game of Life");
 
-        ImageIcon imageIcon = new ImageIcon("src/data/icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/data/cotroller.png");
         jf.setIconImage(imageIcon.getImage());
 
         //getContentPane().setBackground(Color.decode("#121212"));
@@ -68,7 +68,7 @@ public class StartGUI{
         Font head = new Font("Segoe UI Light", Font.PLAIN, 24);
         Font text = new Font("Segoe UI Light", Font.PLAIN, 16);
 
-        heading = new JLabel("Conway's Game of Life Control");
+        heading = new JLabel("Control Panel");
         heading.setFont(head);
         heading.setForeground(Color.decode("#121212"));
         heading.setBounds(50, 25, 400, 50);
@@ -210,7 +210,7 @@ public class StartGUI{
 
         manuelStart.setBounds(225, 280, 150, 50);
 
-        Icon gif = new ImageIcon("src/data/control.gif");
+        Icon gif = new ImageIcon("src/data/control2.png");
         JLabel gifLabel = new JLabel(gif);
         gifLabel.setBounds(391, 25, 336, 336);
         jf.getContentPane().add(gifLabel);
