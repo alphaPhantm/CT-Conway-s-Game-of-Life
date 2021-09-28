@@ -1,15 +1,17 @@
 package gui;
 
+import game.Control;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 
-public class StartGUI{
+public class GUI {
+
+    private final Control control;
 
     private JFrame jf;
 
@@ -22,6 +24,7 @@ public class StartGUI{
     private JSlider yAxis;
     private JLabel yAxisName;
     private JLabel yAxisLabel;
+    private int cellCount = 6;
     private JSlider startCells;
     private JLabel startCellsName;
     private JLabel startCellsLabel;
@@ -32,13 +35,18 @@ public class StartGUI{
     private JButton manuelStart;
 
 
-    public StartGUI(){
+    public GUI(Control control) {
 
+        this.control = control;
+
+    }
+
+    public void buildControlWindow() {
         jf = new JFrame();
 
-        jf.setTitle("CT-Conway's Game of Life");
+        jf.setTitle("Conway's Game of Life");
 
-        ImageIcon imageIcon = new ImageIcon("src/data/cotroller.png");
+        ImageIcon imageIcon = new ImageIcon("src/data/PNG/Icon.png");
         jf.setIconImage(imageIcon.getImage());
 
         //getContentPane().setBackground(Color.decode("#121212"));
@@ -49,21 +57,19 @@ public class StartGUI{
         jf.setAutoRequestFocus(false);
         jf.setLayout(null);
         jf.setSize(752, 424);
-        //jf.getContentPane().setPreferredSize(new Dimension(752, 423));
 
         jf.setResizable(false);
 
 
-        initComponents();
-        addComponents();
+        initControlComponents();
+        addControlComponents();
 
 
         jf.setLocationRelativeTo(null);
         jf.setVisible(true);
-
     }
 
-    public void initComponents(){
+    private void initControlComponents() {
 
         Font head = new Font("Segoe UI Light", Font.PLAIN, 24);
         Font text = new Font("Segoe UI Light", Font.PLAIN, 16);
@@ -134,9 +140,6 @@ public class StartGUI{
         yAxisLabel.setVisible(true);
 
 
-
-
-
         startCells = new JSlider(6, 6);
         startCells.setBounds(180, 210, 200, 20);
         startCells.setFont(text);
@@ -145,8 +148,8 @@ public class StartGUI{
         startCells.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                int value = startCells.getValue();
-                updateSliderLables(2, value);
+                cellCount = startCells.getValue();
+                updateSliderLables(2, cellCount);
             }
         });
         startCells.setVisible(true);
@@ -170,9 +173,8 @@ public class StartGUI{
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
                 JButton b = (JButton) e.getSource();
-                b.setContentAreaFilled(true);
-                b.setBackground(Color.decode("#121212"));
-                b.setForeground(Color.decode("#F8F8FF"));
+                b.setForeground(Color.decode("#C40233"));
+                b.setBounds(b.getX() - 10, b.getY() - 10, b.getWidth() + 20, b.getHeight() + 20);
             }
 
             @Override
@@ -180,7 +182,7 @@ public class StartGUI{
                 super.mouseExited(e);
                 JButton b = (JButton) e.getSource();
                 b.setForeground(Color.decode("#121212"));
-                b.setContentAreaFilled(false);
+                b.setBounds(b.getX() + 10, b.getY() + 10, b.getWidth() - 20, b.getHeight() - 20);
 
             }
         };
@@ -189,42 +191,51 @@ public class StartGUI{
         randomStart.setText("Random Start");
         randomStart.setFont(text);
         randomStart.setForeground(Color.decode("#121212"));
-        randomStart.setBorderPainted(false);
+        randomStart.setBorderPainted(true);
         randomStart.setFocusPainted(false);
         randomStart.setContentAreaFilled(false);
         randomStart.setBounds(50, 280, 150, 50);
         randomStart.setVisible(true);
         randomStart.addMouseListener(hover);
+        randomStart.setBorder(new RoundedBorder(25));
+        randomStart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                control.buildGameWindow(xAxisSize, yAxisSize, cellCount);
+            }
+        });
 
         manuelStart = new JButton();
         manuelStart.setText("Manuel Start");
         manuelStart.setFont(text);
         manuelStart.setForeground(Color.decode("#121212"));
-        manuelStart.setBorderPainted(false);
+        manuelStart.setBorderPainted(true);
         manuelStart.setFocusPainted(false);
         manuelStart.setContentAreaFilled(false);
         manuelStart.setBounds(225, 280, 150, 50);
         manuelStart.setVisible(true);
         manuelStart.addMouseListener(hover);
+        manuelStart.setBorder(new RoundedBorder(25));
+        manuelStart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
 
-        manuelStart.setBounds(225, 280, 150, 50);
-
-        Icon gif = new ImageIcon("src/data/control2.png");
-        JLabel gifLabel = new JLabel(gif);
-        gifLabel.setBounds(391, 25, 336, 336);
-        jf.getContentPane().add(gifLabel);
+        preview = new ImageIcon("src/data/PNG/Preview.png");
+        previewLabel = new JLabel(preview);
+        previewLabel.setBounds(450, 45, 203, 302);
 
     }
 
     private void updateStartCells() {
-
         startCells.setMaximum(xAxisSize * yAxisSize);
-
     }
 
-    private void updateSliderLables(int slider, int val){
-        switch (slider){
+    private void updateSliderLables(int slider, int val) {
+        switch (slider) {
             case 0:
                 xAxisLabel.setText(String.valueOf(val));
                 break;
@@ -237,8 +248,7 @@ public class StartGUI{
         }
     }
 
-
-    public void addComponents(){
+    private void addControlComponents() {
         jf.add(heading);
         jf.add(xAxis);
         jf.add(xAxisName);
@@ -251,9 +261,20 @@ public class StartGUI{
         jf.add(startCellsLabel);
         jf.add(randomStart);
         jf.add(manuelStart);
+        jf.add(previewLabel);
 
     }
 
+    public void buildGameWindow() {
+
+
+    }
+
+    private void initGameComponents() {
+    }
+
+    private void addGameComponents() {
+    }
 
 
 }

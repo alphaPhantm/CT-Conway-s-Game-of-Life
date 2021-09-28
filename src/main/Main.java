@@ -1,13 +1,12 @@
 package main;
 
-import gui.GameGUI;
-import gui.StartGUI;
+import game.Control;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        GameGUI gameGUI = new GameGUI();
-//        StartGUI startGUI = new StartGUI();
+        Control control = new Control();
     }
 
 
