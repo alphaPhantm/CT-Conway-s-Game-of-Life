@@ -223,7 +223,9 @@ public class GUI {
         modeBox = new JComboBox<String>();
         modeBox.setBounds(180, 257, 100, 20);
         addComboBoxEntry(modeBox, "Randomized");
-        addComboBoxEntry(modeBox, "CTTask1");
+        addComboBoxEntry(modeBox, "Task1");
+        addComboBoxEntry(modeBox, "Blinker");
+        addComboBoxEntry(modeBox, "Toad");
 
 
         startButton = new JButton();
@@ -342,6 +344,7 @@ public class GUI {
         jfGame.setLayout(null);
         jfGame.setLocationRelativeTo(null);
         jfGame.setVisible(true);
+
 
     }
 

@@ -24,7 +24,7 @@ public class Clock extends Thread{
             }
         };
 
-        t.scheduleAtFixedRate(tt, 1, 120);
+        t.scheduleAtFixedRate(tt, 1, 100000);
 
     }
 

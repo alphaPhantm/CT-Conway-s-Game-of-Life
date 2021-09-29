@@ -61,22 +61,27 @@ public class Control {
     }
 
     private void buildManuelGame() {
-
+        System.out.println("Test");
     }
 
     private void generateTask1() {
-        for (int x = 0; x < 6; x++) {
-            for (int y = 0; y < 6; y++) {
-                cells[x][y] = false;
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                cells[x][y] = true;
             }
         }
 
-        cells[1][2] = true;
-        cells[2][2] = true;
-        cells[2][4] = true;
-        cells[3][1] = true;
-        cells[3][3] = true;
-        cells[4][3] = true;
+//        cells[1][2] = true;
+//        cells[2][2] = true;
+//        cells[2][4] = true;
+//        cells[3][1] = true;
+//        cells[3][3] = true;
+//        cells[4][3] = true;
+
+//        cells[1][0] = true;
+//        cells[1][1] = true;
+//        cells[1][2] = true;
+
 
         syncCells();
     }
@@ -86,7 +91,7 @@ public class Control {
             int x = rand(0, this.xSize);
             int y = rand(0, this.ySize);
             if (!cells[x][y]) {
-                this.cells[x][y] = true;
+                cells[x][y] = true;
             } else {
                 i--;
             }
@@ -101,6 +106,10 @@ public class Control {
                 newcells[x][y] = cells[x][y];
             }
         }
+    }
+
+    public boolean[][] getCells() {
+        return cells;
     }
 
     public boolean[][] nextGen() {
@@ -135,8 +144,6 @@ public class Control {
                 cells[x][y] = newcells[x][y];
             }
         }
-
-
 
         return cells;
     }
