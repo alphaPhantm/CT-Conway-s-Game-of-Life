@@ -15,20 +15,19 @@ public class Control {
     private boolean[][] newcells;
 
 
-
-    public void start(){
+    public void start() {
 
         gui = new GUI(this);
         gui.controlWindow();
 
     }
 
-    public void startGame(){
+    public void startGame() {
         clock = new Clock();
-        clock.start(this);
+        clock.start(this, gui);
     }
 
-    public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode){
+    public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode) {
         this.xSize = xSize;
         this.ySize = ySize;
         this.cellCount = cellCount;
@@ -37,7 +36,7 @@ public class Control {
         newcells = new boolean[this.xSize][this.ySize];
 
 
-        switch(startMode){
+        switch (startMode) {
 
             case Task1 -> {
                 generateTask1();
@@ -49,16 +48,23 @@ public class Control {
                 buildManuelGame();
             }
 
-
         }
 
+        if (gui == null){
+            gui = new GUI(this);
+        }
+
+        gui.gameWindow(this.xSize, this.ySize);
+
+        startGame();
+
     }
 
-    private void buildManuelGame(){
+    private void buildManuelGame() {
 
     }
 
-    private void generateTask1(){
+    private void generateTask1() {
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 cells[x][y] = false;
@@ -75,24 +81,29 @@ public class Control {
         syncCells();
     }
 
-    private void generateRandomized(){
+    private void generateRandomized() {
         for (int i = 0; i < this.cellCount; i++) {
             int x = rand(0, this.xSize);
             int y = rand(0, this.ySize);
-            this.cells[x][y] = true;
+            if (!cells[x][y]) {
+                this.cells[x][y] = true;
+            } else {
+                i--;
+            }
         }
         syncCells();
+
     }
 
-    private void syncCells(){
+    private void syncCells() {
         for (int x = 0; x < this.xSize; x++) {
             for (int y = 0; y < this.ySize; y++) {
-                this.newcells[x][y] = this.cells[x][y];
+                newcells[x][y] = cells[x][y];
             }
         }
     }
 
-    public void nextGen(){
+    public boolean[][] nextGen() {
         gen ++;
         System.out.println("Generation:" + gen);
 
@@ -119,21 +130,28 @@ public class Control {
             }
         }
 
-        syncCells();
+        for (int x = 0; x < this.xSize; x++) {
+            for (int y = 0; y < this.ySize; y++) {
+                cells[x][y] = newcells[x][y];
+            }
+        }
 
+
+
+        return cells;
     }
 
 
-    private int aliveNeigbours(int x, int y){
+    private int aliveNeigbours(int x, int y) {
         int count = 0;
 
         int[] xoff = {1, 1, 0, -1, -1, -1, 0, 1};
         int[] yoff = {0, 1, 1, 1, 0, -1, -1, -1};
 
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             try {
-                if (cells[x + xoff[i]][y + yoff[i]]){
-                    count ++;
+                if (cells[x + xoff[i]][y + yoff[i]]) {
+                    count++;
                 }
             } catch (Exception e) {
             }
@@ -142,11 +160,14 @@ public class Control {
     }
 
 
-    private int rand(int min, int max){
+    private int rand(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
 
+    public void showGrid() {
+
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package gui;
 
+import draw.Draw;
 import game.Control;
 import game.StartMode;
 
@@ -14,7 +15,14 @@ public class GUI {
 
     private final Control control;
 
-    private JFrame jf;
+    /* Universial Atributes */
+
+    private final String title = "Conway's Game of Life";
+
+    /* End of Universial Atributes */
+
+    /* Components of the menue View */
+    private JFrame jfMenue;
 
     private JLabel heading;
     private int xAxisSize = 6;
@@ -41,6 +49,17 @@ public class GUI {
     private ImageIcon preview;
     private JLabel previewLabel;
 
+    /* End of control view Elements */
+
+    /* Game view Elements */
+
+    private JFrame jfGame;
+    private Draw draw;
+
+    private int xSize, ySize;
+
+    /* End of Game view Elements */
+
 
     public GUI(Control control) {
 
@@ -49,31 +68,31 @@ public class GUI {
     }
 
     public void controlWindow() {
-        jf = new JFrame();
+        jfMenue = new JFrame();
 
-        jf.setTitle("Conway's Game of Life");
+        jfMenue.setTitle(title);
 
         ImageIcon imageIcon = new ImageIcon("src/data/PNG/Icon.png");
-        jf.setIconImage(imageIcon.getImage());
+        jfMenue.setIconImage(imageIcon.getImage());
 
         //getContentPane().setBackground(Color.decode("#121212"));
 
-        jf.setUndecorated(false);
+        jfMenue.setUndecorated(false);
 
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.setAutoRequestFocus(false);
-        jf.setLayout(null);
-        jf.setSize(752, 424);
+        jfMenue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jfMenue.setAutoRequestFocus(false);
+        jfMenue.setLayout(null);
+        jfMenue.setSize(752, 424);
 
-        jf.setResizable(false);
+        jfMenue.setResizable(false);
 
 
         initControlComponents();
         addControlComponents();
 
 
-        jf.setLocationRelativeTo(null);
-        jf.setVisible(true);
+        jfMenue.setLocationRelativeTo(null);
+        jfMenue.setVisible(true);
     }
 
     private void initControlComponents() {
@@ -145,7 +164,7 @@ public class GUI {
         yAxisLabel.setFont(text);
         yAxisLabel.setForeground(Color.decode("#121212"));
         yAxisLabel.setVisible(true);
-
+        //TODO: Inputfield witch Changelistner to cange Slider
 
         startCells = new JSlider(6, 6);
         startCells.setBounds(180, 210, 200, 20);
@@ -203,8 +222,9 @@ public class GUI {
 
         modeBox = new JComboBox<String>();
         modeBox.setBounds(180, 257, 100, 20);
-        addComboBoxEntry(modeBox, "CTTask1");
         addComboBoxEntry(modeBox, "Randomized");
+        addComboBoxEntry(modeBox, "CTTask1");
+
 
         startButton = new JButton();
         startButton.setText("Start Game");
@@ -275,21 +295,21 @@ public class GUI {
     }
 
     private void addControlComponents() {
-        jf.add(heading);
-        jf.add(xAxis);
-        jf.add(xAxisName);
-        jf.add(xAxisLabel);
-        jf.add(yAxis);
-        jf.add(yAxisName);
-        jf.add(yAxisLabel);
-        jf.add(startCells);
-        jf.add(startCellsName);
-        jf.add(startCellsLabel);
-        jf.add(startButton);
-        jf.add(manuelStart);
-        jf.add(previewLabel);
-        jf.add(modeName);
-        jf.add(modeBox);
+        jfMenue.add(heading);
+        jfMenue.add(xAxis);
+        jfMenue.add(xAxisName);
+        jfMenue.add(xAxisLabel);
+        jfMenue.add(yAxis);
+        jfMenue.add(yAxisName);
+        jfMenue.add(yAxisLabel);
+        jfMenue.add(startCells);
+        jfMenue.add(startCellsName);
+        jfMenue.add(startCellsLabel);
+        jfMenue.add(startButton);
+        jfMenue.add(manuelStart);
+        jfMenue.add(previewLabel);
+        jfMenue.add(modeName);
+        jfMenue.add(modeBox);
 
     }
 
@@ -297,8 +317,31 @@ public class GUI {
         comboBox.addItem(entry);
     }
 
-    public void gameWindow() {
+    public void gameWindow(int xSize, int ySize) {
+        this.xSize = xSize;
+        this.ySize = ySize;
 
+
+        jfGame = new JFrame(title);
+
+        jfGame.getContentPane().setPreferredSize(new Dimension(1600, 1600));
+        jfGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        jfGame.setResizable(false);
+
+        float ratio = (float)(ySize) / (float)(xSize);
+        draw = new Draw(this.xSize, this.ySize, ratio);
+        draw.setBounds(0, 0, 1200, 1200);
+
+        draw.setVisible(true);
+
+
+        jfGame.add(draw);
+
+        jfGame.pack();
+        jfGame.setLayout(null);
+        jfGame.setLocationRelativeTo(null);
+        jfGame.setVisible(true);
 
     }
 
@@ -306,6 +349,18 @@ public class GUI {
     }
 
     private void addGameComponents() {
+    }
+
+    public void showGrid(boolean[][] grid)
+    {
+        if(draw != null)
+        {
+            draw.showGrid(grid);
+        }
+        else
+        {
+            System.err.println("There is no Window");
+        }
     }
 
 

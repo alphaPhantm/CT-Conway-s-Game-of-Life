@@ -2,6 +2,6 @@ package game;
 
 public enum StartMode {
 
-    Manuel, Task1, Randomized, Hallo
+    Manuel, Randomized, Task1,
 
 }
