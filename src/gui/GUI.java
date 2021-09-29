@@ -1,6 +1,7 @@
 package gui;
 
 import game.Control;
+import game.StartMode;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -29,6 +30,9 @@ public class GUI {
     private JLabel startCellsName;
     private JLabel startCellsLabel;
 
+    private JLabel modeName;
+    private JComboBox<String> modeBox;
+
     private MouseListener hover;
 
     private JButton randomStart;
@@ -44,7 +48,7 @@ public class GUI {
 
     }
 
-    public void buildControlWindow() {
+    public void controlWindow() {
         jf = new JFrame();
 
         jf.setTitle("Conway's Game of Life");
@@ -190,21 +194,33 @@ public class GUI {
             }
         };
 
+        modeName = new JLabel("Select Figure: ");
+        modeName.setBounds(50, 270, 200, 30);
+        modeName.setFont(text);
+        modeName.setForeground(Color.decode("#121212"));
+        modeName.setVisible(true);
+
+
+        modeBox = new JComboBox<String>();
+        modeBox.setBounds(180, 270, 100, 20);
+        addComboBoxEntry(modeBox, "CTTask1");
+        addComboBoxEntry(modeBox, "Randomized");
+
         randomStart = new JButton();
-        randomStart.setText("Random Start");
+        randomStart.setText("Start Game");
         randomStart.setFont(text);
         randomStart.setForeground(Color.decode("#121212"));
         randomStart.setBorderPainted(true);
         randomStart.setFocusPainted(false);
         randomStart.setContentAreaFilled(false);
-        randomStart.setBounds(50, 280, 150, 50);
+        randomStart.setBounds(50, 320, 150, 50);
         randomStart.setVisible(true);
         randomStart.addMouseListener(hover);
         randomStart.setBorder(new RoundedBorder(25));
         randomStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.buildGameWindow(xAxisSize, yAxisSize, cellCount);
+                control.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Randomized);
             }
         });
 
@@ -215,14 +231,14 @@ public class GUI {
         manuelStart.setBorderPainted(true);
         manuelStart.setFocusPainted(false);
         manuelStart.setContentAreaFilled(false);
-        manuelStart.setBounds(225, 280, 150, 50);
+        manuelStart.setBounds(225, 320, 150, 50);
         manuelStart.setVisible(true);
         manuelStart.addMouseListener(hover);
         manuelStart.setBorder(new RoundedBorder(25));
         manuelStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                control.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Manuel);
             }
         });
 
@@ -265,10 +281,16 @@ public class GUI {
         jf.add(randomStart);
         jf.add(manuelStart);
         jf.add(previewLabel);
+        jf.add(modeName);
+        jf.add(modeBox);
 
     }
 
-    public void buildGameWindow() {
+    private void addComboBoxEntry(JComboBox<String>  comboBox, String entry){
+        comboBox.addItem(entry);
+    }
+
+    public void gameWindow() {
 
 
     }

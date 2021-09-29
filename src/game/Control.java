@@ -7,20 +7,28 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Control {
 
     private GUI gui;
+    private Clock clock;
 
     private int xSize, ySize, cellCount, gen = 0;
 
     private boolean[][] cells;
     private boolean[][] newcells;
 
-    public Control(){
+
+
+    public void start(){
 
         gui = new GUI(this);
-        gui.buildControlWindow();
+        gui.controlWindow();
 
     }
 
-    public void buildGameWindow(int xSize, int ySize, int cellCount){
+    public void startGame(){
+        clock = new Clock();
+        clock.start(this);
+    }
+
+    public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode){
         this.xSize = xSize;
         this.ySize = ySize;
         this.cellCount = cellCount;
@@ -28,10 +36,64 @@ public class Control {
         cells = new boolean[this.xSize][this.ySize];
         newcells = new boolean[this.xSize][this.ySize];
 
-        gui.buildGameWindow();
+
+        switch(startMode){
+
+            case Task1 -> {
+                generateTask1();
+                System.out.println("Taks1");
+            }
+            case Randomized -> {
+                generateRandomized();
+                System.out.println("Random");
+            }
+            case Manuel -> {
+                buildManuelGame();
+            }
+
+        }
+
     }
 
-    private void nextGen(){
+    private void buildManuelGame(){
+
+    }
+
+    private void generateTask1(){
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 6; y++) {
+                cells[x][y] = false;
+            }
+        }
+
+        cells[1][2] = true;
+        cells[2][2] = true;
+        cells[2][4] = true;
+        cells[3][1] = true;
+        cells[3][3] = true;
+        cells[4][3] = true;
+
+        syncCells();
+    }
+
+    private void generateRandomized(){
+        for (int i = 0; i < this.cellCount; i++) {
+            int x = rand(0, this.xSize);
+            int y = rand(0, this.ySize);
+            this.cells[x][y] = true;
+        }
+        syncCells();
+    }
+
+    private void syncCells(){
+        for (int x = 0; x < this.xSize; x++) {
+            for (int y = 0; y < this.ySize; y++) {
+                this.newcells[x][y] = this.cells[x][y];
+            }
+        }
+    }
+
+    public void nextGen(){
         gen ++;
         System.out.println("Generation:" + gen);
 
@@ -58,11 +120,7 @@ public class Control {
             }
         }
 
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                cells[x][y] = newcells[x][y];
-            }
-        }
+        syncCells();
 
     }
 
