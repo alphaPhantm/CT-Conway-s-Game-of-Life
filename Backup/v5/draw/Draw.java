@@ -1,6 +1,6 @@
 package v5.draw;
 
-import v4.gui.GUI;
+import v5.gui.GUI;
 import v5.game.Control;
 
 import javax.swing.*;

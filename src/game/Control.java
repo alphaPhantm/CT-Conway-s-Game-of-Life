@@ -41,15 +41,14 @@ public class Control {
 
             case Task1 -> {
                 generateTask1();
-                System.out.println("Taks1");
             }
             case Randomized -> {
                 generateRandomized();
-                System.out.println("Random");
             }
             case Manuel -> {
                 buildManuelGame();
             }
+
 
         }
 

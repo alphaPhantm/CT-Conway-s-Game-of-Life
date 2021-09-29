@@ -35,7 +35,7 @@ public class GUI {
 
     private MouseListener hover;
 
-    private JButton randomStart;
+    private JButton startButton;
     private JButton manuelStart;
 
     private ImageIcon preview;
@@ -195,32 +195,39 @@ public class GUI {
         };
 
         modeName = new JLabel("Select Figure: ");
-        modeName.setBounds(50, 270, 200, 30);
+        modeName.setBounds(50, 250, 200, 30);
         modeName.setFont(text);
         modeName.setForeground(Color.decode("#121212"));
         modeName.setVisible(true);
 
 
         modeBox = new JComboBox<String>();
-        modeBox.setBounds(180, 270, 100, 20);
+        modeBox.setBounds(180, 257, 100, 20);
         addComboBoxEntry(modeBox, "CTTask1");
         addComboBoxEntry(modeBox, "Randomized");
 
-        randomStart = new JButton();
-        randomStart.setText("Start Game");
-        randomStart.setFont(text);
-        randomStart.setForeground(Color.decode("#121212"));
-        randomStart.setBorderPainted(true);
-        randomStart.setFocusPainted(false);
-        randomStart.setContentAreaFilled(false);
-        randomStart.setBounds(50, 320, 150, 50);
-        randomStart.setVisible(true);
-        randomStart.addMouseListener(hover);
-        randomStart.setBorder(new RoundedBorder(25));
-        randomStart.addActionListener(new ActionListener() {
+        startButton = new JButton();
+        startButton.setText("Start Game");
+        startButton.setFont(text);
+        startButton.setForeground(Color.decode("#121212"));
+        startButton.setBorderPainted(true);
+        startButton.setFocusPainted(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setBounds(50, 310, 150, 50);
+        startButton.setVisible(true);
+        startButton.addMouseListener(hover);
+        startButton.setBorder(new RoundedBorder(25));
+        startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Randomized);
+
+                StartMode startMethod = StartMode.Task1;
+
+                int index = modeBox.getSelectedIndex();
+
+                startMethod = StartMode.values()[index + 1]; // + 1 BECAUSE MANUEL HAS THE FIRST INDEX IN ENUM
+
+                control.buildGameWindow(xAxisSize, yAxisSize, cellCount, startMethod);
             }
         });
 
@@ -231,7 +238,7 @@ public class GUI {
         manuelStart.setBorderPainted(true);
         manuelStart.setFocusPainted(false);
         manuelStart.setContentAreaFilled(false);
-        manuelStart.setBounds(225, 320, 150, 50);
+        manuelStart.setBounds(225, 310, 150, 50);
         manuelStart.setVisible(true);
         manuelStart.addMouseListener(hover);
         manuelStart.setBorder(new RoundedBorder(25));
@@ -278,7 +285,7 @@ public class GUI {
         jf.add(startCells);
         jf.add(startCellsName);
         jf.add(startCellsLabel);
-        jf.add(randomStart);
+        jf.add(startButton);
         jf.add(manuelStart);
         jf.add(previewLabel);
         jf.add(modeName);
@@ -286,7 +293,7 @@ public class GUI {
 
     }
 
-    private void addComboBoxEntry(JComboBox<String>  comboBox, String entry){
+    private void addComboBoxEntry(JComboBox<String> comboBox, String entry) {
         comboBox.addItem(entry);
     }
 

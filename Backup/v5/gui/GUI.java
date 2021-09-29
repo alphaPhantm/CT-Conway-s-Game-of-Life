@@ -3,9 +3,11 @@ package v5.gui;
 import v5.draw.Draw;
 import v5.game.Control;
 
+import javax.swing.*;
+import java.awt.*;
 
 
-public class GUI {
+public class GUI extends JFrame {
 
     JFrame jf;
 
