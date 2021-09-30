@@ -15,6 +15,8 @@ import java.awt.event.*;
 
 public class GUI {
 
+    private boolean sliderLocked = false;
+
     private final Control control;
 
     /* Universial Atributes */
@@ -118,12 +120,16 @@ public class GUI {
         xAxis.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                xAxisSize = xAxis.getValue();
-                updateSliderLables(0, xAxisSize);
-                updateStartCells();
+                if(!sliderLocked) {
+                    xAxisSize = xAxis.getValue();
+                    updateSliderLables(0, xAxisSize);
+                    updateStartCells();
+                }
             }
         });
         xAxis.setVisible(true);
+
+
 
         xAxisName = new JLabel("Breite in Zellen:");
         xAxisName.setBounds(50, 100, 200, 30);
@@ -138,10 +144,22 @@ public class GUI {
         xAxisLabel.setFont(text);
         xAxisLabel.setForeground(Color.decode("#121212"));
         xAxisLabel.setVisible(true);
+        xAxisLabel.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+                if (!Character.isDigit(evt.getKeyChar())) {
+                    evt.consume();
+                }
+            }
+        });
+
         xAxisLabel.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                System.out.println(xAxisLabel.getText());
+
+                sliderLocked = true;
+                String s = xAxisLabel.getText();
+                xAxis.setValue(Integer.parseInt(s));
+                sliderLocked = false;
             }
 
             @Override
