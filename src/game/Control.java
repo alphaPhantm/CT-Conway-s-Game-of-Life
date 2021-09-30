@@ -57,14 +57,21 @@ public class Control {
             gui = new GUI(this);
         }
 
-        gui.gameWindow(this.xSize, this.ySize);
+        if (startMode == StartMode.Manuel){
+            gui.manuelGameWindow(this.xSize, this.ySize);
+        } else {
+            gui.gameWindow(this.xSize, this.ySize);
+        }
+
 
         startGame();
 
     }
 
     private void buildManuelGame() {
-        System.out.println("Test");
+
+
+
     }
 
     private void generateTask1() {
@@ -81,7 +88,7 @@ public class Control {
         }
 
 
-        
+
 
 //        cells[1][2] = true;
 //        cells[2][2] = true;
@@ -204,7 +211,25 @@ public class Control {
     }
 
 
-    public void showGrid() {
+    public void showGrid(boolean[][] grid) {
+        gui.showGrid(grid);
+    }
+
+
+    public void addCell(int x, int y) {
+        System.out.print("X" + x + "|" + "Y" + y + "    ");
+
+        System.out.println((int) (x / (800f / xSize)));
+
+//        cells[(int) ((x / (800f / xSize)) + ((800f / xSize)/2))][(int) ((y / (800f / ySize)) + ((800f / ySize)/2))] = true;
+        showGrid(cells);
+
+    }
+
+    public void removeCell(int x, int y) {
+
+        cells[Math.round(y/(800f/xSize))][Math.round(y/(800f/ySize))] = false;
+        showGrid(cells);
 
     }
 }

@@ -64,6 +64,7 @@ public class GUI {
 
     /* End of Game view Elements */
 
+    private JFrame jfGameManuel;
 
     public GUI(Control control) {
 
@@ -375,26 +376,84 @@ public class GUI {
 
         draw.setVisible(true);
 
-        jfGame.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                int x=e.getX();
-                int y=e.getY();
-                System.out.println(x+","+y);
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                System.out.println("Not Pressed");
-            }
-        });
-
         jfGame.add(draw);
 
         jfGame.pack();
         jfGame.setLayout(null);
         jfGame.setLocationRelativeTo(null);
         jfGame.setVisible(true);
+
+
+    }
+
+
+    public void manuelGameWindow(int xSize, int ySize) {
+        this.xSize = xSize;
+        this.ySize = ySize;
+
+
+        jfGameManuel = new JFrame(title);
+
+        jfGameManuel.getContentPane().setPreferredSize(new Dimension(1000, 1000));
+        jfGameManuel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        jfGameManuel.setResizable(false);
+
+        float ratio = (float)(ySize) / (float)(xSize);
+        draw = new Draw(this.xSize, this.ySize, ratio);
+        jfGameManuel.setBounds(0, 0, 800, 800);
+
+        jfGameManuel.setVisible(true);
+
+        jfGameManuel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                control.startGame();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        jfGameManuel.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+                control.removeCell(e.getX(), e.getY());
+
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                control.addCell(e.getX(), e.getY());
+
+            }
+        });
+
+        jfGameManuel.add(draw);
+
+        jfGameManuel.pack();
+        jfGameManuel.setLayout(null);
+        jfGameManuel.setLocationRelativeTo(null);
+        jfGameManuel.setVisible(true);
 
 
     }

@@ -12,14 +12,13 @@ public class Clock extends Thread{
     public void start(Control control, GUI gui){
 
 
-
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
 
                 if (running){
-                    gui.showGrid(control.getCells());
+                    control.showGrid(control.getCells());
                     control.nextGen();
 
 
@@ -27,7 +26,7 @@ public class Clock extends Thread{
             }
         };
 
-        t.scheduleAtFixedRate(tt, 1000, 200);
+        t.scheduleAtFixedRate(tt, 1000, 20000);
 
     }
 
