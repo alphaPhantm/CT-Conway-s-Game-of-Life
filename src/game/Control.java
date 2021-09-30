@@ -14,6 +14,9 @@ public class Control {
     private boolean[][] cells;
     private boolean[][] newcells;
 
+    private int x = 0;
+    private int y = 0;
+
 
     public void start() {
 
@@ -67,9 +70,18 @@ public class Control {
     private void generateTask1() {
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
+                cells[x][y] = false;
+            }
+        }
+
+        for (int x = 1; x < 7; x++) {
+            for (int y = 1; y < 7; y++) {
                 cells[x][y] = true;
             }
         }
+
+
+        
 
 //        cells[1][2] = true;
 //        cells[2][2] = true;
@@ -148,6 +160,26 @@ public class Control {
         return cells;
     }
 
+
+    public boolean[][] nextGen_GridTest(){
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                cells[x][y] = false;
+            }
+        }
+
+
+
+        if (x == xSize){ x = 0; y++;}
+        if (y == ySize) y = 0;
+
+
+
+        cells[x][y] = true;
+        x++;
+
+        return cells;
+    }
 
     private int aliveNeigbours(int x, int y) {
         int count = 0;

@@ -7,6 +7,8 @@ import game.StartMode;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -28,7 +30,7 @@ public class GUI {
     private int xAxisSize = 6;
     private JSlider xAxis;
     private JLabel xAxisName;
-    private JLabel xAxisLabel;
+    private JTextField xAxisLabel;
     private int yAxisSize = 6;
     private JSlider yAxis;
     private JLabel yAxisName;
@@ -129,11 +131,29 @@ public class GUI {
         xAxisName.setForeground(Color.decode("#121212"));
         xAxisName.setVisible(true);
 
-        xAxisLabel = new JLabel("6");
+        xAxisLabel = new JTextField("6");
+        xAxisLabel.setBackground(null);
+        xAxisLabel.setBorder(null);
         xAxisLabel.setBounds(180, 80, 200, 30);
         xAxisLabel.setFont(text);
         xAxisLabel.setForeground(Color.decode("#121212"));
         xAxisLabel.setVisible(true);
+        xAxisLabel.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println(xAxisLabel.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
 
 
         int yAxisMin = 6;
@@ -326,14 +346,14 @@ public class GUI {
 
         jfGame = new JFrame(title);
 
-        jfGame.getContentPane().setPreferredSize(new Dimension(1600, 1600));
+        jfGame.getContentPane().setPreferredSize(new Dimension(1000, 1000));
         jfGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jfGame.setResizable(false);
 
         float ratio = (float)(ySize) / (float)(xSize);
         draw = new Draw(this.xSize, this.ySize, ratio);
-        draw.setBounds(0, 0, 1200, 1200);
+        draw.setBounds(0, 0, 800, 800);
 
         draw.setVisible(true);
 

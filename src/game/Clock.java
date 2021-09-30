@@ -11,20 +11,23 @@ public class Clock extends Thread{
 
     public void start(Control control, GUI gui){
 
+
+
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
 
                 if (running){
-                    boolean[][] booleans = control.nextGen();
-                    gui.showGrid(booleans);
+                    gui.showGrid(control.getCells());
+                    control.nextGen();
+
 
                 }
             }
         };
 
-        t.scheduleAtFixedRate(tt, 1, 100000);
+        t.scheduleAtFixedRate(tt, 1000, 3000);
 
     }
 
