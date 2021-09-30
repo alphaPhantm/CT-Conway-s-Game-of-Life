@@ -375,6 +375,19 @@ public class GUI {
 
         draw.setVisible(true);
 
+        jfGame.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x=e.getX();
+                int y=e.getY();
+                System.out.println(x+","+y);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                System.out.println("Not Pressed");
+            }
+        });
 
         jfGame.add(draw);
 

@@ -31,6 +31,8 @@ public class Clock extends Thread{
 
     }
 
+
+
     public boolean isRunning() {
         return running;
     }
