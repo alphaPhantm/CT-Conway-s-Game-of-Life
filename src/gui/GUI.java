@@ -406,34 +406,8 @@ public class GUI {
 
         jfGameManuel.setVisible(true);
 
-        jfGameManuel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                control.startGame();
-            }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
-        jfGameManuel.addMouseMotionListener(new MouseMotionListener() {
+        jfGameManuel.getContentPane().addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
 
@@ -446,6 +420,7 @@ public class GUI {
             public void mouseMoved(MouseEvent e) {
                 int top = jfGameManuel.getInsets().top;
                 System.out.println("top: " + top);
+
                 control.addCell(e.getX(), e.getY());
 
             }
