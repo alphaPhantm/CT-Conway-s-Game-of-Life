@@ -394,7 +394,8 @@ public class GUI {
 
         jfGameManuel = new JFrame(title);
 
-        jfGameManuel.getContentPane().setPreferredSize(new Dimension(1000, 1000));
+        jfGameManuel.getContentPane().setPreferredSize(new Dimension(800, 800));
+
         jfGameManuel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jfGameManuel.setResizable(false);

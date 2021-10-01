@@ -216,15 +216,17 @@ public class Control {
     }
 
 
-    public void addCell(int x, int y) {
-        System.out.print("X" + x + "|" + "Y" + y + "    ");
+    public void addCell(int mouseX, int mouseY) {
+        System.out.print("X" + mouseX + "|" + "Y" + mouseY + "    ");
 
-        System.out.println((int) (x / (800f / xSize)));
 
-//        cells[(int) ((x / (800f / xSize)) + ((800f / xSize)/2))][(int) ((y / (800f / ySize)) + ((800f / ySize)/2))] = true;
+        System.out.println(mouseX / (800 / xSize) + "    ");
+
+        cells[(mouseX - 30) / (800 / xSize)][(mouseY - 30) / (800 / ySize)] = true;
         showGrid(cells);
 
     }
+
 
     public void removeCell(int x, int y) {
 
