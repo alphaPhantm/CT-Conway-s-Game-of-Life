@@ -219,10 +219,10 @@ public class Control {
     public void addCell(int mouseX, int mouseY) {
         System.out.print("X" + mouseX + "|" + "Y" + mouseY + "    ");
 
+        System.out.println("x: " + xSize + " y: " + ySize + "     ");
+        System.out.println((mouseX) / (800 / xSize) + "    ");
 
-        System.out.println(mouseX / (800 / xSize) + "    ");
-
-        cells[(mouseX - 30) / (800 / xSize)][(mouseY - 30) / (800 / ySize)] = true;
+        cells[mouseX / (800 / xSize)][(mouseY - 29) / (800 / ySize)] = true;
         showGrid(cells);
 
     }

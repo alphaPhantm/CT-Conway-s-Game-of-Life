@@ -444,6 +444,8 @@ public class GUI {
 
             @Override
             public void mouseMoved(MouseEvent e) {
+                int top = jfGameManuel.getInsets().top;
+                System.out.println("top: " + top);
                 control.addCell(e.getX(), e.getY());
 
             }
