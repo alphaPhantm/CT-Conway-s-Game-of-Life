@@ -5,8 +5,7 @@ import game.Control;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class GameWindow {
 
@@ -18,6 +17,8 @@ public class GameWindow {
 
     private int width, height;
     private float ratio;
+
+    private boolean mouseLeft = false, mouseRight = false;
 
     public GameWindow(String title, Control control, int cellCountX, int cellCountY) {
         this.cellCountX = cellCountX;
@@ -45,6 +46,82 @@ public class GameWindow {
 
             @Override
             public void keyReleased(KeyEvent e) {
+
+            }
+        });
+
+        jfGame.getContentPane().addMouseMotionListener(new MouseMotionListener() {
+
+            @Override
+            public void mouseDragged(MouseEvent e)
+            {
+                if(mouseLeft)
+                {
+                    //                        control.setCell(e.getX(), e.getY(), true);
+                        control.addCell(e.getX(), e.getY());
+                }
+                else if(mouseRight)
+                {
+                    control.setCell(e.getX(), e.getY(), 0);
+                }
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e)
+            {
+
+            }
+        });
+
+        gameWindow.getContentPane().addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                switch(e.getButton())
+                {
+                    case 1:
+                        mouseLeft = true;
+//                        control.setCell(e.getX(), e.getY(), true);
+                        control.addCell(e.getX(), e.getY());
+                        break;
+                    case 3:
+                        mouseRight = true;
+//                        control.setCell(e.getX(), e.getY(), false);
+                        control.addCell(e.getX(), e.getY());
+                        break;
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+                switch(e.getButton())
+                {
+                    case 1:
+                        mouseLeft = false;
+                        break;
+                    case 3:
+                        mouseRight = false;
+                        break;
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
 
             }
         });
@@ -83,4 +160,6 @@ public class GameWindow {
         height = (int) (cellCountY *  ratio);
 
     }
+
+
 }

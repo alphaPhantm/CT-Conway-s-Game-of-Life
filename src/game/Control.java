@@ -238,6 +238,10 @@ public class Control {
     public void createControlWindow() {
         gui.createControlWindow();
     }
+
+    public void setCells(){
+
+    }
 }
 
 
