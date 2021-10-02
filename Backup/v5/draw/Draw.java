@@ -24,7 +24,7 @@ public class Draw extends JLabel {
 //            for (int y = 0; y < Control.CELLCOUNT_Y; y++) {
 //                if (Control.cells[x][y]) {
 //                    g.setColor(Color.BLACK);
-//                    g.fillRect(x + GUI.XOFF, y + GUI.YOFF, 1, 1);
+//                    g.fillRect(x + OldGUI.XOFF, y + OldGUI.YOFF, 1, 1);
 //                }
 //            }
 //        }

@@ -2,6 +2,7 @@ package game;
 
 import gui.GUI;
 
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Control {
@@ -21,13 +22,13 @@ public class Control {
     public void start() {
 
         gui = new GUI(this);
-        gui.controlWindow();
+        gui.createMenuWindow();
 
     }
 
     public void startGame() {
         clock = new Clock();
-        clock.start(this, gui);
+        clock.start(this, gui, 2000);
     }
 
     public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode) {
@@ -57,20 +58,20 @@ public class Control {
             gui = new GUI(this);
         }
 
-        if (startMode == StartMode.Manuel){
-            gui.manuelGameWindow(this.xSize, this.ySize);
-        } else {
-            gui.gameWindow(this.xSize, this.ySize);
-        }
+        gui.createGameWindow(this.xSize, this.ySize);
 
 
-//        startGame();
+        startGame();
 
     }
 
     private void buildManuelGame() {
 
-
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                cells[x][y] = false;
+            }
+        }
 
     }
 
@@ -232,6 +233,10 @@ public class Control {
         cells[Math.round(y/(800f/xSize))][Math.round(y/(800f/ySize))] = false;
         showGrid(cells);
 
+    }
+
+    public void createControlWindow() {
+        gui.createControlWindow();
     }
 }
 

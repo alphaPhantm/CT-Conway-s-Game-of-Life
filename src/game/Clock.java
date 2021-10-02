@@ -9,24 +9,20 @@ public class Clock extends Thread{
 
     private boolean running = true;
 
-    public void start(Control control, GUI gui){
+    public void start(Control control, GUI gui, int velocity){
 
 
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
-
                 if (running){
                     control.showGrid(control.getCells());
                     control.nextGen();
-
-
                 }
             }
         };
-
-        t.scheduleAtFixedRate(tt, 1000, 200);
+        t.scheduleAtFixedRate(tt, 1000, velocity);
 
     }
 

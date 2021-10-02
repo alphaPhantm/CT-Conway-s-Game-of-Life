@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class Draw extends JPanel {
     private int xSize, ySize;
+    private int width, height;
     private float ratio;
 
     private Graphics2D g2d;
@@ -12,9 +13,11 @@ public class Draw extends JPanel {
 
     private boolean drawLocked = false;
 
-    public Draw(int gridSizeX, int gridSizeY, float ratio) {
+    public Draw(int gridSizeX, int gridSizeY, int width, int height, float ratio) {
         this.xSize = gridSizeX;
         this.ySize = gridSizeY;
+        this.width = width;
+        this.height = height;
         this.ratio = ratio;
         currentGrid = new boolean[gridSizeX][gridSizeY];
 
@@ -36,8 +39,8 @@ public class Draw extends JPanel {
         super.paintComponent(g);
         g2d = (Graphics2D) g;
 
-        float cellSizeX = 800f / xSize;
-        float cellSizeY = 800f / ySize;
+        float cellSizeX = width / xSize;
+        float cellSizeY = height / ySize;
 
         if(ySize > xSize)
         {
