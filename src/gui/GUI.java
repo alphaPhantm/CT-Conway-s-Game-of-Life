@@ -20,8 +20,8 @@ public class GUI {
         menuWindow = new MenuWindow(title, control);
     }
 
-    public void createGameWindow(int cellCountX, int cellCountY){
-        gameWindow = new GameWindow(title, control, cellCountX, cellCountY);
+    public void createGameWindow(int cellCountX, int cellCountY, int width, int height){
+        gameWindow = new GameWindow(title, control, cellCountX, cellCountY, width, height);
     }
 
     public void createControlWindow(){

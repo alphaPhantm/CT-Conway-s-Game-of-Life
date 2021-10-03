@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 public class GameWindow {
 
-    private final JFrame jfGame;
+    private final JFrame gameWindow;
     private final Draw draw;
 
     private final int cellCountX;
@@ -20,17 +20,17 @@ public class GameWindow {
 
     private boolean mouseLeft = false, mouseRight = false;
 
-    public GameWindow(String title, Control control, int cellCountX, int cellCountY) {
+    public GameWindow(String title, Control control, int cellCountX, int cellCountY, int width, int height) {
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
 
 
-        jfGame = new JFrame(title);
+        gameWindow = new JFrame(title);
 
-        jfGame.getContentPane().setPreferredSize(new Dimension(800, 800));
-        jfGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.getContentPane().setPreferredSize(new Dimension(width, height));
+        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        jfGame.addKeyListener(new KeyListener() {
+        gameWindow.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -49,7 +49,7 @@ public class GameWindow {
             }
         });
 
-        jfGame.getContentPane().addMouseMotionListener(new MouseMotionListener() {
+        gameWindow.getContentPane().addMouseMotionListener(new MouseMotionListener() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -66,7 +66,7 @@ public class GameWindow {
             }
         });
 
-        jfGame.getContentPane().addMouseListener(new MouseListener() {
+        gameWindow.getContentPane().addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -105,20 +105,20 @@ public class GameWindow {
             }
         });
 
-        jfGame.setResizable(false);
+        gameWindow.setResizable(false);
 
         ratio = (float) (cellCountY) / (float) (cellCountX);
-        draw = new Draw(this.cellCountX, this.cellCountY, 800, 800, ratio);
-        draw.setBounds(0, 0, 800, 800);
+        draw = new Draw(this.cellCountX, this.cellCountY, width, height, ratio);
+        draw.setBounds(0, 0, width, height);
 
         draw.setVisible(true);
 
-        jfGame.add(draw);
+        gameWindow.add(draw);
 
-        jfGame.pack();
-        jfGame.setLayout(null);
-        jfGame.setLocationRelativeTo(null);
-        jfGame.setVisible(true);
+        gameWindow.pack();
+        gameWindow.setLayout(null);
+        gameWindow.setLocationRelativeTo(null);
+        gameWindow.setVisible(true);
     }
 
     public void showGrid(boolean[][] grid) {

@@ -17,6 +17,8 @@ public class Control {
     private int x = 0;
     private int y = 0;
 
+    private int width, height;
+
 
     public void start() {
 
@@ -57,7 +59,9 @@ public class Control {
             gui = new GUI(this);
         }
 
-        gui.createGameWindow(this.xSize, this.ySize);
+        calcSize();
+
+        gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
 
 
         startGame();
@@ -241,6 +245,18 @@ public class Control {
             cells[x][y] = value;
 
         gui.showGrid(cells);
+    }
+
+    private void calcSize(){
+
+        float c = 800;
+
+        width = Math.round(xSize * (c / xSize));
+        height = Math.round(ySize * (c / ySize));
+
+        System.out.println(xSize + "  " + width);
+        System.out.println(ySize + "  " + height);
+
     }
 
     private boolean checkCellCount() {
