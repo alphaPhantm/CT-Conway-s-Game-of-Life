@@ -16,7 +16,7 @@ public class GameWindow {
     private final int cellCountY;
 
     private int width, height;
-    private float ratio;
+    private final float ratio;
 
     private boolean mouseLeft = false, mouseRight = false;
 
@@ -24,11 +24,10 @@ public class GameWindow {
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
 
-        calcWindowSize();
 
         jfGame = new JFrame(title);
 
-        jfGame.getContentPane().setPreferredSize(new Dimension(width, height));
+        jfGame.getContentPane().setPreferredSize(new Dimension(800, 800));
         jfGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jfGame.addKeyListener(new KeyListener() {
@@ -53,75 +52,55 @@ public class GameWindow {
         jfGame.getContentPane().addMouseMotionListener(new MouseMotionListener() {
 
             @Override
-            public void mouseDragged(MouseEvent e)
-            {
-                if(mouseLeft)
-                {
-                    //                        control.setCell(e.getX(), e.getY(), true);
-                        control.addCell(e.getX(), e.getY());
-                }
-                else if(mouseRight)
-                {
-                    control.setCell(e.getX(), e.getY(), 0);
+            public void mouseDragged(MouseEvent e) {
+                if (mouseLeft) {
+                    control.setCell(e.getX(), e.getY(), true);
+                } else if (mouseRight) {
+                    control.setCell(e.getX(), e.getY(), false);
                 }
             }
 
             @Override
-            public void mouseMoved(MouseEvent e)
-            {
+            public void mouseMoved(MouseEvent e) {
 
             }
         });
 
-        gameWindow.getContentPane().addMouseListener(new MouseListener()
-        {
+        jfGame.getContentPane().addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e)
-            {
+            public void mouseClicked(MouseEvent e) {
 
             }
 
             @Override
-            public void mousePressed(MouseEvent e)
-            {
-                switch(e.getButton())
-                {
-                    case 1:
+            public void mousePressed(MouseEvent e) {
+                switch (e.getButton()) {
+                    case 1 -> {
                         mouseLeft = true;
-//                        control.setCell(e.getX(), e.getY(), true);
-                        control.addCell(e.getX(), e.getY());
-                        break;
-                    case 3:
+                        control.setCell(e.getX(), e.getY(), true);
+                    }
+                    case 3 -> {
                         mouseRight = true;
-//                        control.setCell(e.getX(), e.getY(), false);
-                        control.addCell(e.getX(), e.getY());
-                        break;
+                        control.setCell(e.getX(), e.getY(), false);
+                    }
                 }
             }
 
             @Override
-            public void mouseReleased(MouseEvent e)
-            {
-                switch(e.getButton())
-                {
-                    case 1:
-                        mouseLeft = false;
-                        break;
-                    case 3:
-                        mouseRight = false;
-                        break;
+            public void mouseReleased(MouseEvent e) {
+                switch (e.getButton()) {
+                    case 1 -> mouseLeft = false;
+                    case 3 -> mouseRight = false;
                 }
             }
 
             @Override
-            public void mouseEntered(MouseEvent e)
-            {
+            public void mouseEntered(MouseEvent e) {
 
             }
 
             @Override
-            public void mouseExited(MouseEvent e)
-            {
+            public void mouseExited(MouseEvent e) {
 
             }
         });
@@ -129,8 +108,8 @@ public class GameWindow {
         jfGame.setResizable(false);
 
         ratio = (float) (cellCountY) / (float) (cellCountX);
-        draw = new Draw(this.cellCountX, this.cellCountY, width, height, ratio);
-        draw.setBounds(0, 0, width, height);
+        draw = new Draw(this.cellCountX, this.cellCountY, 800, 800, ratio);
+        draw.setBounds(0, 0, 800, 800);
 
         draw.setVisible(true);
 
@@ -142,24 +121,14 @@ public class GameWindow {
         jfGame.setVisible(true);
     }
 
-    public void showGrid(boolean[][] grid)
-    {
-        if(draw != null)
-        {
+    public void showGrid(boolean[][] grid) {
+        if (draw != null) {
             draw.showGrid(grid);
-        }
-        else
-        {
+        } else {
             System.err.println("you need to build the game gameWindow before showing a grid");
         }
     }
 
-    private void calcWindowSize(){
-
-        width = (int) (cellCountX * ratio );
-        height = (int) (cellCountY *  ratio);
-
-    }
 
 
 }

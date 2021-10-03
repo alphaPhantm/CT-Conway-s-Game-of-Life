@@ -39,8 +39,8 @@ public class Draw extends JPanel {
         super.paintComponent(g);
         g2d = (Graphics2D) g;
 
-        float cellSizeX = width / xSize;
-        float cellSizeY = height / ySize;
+        float cellSizeX = 800f / xSize;
+        float cellSizeY = 800f / ySize;
 
         if(ySize > xSize)
         {

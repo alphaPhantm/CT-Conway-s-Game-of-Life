@@ -18,7 +18,7 @@ public class Clock extends Thread{
             public void run() {
                 if (running){
                     control.showGrid(control.getCells());
-                    control.nextGen();
+                    //control.nextGen();
                 }
             }
         };

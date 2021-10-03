@@ -2,7 +2,6 @@ package game;
 
 import gui.GUI;
 
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Control {
@@ -54,7 +53,7 @@ public class Control {
 
         }
 
-        if (gui == null){
+        if (gui == null) {
             gui = new GUI(this);
         }
 
@@ -87,8 +86,6 @@ public class Control {
                 cells[x][y] = true;
             }
         }
-
-
 
 
 //        cells[1][2] = true;
@@ -133,26 +130,26 @@ public class Control {
     }
 
     public boolean[][] nextGen() {
-        gen ++;
+        gen++;
         System.out.println("Generation:" + gen);
 
-        for (int x = 0; x < xSize; x++){
+        for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
                 int n = aliveNeigbours(x, y);
 
-                if (n == 3 && !cells[x][y]){
+                if (n == 3 && !cells[x][y]) {
                     newcells[x][y] = true;
                 }
 
-                if (n < 2){
+                if (n < 2) {
                     newcells[x][y] = false;
                 }
 
-                if (n == 2 || n == 3){
+                if (n == 2 || n == 3) {
 
                 }
 
-                if (n > 3){
+                if (n > 3) {
                     newcells[x][y] = false;
                 }
 
@@ -169,7 +166,7 @@ public class Control {
     }
 
 
-    public boolean[][] nextGen_GridTest(){
+    public boolean[][] nextGen_GridTest() {
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
                 cells[x][y] = false;
@@ -177,10 +174,11 @@ public class Control {
         }
 
 
-
-        if (x == xSize){ x = 0; y++;}
+        if (x == xSize) {
+            x = 0;
+            y++;
+        }
         if (y == ySize) y = 0;
-
 
 
         cells[x][y] = true;
@@ -216,30 +214,47 @@ public class Control {
         gui.showGrid(grid);
     }
 
-    public void addCell(int mouseX, int mouseY) {
-//        System.out.print("X" + mouseX + "|" + "Y" + mouseY + "    ");
-
-        System.out.println("x: " + xSize + " y: " + ySize + "     ");
-//        System.out.println((mouseX) / (800 / xSize) + "    ");
-
-        cells[mouseX / (800 / xSize)][mouseY / (800 / ySize)] = true;
-        showGrid(cells);
-
-    }
-
-
-    public void removeCell(int x, int y) {
-
-        cells[Math.round(y/(800f/xSize))][Math.round(y/(800f/ySize))] = false;
-        showGrid(cells);
-
-    }
 
     public void createControlWindow() {
         gui.createControlWindow();
     }
 
-    public void setCells(){
+    public void setCell(int mouseX, int mouseY, boolean value) {
+        int x = 0;
+        int y = 0;
+
+        float ratio = (float) (xSize) / (float) (ySize);
+
+        if (ySize > xSize) {
+
+            x = (int) ((float) mouseX / (800f / ((float) xSize / ratio)));
+            y = (int) ((float) mouseY / (800f / ((float) ySize)));
+
+        } else {
+
+            x = (int) ((float) mouseX / (800f / ((float) xSize)));
+            y = (int) ((float) mouseY / (800f / ((float) ySize * ratio)));
+
+        }
+
+        if (x >= 0 && x < xSize && y >= 0 && y < ySize && (checkCellCount() || !value))
+            cells[x][y] = value;
+
+        gui.showGrid(cells);
+    }
+
+    private boolean checkCellCount() {
+
+        int counter = 0;
+
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                if (cells[x][y])
+                    counter++;
+            }
+        }
+
+        return counter < cellCount;
 
     }
 }
