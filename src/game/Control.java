@@ -249,13 +249,15 @@ public class Control {
 
     private void calcSize(){
 
-        float c = 800;
+        float ratio = (float) (xSize) / (float) (ySize);
+        if (xSize > ySize){
+            width = 800;
+            height = (int) (width / ratio);
+        } else {
+            height = 800;
+            width = (int) (height * ratio);
+        }
 
-        width = Math.round(xSize * (c / xSize));
-        height = Math.round(ySize * (c / ySize));
-
-        System.out.println(xSize + "  " + width);
-        System.out.println(ySize + "  " + height);
 
     }
 
