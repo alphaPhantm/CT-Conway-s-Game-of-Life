@@ -47,7 +47,7 @@ public class MenuWindow {
 
         menuWindow.setTitle(title);
 
-        ImageIcon imageIcon = new ImageIcon("src/data/PNG/Icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/files/PNG/Icon.png");
         menuWindow.setIconImage(imageIcon.getImage());
 
 
@@ -99,7 +99,6 @@ public class MenuWindow {
         xAxis.setVisible(true);
 
 
-
         xAxisName = new JLabel("Breite in Zellen:");
         xAxisName.setBounds(50, 100, 200, 30);
         xAxisName.setFont(text);
@@ -128,6 +127,7 @@ public class MenuWindow {
                 sliderLocked = true;
                 String s = xAxisLabel.getText();
                 xAxis.setValue(Integer.parseInt(s));
+                xAxisSize = xAxis.getValue();
                 sliderLocked = false;
             }
 
@@ -279,7 +279,7 @@ public class MenuWindow {
         });
 
 
-        preview = new ImageIcon("src/data/PNG/Preview.png");
+        preview = new ImageIcon("src/files/PNG/Preview.png");
         previewLabel = new JLabel(preview);
         previewLabel.setBounds(450, 45, 203, 302);
 
