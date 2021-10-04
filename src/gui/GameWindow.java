@@ -39,7 +39,12 @@ public class GameWindow {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == KeyEvent.VK_C) {
-                    control.createControlWindow();
+                    if (control.getControlWindow() == null){
+                        control.buildControlWindow();
+                    } else {
+                        control.setVisibility(true);
+                    }
+
                 }
             }
 
@@ -127,6 +132,10 @@ public class GameWindow {
         } else {
             System.err.println("you need to build the game gameWindow before showing a grid");
         }
+    }
+
+    public Point getPos(){
+        return gameWindow.getLocation();
     }
 
 

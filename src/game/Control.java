@@ -1,5 +1,6 @@
 package game;
 
+import gui.ControlWindow;
 import gui.GUI;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -51,17 +52,19 @@ public class Control {
             }
             case Manuel -> {
                 buildManuelGame();
+
             }
 
         }
 
-        if (gui == null) {
-            gui = new GUI(this);
-        }
 
         calcSize();
 
         gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
+
+        if (startMode == StartMode.Manuel){
+            buildControlWindow();
+        }
 
 
         startGame();
@@ -219,8 +222,16 @@ public class Control {
     }
 
 
-    public void createControlWindow() {
+    public void buildControlWindow() {
         gui.createControlWindow();
+    }
+
+    public ControlWindow getControlWindow(){
+        return gui.getControlWindow();
+    }
+
+    public void setVisibility(boolean value){
+        gui.setVisibility(value);
     }
 
     public void setCell(int mouseX, int mouseY, boolean value) {

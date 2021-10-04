@@ -7,19 +7,25 @@ public class ControlWindow {
 
     private JFrame controlWindow;
 
-    public ControlWindow(){
+    private final int width = 400, height = 800;
+
+    public ControlWindow(GameWindow gameWindow, int offset){
 
         controlWindow = new JFrame();
 
-        controlWindow.getContentPane().setPreferredSize(new Dimension(400, 800));
+        controlWindow.getContentPane().setPreferredSize(new Dimension(width, height));
         controlWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         controlWindow.setResizable(false);
-//        controlWindow.set
+        controlWindow.setLocation(gameWindow.getPos().x - (width + offset), gameWindow.getPos().y);
         controlWindow.setLayout(null);
 
         controlWindow.pack();
         controlWindow.setVisible(true);
 
+    }
+
+    public void setVisibility(boolean value){
+        controlWindow.setVisible(value);
     }
 
 }
