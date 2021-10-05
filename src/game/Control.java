@@ -1,6 +1,5 @@
 package game;
 
-import gui.ControlWindow;
 import gui.GUI;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -63,7 +62,7 @@ public class Control {
         gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
 
         if (startMode == StartMode.Manuel){
-            buildControlWindow();
+            gui.buildControlWindow();
         }
 
 
@@ -221,14 +220,6 @@ public class Control {
         gui.showGrid(grid);
     }
 
-
-    public void buildControlWindow() {
-        gui.createControlWindow();
-    }
-
-    public ControlWindow getControlWindow(){
-        return gui.getControlWindow();
-    }
 
     public void setVisibility(boolean value){
         gui.setVisibility(value);

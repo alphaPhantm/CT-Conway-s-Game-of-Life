@@ -1,6 +1,6 @@
 package gui;
 
-import game.Control;
+
 import game.StartMode;
 
 import javax.swing.*;
@@ -15,7 +15,14 @@ public class MenuWindow {
 
     private final JFrame menuWindow;
 
+    private Font head;
+    private Font text;
+
     private JLabel heading;
+
+    private final int xAxisMin = 6, xAxisMax = 1024;
+    private final int yAxisMin = 6, yAxisMax = 1024;
+
     private int xAxisSize = 6;
     private JSlider xAxis;
     private JLabel xAxisName;
@@ -42,7 +49,7 @@ public class MenuWindow {
 
     private boolean sliderLocked = false;
 
-    public MenuWindow(String title, Control control){
+    public MenuWindow(String title, GUI gui){
         menuWindow = new JFrame();
 
         menuWindow.setTitle(title);
@@ -61,7 +68,7 @@ public class MenuWindow {
         menuWindow.setResizable(false);
 
 
-        initComponents(control);
+        initComponents(gui);
         addComponents();
 
 
@@ -69,18 +76,50 @@ public class MenuWindow {
         menuWindow.setVisible(true);
     }
 
-    private void initComponents(Control control) {
-        Font head = new Font("Segoe UI Light", Font.PLAIN, 24);
-        Font text = new Font("Segoe UI Light", Font.PLAIN, 16);
+    private void initComponents(GUI gui) {
 
-        heading = new JLabel("Control Panel");
+        head = new Font("Segoe UI Light", Font.PLAIN, 24);
+        text = new Font("Segoe UI Light", Font.PLAIN, 16);
+
+        hover = new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                JButton b = (JButton) e.getSource();
+                b.setForeground(Color.decode("#C40233"));
+                b.setBounds(b.getX() - 10, b.getY() - 10, b.getWidth() + 20, b.getHeight() + 20);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                JButton b = (JButton) e.getSource();
+                b.setForeground(Color.decode("#121212"));
+                b.setBounds(b.getX() + 10, b.getY() + 10, b.getWidth() - 20, b.getHeight() - 20);
+
+            }
+        };
+
+        initHeading();
+        initXAxis();
+        initYAxis();
+        initStartCells();
+        initModeBox();
+        initStartButton(gui);
+        initManuelStart(gui);
+        initIMG();
+
+    }
+
+    private void initHeading(){
+        heading = new JLabel("Menu Panel");
         heading.setFont(head);
         heading.setForeground(Color.decode("#121212"));
         heading.setBounds(50, 25, 400, 50);
         heading.setVisible(true);
+    }
 
-        int xAxisMin = 6;
-        int xAxisMax = 1024;
+    private void initXAxis(){
         xAxis = new JSlider(xAxisMin, xAxisMax);
         xAxis.setBounds(180, 110, 200, 20);
         xAxis.setFont(text);
@@ -142,11 +181,9 @@ public class MenuWindow {
 
             }
         });
+    }
 
-
-
-        int yAxisMin = 6;
-        int yAxisMax = 1024;
+    private void initYAxis(){
         yAxis = new JSlider(yAxisMin, yAxisMax);
         yAxis.setBounds(180, 160, 200, 20);
         yAxis.setFont(text);
@@ -207,8 +244,9 @@ public class MenuWindow {
 
             }
         });
+    }
 
-
+    private void initStartCells(){
         startCells = new JSlider(6, 6);
         startCells.setBounds(180, 210, 200, 20);
         startCells.setFont(text);
@@ -271,33 +309,9 @@ public class MenuWindow {
 
 
         updateStartCells();
+    }
 
-        hover = new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                JButton b = (JButton) e.getSource();
-                b.setForeground(Color.decode("#C40233"));
-                b.setBounds(b.getX() - 10, b.getY() - 10, b.getWidth() + 20, b.getHeight() + 20);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                JButton b = (JButton) e.getSource();
-                b.setForeground(Color.decode("#121212"));
-                b.setBounds(b.getX() + 10, b.getY() + 10, b.getWidth() - 20, b.getHeight() - 20);
-
-            }
-        };
-
-        modeName = new JLabel("Select Figure: ");
-        modeName.setBounds(50, 250, 200, 30);
-        modeName.setFont(text);
-        modeName.setForeground(Color.decode("#121212"));
-        modeName.setVisible(true);
-
-
+    private void initModeBox(){
         modeBox = new JComboBox<String>();
         modeBox.setBounds(180, 257, 100, 20);
         addComboBoxEntry(modeBox, "Randomized");
@@ -305,7 +319,14 @@ public class MenuWindow {
         addComboBoxEntry(modeBox, "Blinker");
         addComboBoxEntry(modeBox, "Toad");
 
+        modeName = new JLabel("Select Figure: ");
+        modeName.setBounds(50, 250, 200, 30);
+        modeName.setFont(text);
+        modeName.setForeground(Color.decode("#121212"));
+        modeName.setVisible(true);
+    }
 
+    private void initStartButton(GUI gui){
         startButton = new JButton();
         startButton.setText("Start Game");
         startButton.setFont(text);
@@ -321,16 +342,16 @@ public class MenuWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                StartMode startMethod = StartMode.Task1;
-
                 int index = modeBox.getSelectedIndex();
 
-                startMethod = StartMode.values()[index + 1]; // + 1 BECAUSE MANUEL HAS THE FIRST INDEX IN ENUM
+                StartMode startMode = StartMode.values()[index + 1]; // + 1 BECAUSE MANUEL HAS THE FIRST INDEX IN ENUM
 
-                control.buildGameWindow(xAxisSize, yAxisSize, cellCount, startMethod);
+                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, startMode);
             }
         });
+    }
 
+    private void initManuelStart(GUI gui){
         manuelStart = new JButton();
         manuelStart.setText("Manuel Start");
         manuelStart.setFont(text);
@@ -345,15 +366,15 @@ public class MenuWindow {
         manuelStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Manuel);
+                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Manuel);
             }
         });
+    }
 
-
+    private void initIMG(){
         preview = new ImageIcon("src/files/PNG/Preview.png");
         previewLabel = new JLabel(preview);
         previewLabel.setBounds(450, 45, 203, 302);
-
     }
 
     private void updateStartCells() {

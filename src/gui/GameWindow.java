@@ -1,7 +1,6 @@
 package gui;
 
 import draw.Draw;
-import game.Control;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +19,7 @@ public class GameWindow {
 
     private boolean mouseLeft = false, mouseRight = false;
 
-    public GameWindow(String title, Control control, int cellCountX, int cellCountY, int width, int height) {
+    public GameWindow(String title, GUI gui, int cellCountX, int cellCountY, int width, int height) {
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
 
@@ -39,10 +38,10 @@ public class GameWindow {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == KeyEvent.VK_C) {
-                    if (control.getControlWindow() == null){
-                        control.buildControlWindow();
+                    if (gui.getControlWindow() == null){
+                        gui.buildControlWindow();
                     } else {
-                        control.setVisibility(true);
+                        gui.setVisibility(true);
                     }
 
                 }
@@ -59,9 +58,9 @@ public class GameWindow {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (mouseLeft) {
-                    control.setCell(e.getX(), e.getY(), true);
+                    gui.setCell(e.getX(), e.getY(), true);
                 } else if (mouseRight) {
-                    control.setCell(e.getX(), e.getY(), false);
+                    gui.setCell(e.getX(), e.getY(), false);
                 }
             }
 
@@ -82,11 +81,11 @@ public class GameWindow {
                 switch (e.getButton()) {
                     case 1 -> {
                         mouseLeft = true;
-                        control.setCell(e.getX(), e.getY(), true);
+                        gui.setCell(e.getX(), e.getY(), true);
                     }
                     case 3 -> {
                         mouseRight = true;
-                        control.setCell(e.getX(), e.getY(), false);
+                        gui.setCell(e.getX(), e.getY(), false);
                     }
                 }
             }
