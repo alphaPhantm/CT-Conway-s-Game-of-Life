@@ -59,6 +59,9 @@ public class GUI {
         return menuWindow;
     }
 
+    public void setVelocity(int velocity){
+        control.setVelocity(velocity);
+    }
 
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){

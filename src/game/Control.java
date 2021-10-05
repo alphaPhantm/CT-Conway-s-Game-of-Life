@@ -9,7 +9,7 @@ public class Control {
     private GUI gui;
     private Clock clock;
 
-    private int xSize, ySize, cellCount, gen = 0;
+    private int xSize, ySize, cellCount, gen;
 
     private boolean[][] cells;
     private boolean[][] newcells;
@@ -22,20 +22,22 @@ public class Control {
 
     public void start() {
 
-        clock = new Clock();
+        clock = new Clock(this, gui, 1000);
         gui = new GUI(this);
         gui.createMenuWindow();
 
     }
 
     public void startGame() {
-        clock.start(this, gui, 200);
+        clock.start();
     }
 
     public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode) {
         this.xSize = xSize;
         this.ySize = ySize;
         this.cellCount = cellCount;
+
+        gen = 0;
 
         cells = new boolean[this.xSize][this.ySize];
         newcells = new boolean[this.xSize][this.ySize];
@@ -278,6 +280,10 @@ public class Control {
 
     public boolean isRunning(){
         return clock.isRunning();
+    }
+
+    public void setVelocity(int velocity){
+        clock.setVelocity(velocity);
     }
 }
 

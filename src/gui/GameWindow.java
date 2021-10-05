@@ -41,6 +41,7 @@ public class GameWindow {
                     gui.getControlWindow().dispose();
                 }
                 gameWindow.dispose();
+                gui.setRunning(false);
                 gui.getMenuWindow().setVisibility(true);
             }
         });
