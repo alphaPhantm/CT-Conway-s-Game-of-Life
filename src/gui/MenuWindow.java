@@ -23,11 +23,11 @@ public class MenuWindow {
     private int yAxisSize = 6;
     private JSlider yAxis;
     private JLabel yAxisName;
-    private JLabel yAxisLabel;
+    private JTextField yAxisLabel;
     private int cellCount = 6;
     private JSlider startCells;
     private JLabel startCellsName;
-    private JLabel startCellsLabel;
+    private JTextField startCellsLabel;
 
     private JLabel modeName;
     private JComboBox<String> modeBox;
@@ -128,6 +128,7 @@ public class MenuWindow {
                 String s = xAxisLabel.getText();
                 xAxis.setValue(Integer.parseInt(s));
                 xAxisSize = xAxis.getValue();
+                updateStartCells();
                 sliderLocked = false;
             }
 
@@ -143,6 +144,7 @@ public class MenuWindow {
         });
 
 
+
         int yAxisMin = 6;
         int yAxisMax = 1024;
         yAxis = new JSlider(yAxisMin, yAxisMax);
@@ -153,9 +155,11 @@ public class MenuWindow {
         yAxis.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                yAxisSize = yAxis.getValue();
-                updateSliderLabels(1, yAxisSize);
-                updateStartCells();
+                if(!sliderLocked) {
+                    yAxisSize = yAxis.getValue();
+                    updateSliderLabels(1, yAxisSize);
+                    updateStartCells();
+                }
             }
         });
         yAxis.setVisible(true);
@@ -166,12 +170,44 @@ public class MenuWindow {
         yAxisName.setForeground(Color.decode("#121212"));
         yAxisName.setVisible(true);
 
-        yAxisLabel = new JLabel("6");
+        yAxisLabel = new JTextField("6");
+        yAxisLabel.setBackground(null);
+        yAxisLabel.setBorder(null);
         yAxisLabel.setBounds(180, 130, 200, 30);
         yAxisLabel.setFont(text);
         yAxisLabel.setForeground(Color.decode("#121212"));
         yAxisLabel.setVisible(true);
-        //TODO: Inputfield witch Changelistner to cange Slider
+        yAxisLabel.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+                if (!Character.isDigit(evt.getKeyChar())) {
+                    evt.consume();
+                }
+            }
+        });
+
+        yAxisLabel.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+
+                sliderLocked = true;
+                String s = yAxisLabel.getText();
+                yAxis.setValue(Integer.parseInt(s));
+                yAxisSize = yAxis.getValue();
+                updateStartCells();
+                sliderLocked = false;
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
 
         startCells = new JSlider(6, 6);
         startCells.setBounds(180, 210, 200, 20);
@@ -181,8 +217,11 @@ public class MenuWindow {
         startCells.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                cellCount = startCells.getValue();
-                updateSliderLabels(2, cellCount);
+                if(!sliderLocked) {
+                    cellCount = startCells.getValue();
+                    updateSliderLabels(2, cellCount);
+                    updateStartCells();
+                }
             }
         });
         startCells.setVisible(true);
@@ -193,11 +232,43 @@ public class MenuWindow {
         startCellsName.setForeground(Color.decode("#121212"));
         startCellsName.setVisible(true);
 
-        startCellsLabel = new JLabel("6");
+        startCellsLabel = new JTextField("6");
+        startCellsLabel.setBackground(null);
+        startCellsLabel.setBorder(null);
         startCellsLabel.setBounds(180, 180, 200, 30);
         startCellsLabel.setFont(text);
         startCellsLabel.setForeground(Color.decode("#121212"));
         startCellsLabel.setVisible(true);
+        startCellsLabel.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+                if (!Character.isDigit(evt.getKeyChar())) {
+                    evt.consume();
+                }
+            }
+        });
+
+        startCellsLabel.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+
+                sliderLocked = true;
+                String s = startCellsLabel.getText();
+                startCells.setValue(Integer.parseInt(s));
+                cellCount = startCells.getValue();
+                sliderLocked = false;
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
 
         updateStartCells();
 
