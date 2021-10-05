@@ -17,6 +17,10 @@ public class Main {
         Control control = new Control();
         control.start();
 
+        while (1 == 1){
+            System.out.println("TEST");
+        }
+
     }
 
 
