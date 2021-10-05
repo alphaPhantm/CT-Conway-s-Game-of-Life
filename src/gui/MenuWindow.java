@@ -347,6 +347,8 @@ public class MenuWindow {
                 StartMode startMode = StartMode.values()[index + 1]; // + 1 BECAUSE MANUEL HAS THE FIRST INDEX IN ENUM
 
                 gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, startMode);
+
+                menuWindow.setVisible(false);
             }
         });
     }
@@ -367,6 +369,7 @@ public class MenuWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Manuel);
+                menuWindow.setVisible(false);
             }
         });
     }
@@ -409,6 +412,10 @@ public class MenuWindow {
 
     private void addComboBoxEntry(JComboBox<String> comboBox, String entry) {
         comboBox.addItem(entry);
+    }
+
+    public void setVisibility(boolean visibility){
+        menuWindow.setVisible(visibility);
     }
 
 }

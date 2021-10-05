@@ -3,16 +3,13 @@ package gui;
 import game.Control;
 import game.StartMode;
 
-import javax.swing.*;
-import java.awt.*;
-
 public class GUI {
 
     private  final String title = "Conway's game if Live";
 
     private final Control control;
 
-    private final int offset = 10;
+    private final int offset = 20;
 
     private MenuWindow menuWindow;
     private GameWindow gameWindow;
@@ -27,11 +24,11 @@ public class GUI {
     }
 
     public void createGameWindow(int cellCountX, int cellCountY, int width, int height){
-        gameWindow = new GameWindow(title, this, cellCountX, cellCountY, width, height);
+        gameWindow = new GameWindow(title, this, cellCountX, cellCountY, width, height, offset);
     }
 
     public void createControlWindow(){
-        controlWindow = new ControlWindow(gameWindow, offset);
+        controlWindow = new ControlWindow(gameWindow, this, offset);
     }
 
     public void showGrid(boolean[][] grid){
@@ -47,7 +44,19 @@ public class GUI {
     }
 
     public void setCell(int mouseX, int mouseY, boolean value){
-        control.setCell(mouseX, mouseY, value);
+        control.setCell(mouseX, mouseY, value, offset);
+    }
+
+    public void setRunning(boolean state){
+        control.setRunning(state);
+    }
+
+    public boolean isRunning(){
+        return control.isRunning();
+    }
+
+    public MenuWindow getMenuWindow(){
+        return menuWindow;
     }
 
 

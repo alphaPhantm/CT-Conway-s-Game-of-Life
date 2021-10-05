@@ -22,14 +22,14 @@ public class Control {
 
     public void start() {
 
+        clock = new Clock();
         gui = new GUI(this);
         gui.createMenuWindow();
 
     }
 
     public void startGame() {
-        clock = new Clock();
-        clock.start(this, gui, 2000);
+        clock.start(this, gui, 200);
     }
 
     public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode) {
@@ -51,7 +51,6 @@ public class Control {
             }
             case Manuel -> {
                 buildManuelGame();
-
             }
 
         }
@@ -60,11 +59,12 @@ public class Control {
         calcSize();
 
         gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
+        setRunning(true);
 
         if (startMode == StartMode.Manuel){
+            setRunning(false);
             gui.buildControlWindow();
         }
-
 
         startGame();
 
@@ -87,12 +87,6 @@ public class Control {
             }
         }
 
-        for (int x = 1; x < 7; x++) {
-            for (int y = 1; y < 7; y++) {
-                cells[x][y] = true;
-            }
-        }
-
 
 //        cells[1][2] = true;
 //        cells[2][2] = true;
@@ -101,9 +95,9 @@ public class Control {
 //        cells[3][3] = true;
 //        cells[4][3] = true;
 
-//        cells[1][0] = true;
-//        cells[1][1] = true;
-//        cells[1][2] = true;
+        cells[1][0] = true;
+        cells[1][1] = true;
+        cells[1][2] = true;
 
 
         syncCells();
@@ -136,6 +130,7 @@ public class Control {
     }
 
     public boolean[][] nextGen() {
+        checkCellCount();
         gen++;
         System.out.println("Generation:" + gen);
 
@@ -225,27 +220,26 @@ public class Control {
         gui.setVisibility(value);
     }
 
-    public void setCell(int mouseX, int mouseY, boolean value) {
-        int x = 0;
-        int y = 0;
+    public void setCell(int mouseX, int mouseY, boolean value, int offset) {
 
         float ratio = (float) (xSize) / (float) (ySize);
 
         if (ySize > xSize) {
 
-            x = (int) ((float) mouseX / (800f / ((float) xSize / ratio)));
-            y = (int) ((float) mouseY / (800f / ((float) ySize)));
+            x = (int) ((float) (mouseX - offset) / (800f / ((float) xSize / ratio)));
+            y = (int) ((float) (mouseY - offset) / (800f / ((float) ySize)));
 
         } else {
 
-            x = (int) ((float) mouseX / (800f / ((float) xSize)));
-            y = (int) ((float) mouseY / (800f / ((float) ySize * ratio)));
+            x = (int) ((float) (mouseX - offset) / (800f / ((float) xSize)));
+            y = (int) ((float) (mouseY - offset) / (800f / ((float) ySize * ratio)));
 
         }
 
         if (x >= 0 && x < xSize && y >= 0 && y < ySize && (checkCellCount() || !value))
             cells[x][y] = value;
 
+        syncCells();
         gui.showGrid(cells);
     }
 
@@ -276,6 +270,14 @@ public class Control {
 
         return counter < cellCount;
 
+    }
+
+    public void setRunning(boolean state){
+        clock.setRunning(state);
+    }
+
+    public boolean isRunning(){
+        return clock.isRunning();
     }
 }
 

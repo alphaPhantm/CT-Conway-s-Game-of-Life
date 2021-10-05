@@ -18,11 +18,11 @@ public class Clock extends Thread{
             public void run() {
                 if (running){
                     control.showGrid(control.getCells());
-                    //control.nextGen();
+                    control.nextGen();
                 }
             }
         };
-        t.scheduleAtFixedRate(tt, 1000, velocity);
+        t.scheduleAtFixedRate(tt, 0, velocity);
 
     }
 

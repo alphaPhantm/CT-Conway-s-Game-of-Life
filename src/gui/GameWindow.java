@@ -19,15 +19,31 @@ public class GameWindow {
 
     private boolean mouseLeft = false, mouseRight = false;
 
-    public GameWindow(String title, GUI gui, int cellCountX, int cellCountY, int width, int height) {
+    public GameWindow(String title, GUI gui, int cellCountX, int cellCountY, int width, int height, int offset) {
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
 
 
         gameWindow = new JFrame(title);
 
-        gameWindow.getContentPane().setPreferredSize(new Dimension(width, height));
-        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.getContentPane().setPreferredSize(new Dimension(width + (2 * offset), height + (2 * offset)));
+        gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        ImageIcon imageIcon = new ImageIcon("src/files/PNG/Icon.png");
+        gameWindow.setIconImage(imageIcon.getImage());
+
+        gameWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+
+                if (gui.getControlWindow() != null){
+                    gui.getControlWindow().dispose();
+                }
+                gameWindow.dispose();
+                gui.getMenuWindow().setVisibility(true);
+            }
+        });
 
         gameWindow.addKeyListener(new KeyListener() {
             @Override
@@ -109,11 +125,14 @@ public class GameWindow {
             }
         });
 
+
         gameWindow.setResizable(false);
 
         ratio = (float) (cellCountY) / (float) (cellCountX);
-        draw = new Draw(this.cellCountX, this.cellCountY, width, height, ratio);
+        draw = new Draw(this.cellCountX, this.cellCountY, width, height, ratio, offset);
         draw.setBounds(0, 0, width, height);
+
+
 
         draw.setVisible(true);
 
@@ -136,7 +155,6 @@ public class GameWindow {
     public Point getPos(){
         return gameWindow.getLocation();
     }
-
 
 
 }
