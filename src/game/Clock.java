@@ -10,7 +10,7 @@ public class Clock extends Thread {
     private Control control;
     private GUI gui;
     private boolean running = true;
-    private int velocity;
+    private int velocity, delay;
     private Timer t;
     private TimerTask tt;
 
@@ -18,12 +18,16 @@ public class Clock extends Thread {
         this.control = control;
         this.gui = gui;
         this.velocity = 500;
+        this.delay = 0;
     }
 
     public void start() {
 
+        this.delay = this.velocity;
+
         if (t == null) {
             t = new Timer();
+            this.delay = 0;
         }
 
        if (tt != null){
@@ -41,7 +45,8 @@ public class Clock extends Thread {
         };
 
         System.out.println(this.velocity);
-        t.scheduleAtFixedRate(tt, 0, this.velocity);
+
+        t.scheduleAtFixedRate(tt, delay, this.velocity);
     }
 
 

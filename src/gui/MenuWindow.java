@@ -421,4 +421,8 @@ public class MenuWindow {
         menuWindow.setVisible(visibility);
     }
 
+    public void setFocus(){
+        menuWindow.requestFocus();
+    }
+
 }

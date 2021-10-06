@@ -43,6 +43,7 @@ public class GameWindow {
                 gameWindow.dispose();
                 gui.setRunning(false);
                 gui.getMenuWindow().setVisibility(true);
+                gui.getMenuWindow().setFocus();
             }
         });
 
