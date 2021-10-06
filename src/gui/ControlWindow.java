@@ -67,6 +67,9 @@ public class ControlWindow {
 
     }
 
+    /* Contol Windwo Update. Velocity Change implemented.
+    FONT and some other Var and method needs to be implemented in the GUI class not in Menu Window */
+
     private void initVelocity(Font text){
         velocitySlider = new JSlider(minVelocity, maxVelocity);
         velocitySlider.setBounds(180, 110, 200, 20);
