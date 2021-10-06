@@ -13,6 +13,8 @@ import java.awt.event.*;
 
 public class MenuWindow {
 
+    private GUI gui;
+
     private final JFrame menuWindow;
 
     private Font head;
@@ -47,9 +49,10 @@ public class MenuWindow {
     private ImageIcon preview;
     private JLabel previewLabel;
 
-    private boolean sliderLocked = false;
-
     public MenuWindow(String title, GUI gui){
+
+        this.gui = gui;
+
         menuWindow = new JFrame();
 
         menuWindow.setTitle(title);
@@ -68,7 +71,7 @@ public class MenuWindow {
         menuWindow.setResizable(false);
 
 
-        initComponents(gui);
+        initComponents();
         addComponents();
 
 
@@ -76,10 +79,10 @@ public class MenuWindow {
         menuWindow.setVisible(true);
     }
 
-    private void initComponents(GUI gui) {
+    private void initComponents() {
 
-        head = new Font("Segoe UI Light", Font.PLAIN, 24);
-        text = new Font("Segoe UI Light", Font.PLAIN, 16);
+        head = gui.getHead();
+        text = gui.getText();
 
         hover = new MouseAdapter() {
             @Override
@@ -105,8 +108,8 @@ public class MenuWindow {
         initYAxis();
         initStartCells();
         initModeBox();
-        initStartButton(gui);
-        initManuelStart(gui);
+        initStartButton();
+        initManuelStart();
         initIMG();
 
     }
@@ -128,7 +131,7 @@ public class MenuWindow {
         xAxis.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!sliderLocked) {
+                if(!gui.isSliderLocked()) {
                     xAxisSize = xAxis.getValue();
                     updateSliderLabels(0, xAxisSize);
                     updateStartCells();
@@ -163,12 +166,12 @@ public class MenuWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                sliderLocked = true;
+                gui.setSliderLocked(true);
                 String s = xAxisLabel.getText();
                 xAxis.setValue(Integer.parseInt(s));
                 xAxisSize = xAxis.getValue();
                 updateStartCells();
-                sliderLocked = false;
+                gui.setSliderLocked(false);
             }
 
             @Override
@@ -192,7 +195,7 @@ public class MenuWindow {
         yAxis.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!sliderLocked) {
+                if(!gui.isSliderLocked()) {
                     yAxisSize = yAxis.getValue();
                     updateSliderLabels(1, yAxisSize);
                     updateStartCells();
@@ -226,12 +229,12 @@ public class MenuWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                sliderLocked = true;
+                gui.setSliderLocked(true);
                 String s = yAxisLabel.getText();
                 yAxis.setValue(Integer.parseInt(s));
                 yAxisSize = yAxis.getValue();
                 updateStartCells();
-                sliderLocked = false;
+                gui.setSliderLocked(false);
             }
 
             @Override
@@ -255,7 +258,7 @@ public class MenuWindow {
         startCells.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!sliderLocked) {
+                if(!gui.isSliderLocked()) {
                     cellCount = startCells.getValue();
                     updateSliderLabels(2, cellCount);
                     updateStartCells();
@@ -289,11 +292,11 @@ public class MenuWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                sliderLocked = true;
+                gui.setSliderLocked(true);
                 String s = startCellsLabel.getText();
                 startCells.setValue(Integer.parseInt(s));
                 cellCount = startCells.getValue();
-                sliderLocked = false;
+                gui.setSliderLocked(false);
             }
 
             @Override
@@ -326,7 +329,7 @@ public class MenuWindow {
         modeName.setVisible(true);
     }
 
-    private void initStartButton(GUI gui){
+    private void initStartButton(){
         startButton = new JButton();
         startButton.setText("Start Game");
         startButton.setFont(text);
@@ -353,7 +356,7 @@ public class MenuWindow {
         });
     }
 
-    private void initManuelStart(GUI gui){
+    private void initManuelStart(){
         manuelStart = new JButton();
         manuelStart.setText("Manuel Start");
         manuelStart.setFont(text);

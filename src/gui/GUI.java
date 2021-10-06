@@ -3,11 +3,17 @@ package gui;
 import game.Control;
 import game.StartMode;
 
+import java.awt.*;
+
 public class GUI {
 
     private  final String title = "Conway's game if Live";
 
     private final Control control;
+
+    private Font head;
+    private Font text;
+    private boolean sliderLocked = false;
 
     private final int offset = 20;
 
@@ -17,6 +23,17 @@ public class GUI {
 
     public GUI(Control control){
         this.control = control;
+
+        initPublicComponents();
+    }
+
+    public void initPublicComponents(){
+
+        head = new Font("Segoe UI Light", Font.PLAIN, 24);
+        text = new Font("Segoe UI Light", Font.PLAIN, 16);
+
+
+
     }
 
     public void createMenuWindow(){
@@ -63,6 +80,14 @@ public class GUI {
         control.setVelocity(velocity);
     }
 
+    public Font getHead() {
+        return head;
+    }
+
+    public Font getText() {
+        return text;
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);
@@ -72,6 +97,11 @@ public class GUI {
         return controlWindow;
     }
 
+    public boolean isSliderLocked() {
+        return sliderLocked;
+    }
 
-
+    public void setSliderLocked(boolean sliderLocked) {
+        this.sliderLocked = sliderLocked;
+    }
 }

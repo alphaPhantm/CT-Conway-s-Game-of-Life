@@ -11,10 +11,15 @@ import java.awt.event.*;
 public class ControlWindow {
 
     private final int width = 400, height = 800;
+
+    private Font head;
+    private Font text;
+
     private JFrame controlWindow;
     private JButton toggleGame;
 
-    private int maxVelocity = 1 , minVelocity = 10000;
+    private int velocity, minVelocity = 1 , maxVelocity = 10000;
+
 
     private JSlider velocitySlider;
     private JLabel velocitySliderName;
@@ -25,6 +30,11 @@ public class ControlWindow {
     public ControlWindow(GameWindow gameWindow, GUI gui, int offset) {
 
         this.gui = gui;
+
+        this.head = gui.getHead();
+        this.text = gui.getText();
+
+        velocity = 500;
 
         controlWindow = new JFrame();
 
@@ -58,11 +68,15 @@ public class ControlWindow {
             public void actionPerformed(ActionEvent e) {
                 gui.setRunning(!gui.isRunning());
                 updateToggleButton();
-                setVelocity(100);
+                gui.setVelocity(velocity);
             }
         });
 
+        initVelocity();
 
+        controlWindow.add(velocitySlider);
+        controlWindow.add(velocitySliderName);
+        controlWindow.add(velocitySliderLabel);
         controlWindow.add(toggleGame);
 
     }
@@ -70,7 +84,7 @@ public class ControlWindow {
     /* Contol Windwo Update. Velocity Change implemented.
     FONT and some other Var and method needs to be implemented in the GUI class not in Menu Window */
 
-    private void initVelocity(Font text){
+    private void initVelocity(){
         velocitySlider = new JSlider(minVelocity, maxVelocity);
         velocitySlider.setBounds(180, 110, 200, 20);
         velocitySlider.setFont(text);
@@ -79,30 +93,30 @@ public class ControlWindow {
         velocitySlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!sliderLocked) {
-                    xAxisSize = velocitySlider.getValue();
-                    updateSliderLabels(0, xAxisSize);
-                    updateStartCells();
+                if(!gui.isSliderLocked()) {
+                    velocity = velocitySlider.getValue();
+                    velocitySliderLabel.setText(String.valueOf(velocity));
+                    gui.setVelocity(velocity);
                 }
             }
         });
         velocitySlider.setVisible(true);
 
 
-        xAxisName = new JLabel("Breite in Zellen:");
-        xAxisName.setBounds(50, 100, 200, 30);
-        xAxisName.setFont(text);
-        xAxisName.setForeground(Color.decode("#121212"));
-        xAxisName.setVisible(true);
+        velocitySliderName = new JLabel("Breite in Zellen:");
+        velocitySliderName.setBounds(50, 100, 200, 30);
+        velocitySliderName.setFont(text);
+        velocitySliderName.setForeground(Color.decode("#121212"));
+        velocitySliderName.setVisible(true);
 
-        xAxisLabel = new JTextField("6");
-        xAxisLabel.setBackground(null);
-        xAxisLabel.setBorder(null);
-        xAxisLabel.setBounds(180, 80, 200, 30);
-        xAxisLabel.setFont(text);
-        xAxisLabel.setForeground(Color.decode("#121212"));
-        xAxisLabel.setVisible(true);
-        xAxisLabel.addKeyListener(new KeyAdapter() {
+        velocitySliderLabel = new JTextField("6");
+        velocitySliderLabel.setBackground(null);
+        velocitySliderLabel.setBorder(null);
+        velocitySliderLabel.setBounds(180, 80, 200, 30);
+        velocitySliderLabel.setFont(text);
+        velocitySliderLabel.setForeground(Color.decode("#121212"));
+        velocitySliderLabel.setVisible(true);
+        velocitySliderLabel.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 if (!Character.isDigit(evt.getKeyChar())) {
                     evt.consume();
@@ -110,16 +124,16 @@ public class ControlWindow {
             }
         });
 
-        xAxisLabel.getDocument().addDocumentListener(new DocumentListener() {
+        velocitySliderLabel.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                sliderLocked = true;
-                String s = xAxisLabel.getText();
+                gui.setSliderLocked(true);
+                String s = velocitySliderLabel.getText();
                 velocitySlider.setValue(Integer.parseInt(s));
-                xAxisSize = velocitySlider.getValue();
-                updateStartCells();
-                sliderLocked = false;
+                velocity = velocitySlider.getValue();
+                gui.setVelocity(velocity);
+                gui.setSliderLocked(false);
             }
 
             @Override

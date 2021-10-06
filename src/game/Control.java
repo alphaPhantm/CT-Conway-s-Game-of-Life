@@ -22,7 +22,7 @@ public class Control {
 
     public void start() {
 
-        clock = new Clock(this, gui, 1000);
+        clock = new Clock(this, gui);
         gui = new GUI(this);
         gui.createMenuWindow();
 
