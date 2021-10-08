@@ -19,6 +19,7 @@ public class Control {
 
     private int width, height;
 
+    private boolean mouseLocked;
 
     public void start() {
 
@@ -37,7 +38,10 @@ public class Control {
         this.ySize = ySize;
         this.cellCount = cellCount;
 
+        clock.setFirstGen(true);
+
         gen = 0;
+        mouseLocked = false;
 
         cells = new boolean[this.xSize][this.ySize];
         newcells = new boolean[this.xSize][this.ySize];
@@ -132,7 +136,7 @@ public class Control {
     }
 
     public boolean[][] nextGen() {
-        checkCellCount();
+
         gen++;
         System.out.println("Generation:" + gen);
 
@@ -168,27 +172,6 @@ public class Control {
         return cells;
     }
 
-
-    public boolean[][] nextGen_GridTest() {
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                cells[x][y] = false;
-            }
-        }
-
-
-        if (x == xSize) {
-            x = 0;
-            y++;
-        }
-        if (y == ySize) y = 0;
-
-
-        cells[x][y] = true;
-        x++;
-
-        return cells;
-    }
 
     private int aliveNeigbours(int x, int y) {
         int count = 0;
@@ -238,7 +221,7 @@ public class Control {
 
         }
 
-        if (x >= 0 && x < xSize && y >= 0 && y < ySize && (checkCellCount() || !value))
+        if ((x >= 0 && x < xSize && y >= 0 && y < ySize && (checkCellCount() || !value)) && !mouseLocked)
             cells[x][y] = value;
 
         syncCells();
@@ -284,6 +267,20 @@ public class Control {
 
     public void setVelocity(int velocity){
         clock.setVelocity(velocity);
+    }
+
+     public boolean isMouseLocked() {
+        return mouseLocked;
+    }
+
+    public void setMouseLocked(boolean mouseLocked) {
+        this.mouseLocked = mouseLocked;
+    }
+
+    public void multipleGenSkip(int generations){
+        for (int i = 0; i < generations; i++){
+            nextGen();
+        }
     }
 }
 

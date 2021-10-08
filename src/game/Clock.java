@@ -11,6 +11,7 @@ public class Clock extends Thread {
     private GUI gui;
     private boolean running = true;
     private int velocity, delay;
+    private boolean isFirstGen;
     private Timer t;
     private TimerTask tt;
 
@@ -19,15 +20,18 @@ public class Clock extends Thread {
         this.gui = gui;
         this.velocity = 500;
         this.delay = 0;
+
+        this.isFirstGen = true;
     }
 
     public void start() {
 
         this.delay = this.velocity;
 
-        if (t == null) {
+        if (isFirstGen) {
             t = new Timer();
             this.delay = 0;
+            this.isFirstGen = false;
         }
 
        if (tt != null){
@@ -44,7 +48,6 @@ public class Clock extends Thread {
             }
         };
 
-        System.out.println(this.velocity);
 
         t.scheduleAtFixedRate(tt, delay, this.velocity);
     }
@@ -68,5 +71,12 @@ public class Clock extends Thread {
         start();
     }
 
+    public boolean isFirstGen() {
+        return isFirstGen;
+    }
+
+    public void setFirstGen(boolean firstGen) {
+        isFirstGen = firstGen;
+    }
 }
 

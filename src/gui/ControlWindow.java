@@ -14,11 +14,18 @@ public class ControlWindow {
 
     private Font head;
     private Font text;
+    private MouseAdapter hover;
 
     private JFrame controlWindow;
+    private JLabel heading;
     private JButton toggleGame;
+    private JButton nextGenButton;
+    private JButton lockMouse;
+    private JButton clearButton;
+    private JButton multipleGenSkipButton;
+    private JTextField multipleGenSkipLable;
 
-    private int velocity, minVelocity = 1 , maxVelocity = 10000;
+    private int velocity, minVelocity = 1 , maxVelocity = 5000;
 
 
     private JSlider velocitySlider;
@@ -33,6 +40,7 @@ public class ControlWindow {
 
         this.head = gui.getHead();
         this.text = gui.getText();
+        this.hover = gui.getHover();
 
         velocity = 500;
 
@@ -58,35 +66,33 @@ public class ControlWindow {
         controlWindow.pack();
         controlWindow.setVisible(true);
 
-        toggleGame = new JButton();
-        updateToggleButton();
 
-        toggleGame.setBounds(50, 50, 100, 50);
 
-        toggleGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.setRunning(!gui.isRunning());
-                updateToggleButton();
-                gui.setVelocity(velocity);
-            }
-        });
+        initComponents();
+        addComponents();
 
-        initVelocity();
-
-        controlWindow.add(velocitySlider);
-        controlWindow.add(velocitySliderName);
-        controlWindow.add(velocitySliderLabel);
-        controlWindow.add(toggleGame);
 
     }
 
-    /* Contol Windwo Update. Velocity Change implemented.
-    FONT and some other Var and method needs to be implemented in the GUI class not in Menu Window */
+    private void initComponents(){
+        initHeading();
+        initVelocity();
+        initToggleButton();
+        initNextButton();
+        initDrawLockButton();
+    }
+
+    private void initHeading(){
+        heading = new JLabel("Control Panel");
+        heading.setFont(head);
+        heading.setForeground(Color.decode("#121212"));
+        heading.setBounds(50, 25, 400, 50);
+        heading.setVisible(true);
+    }
 
     private void initVelocity(){
         velocitySlider = new JSlider(minVelocity, maxVelocity);
-        velocitySlider.setBounds(180, 110, 200, 20);
+        velocitySlider.setBounds(120, 110, 230, 20);
         velocitySlider.setFont(text);
         velocitySlider.setForeground(Color.decode("#121212"));
         velocitySlider.setValue(6);
@@ -103,7 +109,7 @@ public class ControlWindow {
         velocitySlider.setVisible(true);
 
 
-        velocitySliderName = new JLabel("Breite in Zellen:");
+        velocitySliderName = new JLabel("Velocity:");
         velocitySliderName.setBounds(50, 100, 200, 30);
         velocitySliderName.setFont(text);
         velocitySliderName.setForeground(Color.decode("#121212"));
@@ -112,7 +118,7 @@ public class ControlWindow {
         velocitySliderLabel = new JTextField("6");
         velocitySliderLabel.setBackground(null);
         velocitySliderLabel.setBorder(null);
-        velocitySliderLabel.setBounds(180, 80, 200, 30);
+        velocitySliderLabel.setBounds(120, 80, 200, 30);
         velocitySliderLabel.setFont(text);
         velocitySliderLabel.setForeground(Color.decode("#121212"));
         velocitySliderLabel.setVisible(true);
@@ -146,8 +152,92 @@ public class ControlWindow {
 
             }
         });
+
+
     }
 
+    private void initToggleButton(){
+
+        toggleGame = new JButton();
+        toggleGame.setText("Start Game");
+        toggleGame.setFont(text);
+        toggleGame.setForeground(Color.decode("#121212"));
+        toggleGame.setBorderPainted(true);
+        toggleGame.setFocusPainted(false);
+        toggleGame.setContentAreaFilled(false);
+        toggleGame.setBounds(50, 750, 300, 50);
+        toggleGame.setVisible(true);
+        toggleGame.addMouseListener(hover);
+        toggleGame.setBorder(new RoundedBorder(25));
+
+
+        toggleGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.setRunning(!gui.isRunning());
+                updateToggleButton();
+                gui.setVelocity(velocity);
+            }
+        });
+
+        updateToggleButton();
+    }
+
+    private void initNextButton(){
+        nextGenButton = new JButton();
+        nextGenButton.setText("Next Generation");
+        nextGenButton.setFont(text);
+        nextGenButton.setForeground(Color.decode("#121212"));
+        nextGenButton.setBorderPainted(true);
+        nextGenButton.setFocusPainted(false);
+        nextGenButton.setContentAreaFilled(false);
+        nextGenButton.setBounds(50, 675, 300, 50);
+        nextGenButton.setVisible(true);
+        nextGenButton.addMouseListener(hover);
+        nextGenButton.setBorder(new RoundedBorder(25));
+        nextGenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.nextGen();
+                gui.showGrid(gui.getCells());
+            }
+        });
+    }
+
+    private void initDrawLockButton(){
+        lockMouse = new JButton();
+        lockMouse.setFont(text);
+        lockMouse.setForeground(Color.decode("#121212"));
+        lockMouse.setBorderPainted(true);
+        lockMouse.setFocusPainted(false);
+        lockMouse.setContentAreaFilled(false);
+        lockMouse.setBounds(50, 600, 300, 50);
+        lockMouse.setVisible(true);
+        lockMouse.addMouseListener(hover);
+        lockMouse.setBorder(new RoundedBorder(25));
+        lockMouse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.setMouseLocked(!gui.isMouseLocked());
+                updateLockedMouse();
+            }
+        });
+        updateLockedMouse();
+    }
+
+    private void initSaveButton(){}
+
+    private void initSaveNameField(){}
+
+    private void addComponents(){
+        controlWindow.add(heading);
+        controlWindow.add(velocitySlider);
+        controlWindow.add(velocitySliderName);
+        controlWindow.add(velocitySliderLabel);
+        controlWindow.add(toggleGame);
+        controlWindow.add(nextGenButton);
+        controlWindow.add(lockMouse);
+    }
 
     public void setVisibility(boolean value) {
         controlWindow.setVisible(value);
@@ -158,6 +248,15 @@ public class ControlWindow {
             toggleGame.setText("Resume Game");
         } else {
             toggleGame.setText("Pause Game");
+        }
+    }
+
+
+    private void updateLockedMouse() {
+        if (!gui.isMouseLocked()) {
+            lockMouse.setText("Lock Mouse");
+        } else {
+            lockMouse.setText("Unlock Mouse");
         }
     }
 

@@ -3,7 +3,10 @@ package gui;
 import game.Control;
 import game.StartMode;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUI {
 
@@ -13,6 +16,7 @@ public class GUI {
 
     private Font head;
     private Font text;
+    private MouseAdapter hover;
     private boolean sliderLocked = false;
 
     private final int offset = 20;
@@ -31,6 +35,25 @@ public class GUI {
 
         head = new Font("Segoe UI Light", Font.PLAIN, 24);
         text = new Font("Segoe UI Light", Font.PLAIN, 16);
+
+        hover = new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                JButton b = (JButton) e.getSource();
+                b.setForeground(Color.decode("#C40233"));
+                b.setBounds(b.getX() - 10, b.getY() - 10, b.getWidth() + 20, b.getHeight() + 20);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                JButton b = (JButton) e.getSource();
+                b.setForeground(Color.decode("#121212"));
+                b.setBounds(b.getX() + 10, b.getY() + 10, b.getWidth() - 20, b.getHeight() - 20);
+
+            }
+        };
 
 
 
@@ -88,6 +111,32 @@ public class GUI {
         return text;
     }
 
+    public boolean isSliderLocked() {
+        return sliderLocked;
+    }
+
+    public void setSliderLocked(boolean sliderLocked) {
+        this.sliderLocked = sliderLocked;
+    }
+
+    public MouseAdapter getHover() {
+        return hover;
+    }
+
+    public void nextGen(){
+        control.nextGen();
+    }
+
+    public boolean[][] getCells(){ return control.getCells(); }
+
+    public boolean isMouseLocked(){
+        return control.isMouseLocked();
+    }
+
+    public void setMouseLocked(boolean value){
+        control.setMouseLocked(value);
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);
@@ -97,11 +146,5 @@ public class GUI {
         return controlWindow;
     }
 
-    public boolean isSliderLocked() {
-        return sliderLocked;
-    }
 
-    public void setSliderLocked(boolean sliderLocked) {
-        this.sliderLocked = sliderLocked;
-    }
 }
