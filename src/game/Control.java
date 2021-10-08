@@ -67,7 +67,7 @@ public class Control {
         gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
         setRunning(true);
 
-        if (startMode == StartMode.Manuel){
+        if (startMode == StartMode.Manuel) {
             setRunning(false);
             gui.buildControlWindow();
         }
@@ -135,10 +135,41 @@ public class Control {
         return cells;
     }
 
-    public boolean[][] nextGen() {
+    public void nextGen() {
 
         gen++;
-        System.out.println("Generation:" + gen);
+//        System.out.println("Generation:" + gen);
+
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                int n = aliveNeigbours(x, y);
+
+                switch (n) {
+                    case 3:
+                        newcells[x][y] = true;
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        newcells[x][y] = false;
+                        break;
+                }
+
+            }
+        }
+
+        for (int x = 0; x < this.xSize; x++) {
+            for (int y = 0; y < this.ySize; y++) {
+                cells[x][y] = newcells[x][y];
+            }
+        }
+
+    }
+
+    public boolean[][] nextGenBackup() {
+
+        gen++;
+//        System.out.println("Generation:" + gen);
 
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
@@ -172,7 +203,6 @@ public class Control {
         return cells;
     }
 
-
     private int aliveNeigbours(int x, int y) {
         int count = 0;
 
@@ -201,7 +231,7 @@ public class Control {
     }
 
 
-    public void setVisibility(boolean value){
+    public void setVisibility(boolean value) {
         gui.setVisibility(value);
     }
 
@@ -228,10 +258,10 @@ public class Control {
         gui.showGrid(cells);
     }
 
-    private void calcSize(){
+    private void calcSize() {
 
         float ratio = (float) (xSize) / (float) (ySize);
-        if (xSize > ySize){
+        if (xSize > ySize) {
             width = 800;
             height = (int) (width / ratio);
         } else {
@@ -257,19 +287,19 @@ public class Control {
 
     }
 
-    public void setRunning(boolean state){
-        clock.setRunning(state);
-    }
-
-    public boolean isRunning(){
+    public boolean isRunning() {
         return clock.isRunning();
     }
 
-    public void setVelocity(int velocity){
+    public void setRunning(boolean state) {
+        clock.setRunning(state);
+    }
+
+    public void setVelocity(int velocity) {
         clock.setVelocity(velocity);
     }
 
-     public boolean isMouseLocked() {
+    public boolean isMouseLocked() {
         return mouseLocked;
     }
 
@@ -277,8 +307,20 @@ public class Control {
         this.mouseLocked = mouseLocked;
     }
 
-    public void multipleGenSkip(int generations){
-        for (int i = 0; i < generations; i++){
+    public void clearGrid() {
+
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                cells[x][y] = false;
+            }
+        }
+
+        syncCells();
+
+    }
+
+    public void multipleGenSkip(int generations) {
+        for (int i = 0; i < generations; i++) {
             nextGen();
         }
     }

@@ -137,6 +137,12 @@ public class GUI {
         control.setMouseLocked(value);
     }
 
+    public void clearGrid(){ control.clearGrid(); }
+
+    public void multipleGenSkip(int generations){
+        control.multipleGenSkip(generations);
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);

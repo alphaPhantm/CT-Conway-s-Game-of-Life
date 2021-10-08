@@ -80,6 +80,8 @@ public class ControlWindow {
         initToggleButton();
         initNextButton();
         initDrawLockButton();
+        initClearButton();
+        initMultibleGenSkip();
     }
 
     private void initHeading(){
@@ -225,6 +227,64 @@ public class ControlWindow {
         updateLockedMouse();
     }
 
+    private void initClearButton(){
+        clearButton = new JButton();
+        clearButton.setText("Clear Grid");
+        clearButton.setFont(text);
+        clearButton.setForeground(Color.decode("#121212"));
+        clearButton.setBorderPainted(true);
+        clearButton.setFocusPainted(false);
+        clearButton.setContentAreaFilled(false);
+        clearButton.setBounds(50, 525, 300, 50);
+        clearButton.setVisible(true);
+        clearButton.addMouseListener(hover);
+        clearButton.setBorder(new RoundedBorder(25));
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.clearGrid();
+                gui.showGrid(gui.getCells());
+            }
+        });
+    }
+
+    private void initMultibleGenSkip(){
+
+        multipleGenSkipButton = new JButton();
+        multipleGenSkipButton.setText("Next     Generation");
+        multipleGenSkipButton.setFont(text);
+        multipleGenSkipButton.setForeground(Color.decode("#121212"));
+        multipleGenSkipButton.setBorderPainted(true);
+        multipleGenSkipButton.setFocusPainted(false);
+        multipleGenSkipButton.setContentAreaFilled(false);
+        multipleGenSkipButton.setBounds(50, 450, 300, 50);
+        multipleGenSkipButton.setVisible(true);
+        multipleGenSkipButton.addMouseListener(hover);
+        multipleGenSkipButton.setBorder(new RoundedBorder(25));
+        multipleGenSkipButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.multipleGenSkip(Integer.parseInt(multipleGenSkipLable.getText()));
+                gui.showGrid(gui.getCells());
+            }
+        });
+
+        multipleGenSkipLable = new JTextField("6");
+        multipleGenSkipLable.setBackground(null);
+        multipleGenSkipLable.setBorder(null);
+        multipleGenSkipLable.setBounds(50, 450, 200, 30);
+        multipleGenSkipLable.setFont(text);
+        multipleGenSkipLable.setForeground(Color.decode("#121212"));
+        multipleGenSkipLable.setVisible(true);
+        multipleGenSkipLable.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+                if (!Character.isDigit(evt.getKeyChar())) {
+                    evt.consume();
+                }
+            }
+        });
+    }
+
     private void initSaveButton(){}
 
     private void initSaveNameField(){}
@@ -237,6 +297,9 @@ public class ControlWindow {
         controlWindow.add(toggleGame);
         controlWindow.add(nextGenButton);
         controlWindow.add(lockMouse);
+        controlWindow.add(clearButton);
+        controlWindow.add(multipleGenSkipLable);
+        controlWindow.add(multipleGenSkipButton);
     }
 
     public void setVisibility(boolean value) {
