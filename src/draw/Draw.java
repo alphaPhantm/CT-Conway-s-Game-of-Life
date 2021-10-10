@@ -30,9 +30,7 @@ public class Draw extends JPanel {
         currentGrid = new boolean[xSize][ySize];
 
         for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                currentGrid[x][y] = grid[x][y];
-            }
+            if (ySize >= 0) System.arraycopy(grid[x], 0, currentGrid[x], 0, ySize);
         }
     }
 

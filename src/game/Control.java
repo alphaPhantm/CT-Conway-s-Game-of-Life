@@ -167,7 +167,7 @@ public class Control {
 
     }
 
-//    public void checkN(Cell[][] arr, Cell[][] futureGen, int columns, int rows) {
+//    public void checkN(Boolean[][] arr, Boolean[][] futureGen, int columns, int rows) {
 //        ArrayList<Thread> threads = new ArrayList<>();
 //        final int NUM_OF_THREADS = 8; //Or can be passed as an argument
 //        for (int tid = 0; tid < NUM_OF_THREADS; tid++) {
