@@ -327,6 +327,10 @@ public class Control {
         clock.setVelocity(velocity);
     }
 
+    public int getVelocity() {
+        return clock.getVelocity();
+    }
+
     public boolean isMouseLocked() {
         return mouseLocked;
     }

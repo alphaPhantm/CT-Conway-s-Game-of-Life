@@ -97,7 +97,7 @@ public class ControlWindow {
         velocitySlider.setBounds(120, 110, 230, 20);
         velocitySlider.setFont(text);
         velocitySlider.setForeground(Color.decode("#121212"));
-        velocitySlider.setValue(6);
+        velocitySlider.setValue(gui.getVelocity());
         velocitySlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -117,7 +117,7 @@ public class ControlWindow {
         velocitySliderName.setForeground(Color.decode("#121212"));
         velocitySliderName.setVisible(true);
 
-        velocitySliderLabel = new JTextField("6");
+        velocitySliderLabel = new JTextField(String.valueOf(gui.getVelocity()));
         velocitySliderLabel.setBackground(null);
         velocitySliderLabel.setBorder(null);
         velocitySliderLabel.setBounds(120, 80, 200, 30);
@@ -251,7 +251,7 @@ public class ControlWindow {
     private void initMultibleGenSkip(){
 
         multipleGenSkipButton = new JButton();
-        multipleGenSkipButton.setText("Next     Generation");
+        multipleGenSkipButton.setText("Next           Generation");
         multipleGenSkipButton.setFont(text);
         multipleGenSkipButton.setForeground(Color.decode("#121212"));
         multipleGenSkipButton.setBorderPainted(true);
@@ -270,9 +270,10 @@ public class ControlWindow {
         });
 
         multipleGenSkipLable = new JTextField("6");
+        multipleGenSkipLable.setOpaque(false);
         multipleGenSkipLable.setBackground(null);
         multipleGenSkipLable.setBorder(null);
-        multipleGenSkipLable.setBounds(50, 450, 200, 30);
+        multipleGenSkipLable.setBounds(160, 450, 50, 50);
         multipleGenSkipLable.setFont(text);
         multipleGenSkipLable.setForeground(Color.decode("#121212"));
         multipleGenSkipLable.setVisible(true);

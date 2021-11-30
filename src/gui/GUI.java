@@ -151,6 +151,10 @@ public class GUI {
         gameWindow.updateTitle(gen);
     }
 
+    public int getVelocity(){
+        return control.getVelocity();
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);
