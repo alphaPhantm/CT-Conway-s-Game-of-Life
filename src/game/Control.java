@@ -2,7 +2,6 @@ package game;
 
 import gui.GUI;
 
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Control {
@@ -139,7 +138,7 @@ public class Control {
     public void nextGen() {
 
         gen++;
-//        System.out.println("Generation:" + gen);
+        System.out.println("Generation:" + gen);
 
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
@@ -164,7 +163,7 @@ public class Control {
                 cells[x][y] = newcells[x][y];
             }
         }
-
+        gui.updateGameWindowTitle(gen);
     }
 
 //    public void checkN(Boolean[][] arr, Boolean[][] futureGen, int columns, int rows) {
@@ -196,6 +195,7 @@ public class Control {
     public boolean[][] nextGenBackup() {
 
         gen++;
+
 //        System.out.println("Generation:" + gen);
 
         for (int x = 0; x < xSize; x++) {
@@ -226,6 +226,7 @@ public class Control {
                 cells[x][y] = newcells[x][y];
             }
         }
+
 
         return cells;
     }
@@ -350,6 +351,10 @@ public class Control {
         for (int i = 0; i < generations; i++) {
             nextGen();
         }
+    }
+
+    public int getGeneration(){
+        return gen;
     }
 }
 

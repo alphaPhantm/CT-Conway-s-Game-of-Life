@@ -14,6 +14,8 @@ public class GameWindow {
     private final int cellCountX;
     private final int cellCountY;
 
+    private String title;
+
     private int width, height;
     private final float ratio;
 
@@ -23,8 +25,9 @@ public class GameWindow {
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
 
+        this.title = title;
 
-        gameWindow = new JFrame(title);
+        gameWindow = new JFrame(title + " Generation: " + gui.getGeneration());
 
         gameWindow.getContentPane().setPreferredSize(new Dimension(width + (2 * offset), height + (2 * offset)));
         gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -156,6 +159,9 @@ public class GameWindow {
 
     public Point getPos(){
         return gameWindow.getLocation();
+    }
+    public void updateTitle(int gen){
+        gameWindow.setTitle(title + " Generation: " + gen);
     }
 
 

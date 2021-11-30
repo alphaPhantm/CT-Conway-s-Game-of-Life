@@ -143,6 +143,14 @@ public class GUI {
         control.multipleGenSkip(generations);
     }
 
+    public int getGeneration(){
+        return control.getGeneration();
+    }
+
+    public void updateGameWindowTitle(int gen){
+        gameWindow.updateTitle(gen);
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);
