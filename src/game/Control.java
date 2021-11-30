@@ -1,7 +1,10 @@
 package game;
 
+import data.database.DataBase;
 import gui.GUI;
 
+import java.sql.ResultSet;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.round;
@@ -10,6 +13,7 @@ public class Control {
 
     private GUI gui;
     private Clock clock;
+    private DataBase dataBase;
 
     private int xSize, ySize, cellCount, gen;
 
@@ -28,6 +32,7 @@ public class Control {
 
         clock = new Clock(this, gui);
         gui = new GUI(this);
+        dataBase = new DataBase();
         gui.createMenuWindow();
 
     }
@@ -422,8 +427,12 @@ public class Control {
             resetCells();
             syncCells();
 
+            int counter = ((gen - wantedtGen) / wantedtGen ) + 1;
+
             for (int i = 0; i < wantedtGen; i++) {
                 nextGenLight();
+                gen = gen - counter;
+                gui.updateGameWindowTitle(gen);
 
             }
 
@@ -433,6 +442,10 @@ public class Control {
         } else {
             multipleGenSkip(wantedtGen - gen);
         }
+    }
+
+    public List<String> getAllGrids(){
+        return dataBase.getAllGrids();
     }
 }
 

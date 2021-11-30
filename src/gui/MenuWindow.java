@@ -306,6 +306,10 @@ public class MenuWindow {
         addComboBoxEntry(modeBox, "Blinker");
         addComboBoxEntry(modeBox, "Toad");
 
+        for (int i = 0; i < gui.getAllGrids().size(); i++){
+            addComboBoxEntry(modeBox, gui.getAllGrids().get(i));
+        }
+
         modeName = new JLabel("Select Figure: ");
         modeName.setBounds(50, 250, 200, 30);
         modeName.setFont(text);

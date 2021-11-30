@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class GUI {
 
@@ -174,6 +176,10 @@ public class GUI {
 
     public ControlWindow getControlWindow() {
         return controlWindow;
+    }
+
+    public List<String> getAllGrids(){
+        return control.getAllGrids();
     }
 
 
