@@ -57,7 +57,7 @@ public class MenuWindow {
 
         menuWindow.setTitle(title);
 
-        ImageIcon imageIcon = new ImageIcon("src/files/PNG/Icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/data/icons/Icon.png");
         menuWindow.setIconImage(imageIcon.getImage());
 
 
@@ -362,7 +362,7 @@ public class MenuWindow {
     }
 
     private void initIMG(){
-        preview = new ImageIcon("src/files/PNG/Preview.png");
+        preview = new ImageIcon("src/data/pictures/Preview.png");
         previewLabel = new JLabel(preview);
         previewLabel.setBounds(450, 45, 203, 302);
     }

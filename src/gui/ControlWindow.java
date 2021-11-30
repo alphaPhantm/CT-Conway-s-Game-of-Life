@@ -20,10 +20,13 @@ public class ControlWindow {
     private JLabel heading;
     private JButton toggleGame;
     private JButton nextGenButton;
+    private JButton previousGenButton;
     private JButton lockMouse;
     private JButton clearButton;
     private JButton multipleGenSkipButton;
+    private JButton jump2GenButton;
     private JTextField multipleGenSkipLable;
+    private JTextField jump2GenLable;
 
     private int velocity, minVelocity = 1 , maxVelocity = 5000;
 
@@ -52,7 +55,7 @@ public class ControlWindow {
         controlWindow.setLocation(gameWindow.getPos().x - (width + offset), gameWindow.getPos().y);
         controlWindow.setLayout(null);
 
-        ImageIcon imageIcon = new ImageIcon("src/files/PNG/Icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/data/icons/Icon.png");
         controlWindow.setIconImage(imageIcon.getImage());
 
         controlWindow.addWindowListener(new WindowAdapter() {
@@ -79,9 +82,11 @@ public class ControlWindow {
         initVelocity();
         initToggleButton();
         initNextButton();
+        initPreviousGenButton();
         initDrawLockButton();
         initClearButton();
         initMultibleGenSkip();
+        initJump2Gen();
     }
 
     private void initHeading(){
@@ -176,6 +181,9 @@ public class ControlWindow {
         toggleGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (gui.getGeneration() == 0){
+                    gui.saveFirstGrid();
+                }
                 gui.setRunning(!gui.isRunning());
                 updateToggleButton();
                 gui.setVelocity(velocity);
@@ -187,20 +195,44 @@ public class ControlWindow {
 
     private void initNextButton(){
         nextGenButton = new JButton();
-        nextGenButton.setText("Next Generation");
+        nextGenButton.setText("Next Gen.");
         nextGenButton.setFont(text);
         nextGenButton.setForeground(Color.decode("#121212"));
         nextGenButton.setBorderPainted(true);
         nextGenButton.setFocusPainted(false);
         nextGenButton.setContentAreaFilled(false);
-        nextGenButton.setBounds(50, 675, 300, 50);
+        nextGenButton.setBounds(225, 675, 125, 50);
         nextGenButton.setVisible(true);
         nextGenButton.addMouseListener(hover);
         nextGenButton.setBorder(new RoundedBorder(25));
         nextGenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (gui.getGeneration() == 0){
+                    gui.saveFirstGrid();
+                }
                 gui.nextGen();
+                gui.showGrid(gui.getCells());
+            }
+        });
+    }
+
+    private void initPreviousGenButton(){
+        previousGenButton = new JButton();
+        previousGenButton.setText("Prior Gen.");
+        previousGenButton.setFont(text);
+        previousGenButton.setForeground(Color.decode("#121212"));
+        previousGenButton.setBorderPainted(true);
+        previousGenButton.setFocusPainted(false);
+        previousGenButton.setContentAreaFilled(false);
+        previousGenButton.setBounds(50, 675, 125, 50);
+        previousGenButton.setVisible(true);
+        previousGenButton.addMouseListener(hover);
+        previousGenButton.setBorder(new RoundedBorder(25));
+        previousGenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.previousGen();
                 gui.showGrid(gui.getCells());
             }
         });
@@ -213,7 +245,7 @@ public class ControlWindow {
         lockMouse.setBorderPainted(true);
         lockMouse.setFocusPainted(false);
         lockMouse.setContentAreaFilled(false);
-        lockMouse.setBounds(50, 600, 300, 50);
+        lockMouse.setBounds(50, 450, 300, 50);
         lockMouse.setVisible(true);
         lockMouse.addMouseListener(hover);
         lockMouse.setBorder(new RoundedBorder(25));
@@ -235,7 +267,7 @@ public class ControlWindow {
         clearButton.setBorderPainted(true);
         clearButton.setFocusPainted(false);
         clearButton.setContentAreaFilled(false);
-        clearButton.setBounds(50, 525, 300, 50);
+        clearButton.setBounds(50, 375, 300, 50);
         clearButton.setVisible(true);
         clearButton.addMouseListener(hover);
         clearButton.setBorder(new RoundedBorder(25));
@@ -257,7 +289,7 @@ public class ControlWindow {
         multipleGenSkipButton.setBorderPainted(true);
         multipleGenSkipButton.setFocusPainted(false);
         multipleGenSkipButton.setContentAreaFilled(false);
-        multipleGenSkipButton.setBounds(50, 450, 300, 50);
+        multipleGenSkipButton.setBounds(50, 600, 300, 50);
         multipleGenSkipButton.setVisible(true);
         multipleGenSkipButton.addMouseListener(hover);
         multipleGenSkipButton.setBorder(new RoundedBorder(25));
@@ -273,11 +305,49 @@ public class ControlWindow {
         multipleGenSkipLable.setOpaque(false);
         multipleGenSkipLable.setBackground(null);
         multipleGenSkipLable.setBorder(null);
-        multipleGenSkipLable.setBounds(160, 450, 50, 50);
+        multipleGenSkipLable.setBounds(160, 600, 50, 50);
         multipleGenSkipLable.setFont(text);
         multipleGenSkipLable.setForeground(Color.decode("#121212"));
         multipleGenSkipLable.setVisible(true);
         multipleGenSkipLable.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+                if (!Character.isDigit(evt.getKeyChar())) {
+                    evt.consume();
+                }
+            }
+        });
+    }
+
+    private void initJump2Gen(){
+
+        jump2GenButton = new JButton();
+        jump2GenButton.setText("Jump to generation");
+        jump2GenButton.setFont(text);
+        jump2GenButton.setForeground(Color.decode("#121212"));
+        jump2GenButton.setBorderPainted(true);
+        jump2GenButton.setFocusPainted(false);
+        jump2GenButton.setContentAreaFilled(false);
+        jump2GenButton.setBounds(50, 525, 300, 50);
+        jump2GenButton.setVisible(true);
+        jump2GenButton.addMouseListener(hover);
+        jump2GenButton.setBorder(new RoundedBorder(25));
+        jump2GenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.jump2Gen(Integer.parseInt(jump2GenLable.getText()));
+                gui.showGrid(gui.getCells());
+            }
+        });
+
+        jump2GenLable = new JTextField("6");
+        jump2GenLable.setOpaque(false);
+        jump2GenLable.setBackground(null);
+        jump2GenLable.setBorder(null);
+        jump2GenLable.setBounds(275, 525, 50, 50);
+        jump2GenLable.setFont(text);
+        jump2GenLable.setForeground(Color.decode("#121212"));
+        jump2GenLable.setVisible(true);
+        jump2GenLable.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 if (!Character.isDigit(evt.getKeyChar())) {
                     evt.consume();
@@ -297,10 +367,13 @@ public class ControlWindow {
         controlWindow.add(velocitySliderLabel);
         controlWindow.add(toggleGame);
         controlWindow.add(nextGenButton);
+        controlWindow.add(previousGenButton);
         controlWindow.add(lockMouse);
         controlWindow.add(clearButton);
         controlWindow.add(multipleGenSkipLable);
+        controlWindow.add(jump2GenLable);
         controlWindow.add(multipleGenSkipButton);
+        controlWindow.add(jump2GenButton);
     }
 
     public void setVisibility(boolean value) {

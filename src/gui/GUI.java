@@ -155,6 +155,18 @@ public class GUI {
         return control.getVelocity();
     }
 
+    public void saveFirstGrid(){
+        control.saveFirstGrid();
+    }
+
+    public void previousGen(){
+        control.previousGen();
+    }
+
+    public void jump2Gen(int wantedtGen){
+        control.jump2Gen(wantedtGen);
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);
