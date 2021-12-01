@@ -57,7 +57,7 @@ public class MenuWindow {
 
         menuWindow.setTitle(title);
 
-        ImageIcon imageIcon = new ImageIcon("src/files/PNG/Icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/data/icons/Icon.png");
         menuWindow.setIconImage(imageIcon.getImage());
 
 
@@ -306,6 +306,10 @@ public class MenuWindow {
         addComboBoxEntry(modeBox, "Blinker");
         addComboBoxEntry(modeBox, "Toad");
 
+        for (int i = 0; i < gui.getAllGrids().size(); i++){
+            addComboBoxEntry(modeBox, gui.getAllGrids().get(i));
+        }
+
         modeName = new JLabel("Select Figure: ");
         modeName.setBounds(50, 250, 200, 30);
         modeName.setFont(text);
@@ -362,7 +366,7 @@ public class MenuWindow {
     }
 
     private void initIMG(){
-        preview = new ImageIcon("src/files/PNG/Preview.png");
+        preview = new ImageIcon("src/data/pictures/Preview.png");
         previewLabel = new JLabel(preview);
         previewLabel.setBounds(450, 45, 203, 302);
     }

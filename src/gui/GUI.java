@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class GUI {
 
@@ -155,6 +157,18 @@ public class GUI {
         return control.getVelocity();
     }
 
+    public void saveFirstGrid(){
+        control.saveFirstGrid();
+    }
+
+    public void previousGen(){
+        control.previousGen();
+    }
+
+    public void jump2Gen(int wantedtGen){
+        control.jump2Gen(wantedtGen);
+    }
+
     //TODO: Delet this Methods. Those are shit.
     public void setVisibility(boolean value){
         controlWindow.setVisibility(value);
@@ -162,6 +176,10 @@ public class GUI {
 
     public ControlWindow getControlWindow() {
         return controlWindow;
+    }
+
+    public List<String> getAllGrids(){
+        return control.getAllGrids();
     }
 
 

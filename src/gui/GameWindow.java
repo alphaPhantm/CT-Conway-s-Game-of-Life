@@ -32,7 +32,7 @@ public class GameWindow {
         gameWindow.getContentPane().setPreferredSize(new Dimension(width + (2 * offset), height + (2 * offset)));
         gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        ImageIcon imageIcon = new ImageIcon("src/files/PNG/Icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/data/icons/Icon.png");
         gameWindow.setIconImage(imageIcon.getImage());
 
         gameWindow.addWindowListener(new WindowAdapter() {

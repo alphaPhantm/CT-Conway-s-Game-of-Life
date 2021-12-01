@@ -1,16 +1,23 @@
 package game;
 
+import data.database.DataBase;
 import gui.GUI;
 
+import java.sql.ResultSet;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static java.lang.Math.round;
 
 public class Control {
 
     private GUI gui;
     private Clock clock;
+    private DataBase dataBase;
 
     private int xSize, ySize, cellCount, gen;
 
+    private boolean[][] startingCells;
     private boolean[][] cells;
     private boolean[][] newcells;
 
@@ -25,6 +32,7 @@ public class Control {
 
         clock = new Clock(this, gui);
         gui = new GUI(this);
+        dataBase = new DataBase();
         gui.createMenuWindow();
 
     }
@@ -45,6 +53,7 @@ public class Control {
 
         cells = new boolean[this.xSize][this.ySize];
         newcells = new boolean[this.xSize][this.ySize];
+        startingCells = new boolean[this.xSize][this.ySize];
 
 
         switch (startMode) {
@@ -58,9 +67,9 @@ public class Control {
             case Manuel -> {
                 buildManuelGame();
             }
-
         }
 
+        saveFirstGrid();
 
         calcSize();
 
@@ -84,6 +93,8 @@ public class Control {
             }
         }
 
+        syncCells();
+
     }
 
     private void generateTask1() {
@@ -94,16 +105,12 @@ public class Control {
         }
 
 
-//        cells[1][2] = true;
-//        cells[2][2] = true;
-//        cells[2][4] = true;
-//        cells[3][1] = true;
-//        cells[3][3] = true;
-//        cells[4][3] = true;
-
-        cells[1][0] = true;
-        cells[1][1] = true;
         cells[1][2] = true;
+        cells[2][2] = true;
+        cells[2][4] = true;
+        cells[3][1] = true;
+        cells[3][3] = true;
+        cells[4][3] = true;
 
 
         syncCells();
@@ -131,6 +138,22 @@ public class Control {
         }
     }
 
+    public void saveFirstGrid(){
+        for (int x = 0; x < this.xSize; x++) {
+            for (int y = 0; y < this.ySize; y++) {
+                startingCells[x][y] = cells[x][y];
+            }
+        }
+    }
+
+    private void resetCells(){
+        for (int x = 0; x < this.xSize; x++) {
+            for (int y = 0; y < this.ySize; y++) {
+                cells[x][y] = startingCells[x][y];
+            }
+        }
+    }
+
     public boolean[][] getCells() {
         return cells;
     }
@@ -138,7 +161,6 @@ public class Control {
     public void nextGen() {
 
         gen++;
-        System.out.println("Generation:" + gen);
 
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
@@ -164,6 +186,45 @@ public class Control {
             }
         }
         gui.updateGameWindowTitle(gen);
+    }
+
+    public void nextGenLight() {
+
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                int n = aliveNeigbours(x, y);
+
+                switch (n) {
+                    case 3:
+                        newcells[x][y] = true;
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        newcells[x][y] = false;
+                        break;
+                }
+
+            }
+        }
+
+        for (int x = 0; x < this.xSize; x++) {
+            for (int y = 0; y < this.ySize; y++) {
+                cells[x][y] = newcells[x][y];
+            }
+        }
+    }
+
+    public void previousGen(){
+        if(gen > 0) {
+            resetCells();
+            syncCells();
+            for (int i = 0; i < gen - 1; i++) {
+                nextGenLight();
+            }
+            gen--;
+            gui.updateGameWindowTitle(gen);
+        }
     }
 
 //    public void checkN(Boolean[][] arr, Boolean[][] futureGen, int columns, int rows) {
@@ -359,6 +420,32 @@ public class Control {
 
     public int getGeneration(){
         return gen;
+    }
+
+    public void jump2Gen(int wantedtGen){
+        if (wantedtGen < gen){
+            resetCells();
+            syncCells();
+
+            int counter = ((gen - wantedtGen) / wantedtGen ) + 1;
+
+            for (int i = 0; i < wantedtGen; i++) {
+                nextGenLight();
+                gen = gen - counter;
+                gui.updateGameWindowTitle(gen);
+
+            }
+
+            gen = wantedtGen;
+            gui.updateGameWindowTitle(gen);
+
+        } else {
+            multipleGenSkip(wantedtGen - gen);
+        }
+    }
+
+    public List<String> getAllGrids(){
+        return dataBase.getAllGrids();
     }
 }
 
