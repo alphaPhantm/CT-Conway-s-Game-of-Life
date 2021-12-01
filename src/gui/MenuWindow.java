@@ -300,7 +300,7 @@ public class MenuWindow {
 
     private void initModeBox(){
         modeBox = new JComboBox<String>();
-        modeBox.setBounds(180, 257, 100, 20);
+        modeBox.setBounds(180, 257, 200, 20);
         addComboBoxEntry(modeBox, "Randomized");
         addComboBoxEntry(modeBox, "Task1");
         addComboBoxEntry(modeBox, "Blinker");
@@ -310,7 +310,7 @@ public class MenuWindow {
             addComboBoxEntry(modeBox, gui.getAllGrids().get(i));
         }
 
-        modeName = new JLabel("Select Figure: ");
+        modeName = new JLabel("Select Grid: ");
         modeName.setBounds(50, 250, 200, 30);
         modeName.setFont(text);
         modeName.setForeground(Color.decode("#121212"));

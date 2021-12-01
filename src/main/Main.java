@@ -2,7 +2,6 @@ package main;
 
 
 import data.database.DataBase;
-import game.Control;
 
 public class Main {
 
@@ -13,11 +12,12 @@ public class Main {
 
 
     public static void main(String[] args) {
+        
 //        Control control = new Control();
-//        control.start();
+  //      control.start();
         DataBase dataBase = new DataBase();
-        dataBase.deleteTables();
-        dataBase.createTables();
+//        dataBase.deleteTables();
+//        dataBase.createTables();
 
 
 //        boolean[][] cells = new boolean[44][66];
@@ -34,6 +34,8 @@ public class Main {
 //        dataBase.saveGrid(cells, "whoa", 88);
 //
 //        System.out.println(dataBase.getAllGrids());
+
+        dataBase.getGrid("DUstinkst");
 
 
     }

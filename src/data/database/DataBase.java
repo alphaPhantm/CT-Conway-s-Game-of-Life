@@ -121,4 +121,46 @@ public class DataBase {
 
     }
 
+    public Boolean[][] getGrid(String gridName){
+
+        connect();
+
+
+
+        ResultSet resultSet = resultSetSQL("select * from gameInfo where name = '"+gridName+"'");
+
+        try {
+            resultSet.next();
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            int width = resultSet.getInt("width");
+            int height = resultSet.getInt("height");
+            int gen = resultSet.getInt("generation");
+
+            boolean[][] cells = new boolean[width][height];
+
+            ResultSet data = resultSetSQL("select * from gameData where id ="+id);
+            data.next();
+            System.out.println("");
+
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+
+                    cells[x][y] = false;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        disconnect();
+
+        return null;
+    }
+
 }
