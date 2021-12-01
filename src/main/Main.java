@@ -15,31 +15,31 @@ public class Main {
 
         Control control = new Control();
         control.start();
-     //   DataBase dataBase = new DataBase();
+//        DataBase dataBase = new DataBase();
 //        dataBase.deleteTables();
 //        dataBase.createTables();
-
-
-      //  boolean[][] cells = new boolean[44][66];
-
-        //for (int x = 0; x < 6; x++) {
-       //     for (int y = 0; y < 6; y++) {
-     //         }
-      //  }
-
-
-    //    for (int x = 0; x < 6; x++) {
-  //          for (int y = 0; y < 6; y++) {
+//
+//
+//        boolean[][] cells = new boolean[44][66];
+//
+//        for (int x = 0; x < 6; x++) {
+//            for (int y = 0; y < 6; y++) {
+//              }
+//        }
+//
+//
+//        for (int x = 0; x < 6; x++) {
+//            for (int y = 0; y < 6; y++) {
 //                cells[x][y] = true;
-      //      }
-    //    }
-
-  //      dataBase.saveGrid(cells, "Noah", 1012);
-
+//            }
+//        }
+//
+//        dataBase.saveGrid(cells, "Noah", 1012);
+//
 //        System.out.println(dataBase.getAllGrids());
-
+//
 //        boolean[][] x = dataBase.getGrid("penis");
-
+//
 
     }
 

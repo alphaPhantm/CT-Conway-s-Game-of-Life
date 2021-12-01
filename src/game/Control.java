@@ -46,7 +46,7 @@ public class Control {
         clock.setFirstGen(true);
 
         gen = 0;
-        mouseLocked = false;
+        mouseLocked = true;
 
         cells = new boolean[this.xSize][this.ySize];
         newcells = new boolean[this.xSize][this.ySize];
@@ -79,6 +79,7 @@ public class Control {
         if (startMode == "Manuel") {
             setRunning(false);
             gui.buildControlWindow();
+            this.mouseLocked = false;
         }
 
         startGame();
@@ -431,11 +432,11 @@ public class Control {
     }
 
     public void jump2Gen(int wantedtGen){
-        if (wantedtGen < gen){
+        if (wantedtGen <= gen){
             resetCells();
             syncCells();
 
-            int counter = ((gen - wantedtGen) / wantedtGen ) + 1;
+            int counter = ((gen - wantedtGen) / (wantedtGen + 1) );
 
             for (int i = 0; i < wantedtGen; i++) {
                 nextGenLight();

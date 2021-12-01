@@ -184,6 +184,10 @@ public class ControlWindow {
                 if (gui.getGeneration() == 0){
                     gui.saveFirstGrid();
                 }
+                if (!gui.isRunning()){
+                    gui.setMouseLocked(true);
+                    updateLockedMouse();
+                }
                 gui.setRunning(!gui.isRunning());
                 updateToggleButton();
                 gui.setVelocity(velocity);
@@ -208,11 +212,13 @@ public class ControlWindow {
         nextGenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gui.getGeneration() == 0){
-                    gui.saveFirstGrid();
+                if (!gui.isRunning()) {
+                    if (gui.getGeneration() == 0) {
+                        gui.saveFirstGrid();
+                    }
+                    gui.nextGen();
+                    gui.showGrid(gui.getCells());
                 }
-                gui.nextGen();
-                gui.showGrid(gui.getCells());
             }
         });
     }
@@ -232,8 +238,10 @@ public class ControlWindow {
         previousGenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.previousGen();
-                gui.showGrid(gui.getCells());
+                if (!gui.isRunning()) {
+                    gui.previousGen();
+                    gui.showGrid(gui.getCells());
+                }
             }
         });
     }
@@ -252,8 +260,10 @@ public class ControlWindow {
         lockMouse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.setMouseLocked(!gui.isMouseLocked());
-                updateLockedMouse();
+                if (!gui.isRunning()) {
+                    gui.setMouseLocked(!gui.isMouseLocked());
+                    updateLockedMouse();
+                }
             }
         });
         updateLockedMouse();
@@ -274,8 +284,10 @@ public class ControlWindow {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.clearGrid();
-                gui.showGrid(gui.getCells());
+                if (!gui.isRunning()) {
+                    gui.clearGrid();
+                    gui.showGrid(gui.getCells());
+                }
             }
         });
     }
@@ -296,8 +308,10 @@ public class ControlWindow {
         multipleGenSkipButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.multipleGenSkip(Integer.parseInt(multipleGenSkipLable.getText()));
-                gui.showGrid(gui.getCells());
+                if (!gui.isRunning()) {
+                    gui.multipleGenSkip(Integer.parseInt(multipleGenSkipLable.getText()));
+                    gui.showGrid(gui.getCells());
+                }
             }
         });
 
@@ -334,8 +348,10 @@ public class ControlWindow {
         jump2GenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.jump2Gen(Integer.parseInt(jump2GenLable.getText()));
-                gui.showGrid(gui.getCells());
+                if (!gui.isRunning()) {
+                    gui.jump2Gen(Integer.parseInt(jump2GenLable.getText()));
+                    gui.showGrid(gui.getCells());
+                }
             }
         });
 

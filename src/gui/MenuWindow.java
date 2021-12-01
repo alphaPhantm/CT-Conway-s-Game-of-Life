@@ -20,8 +20,8 @@ public class MenuWindow {
 
     private JLabel heading;
 
-    private final int xAxisMin = 6, xAxisMax = 1024;
-    private final int yAxisMin = 6, yAxisMax = 1024;
+    private final int xAxisMin = 6, xAxisMax = 2048;
+    private final int yAxisMin = 6, yAxisMax = 2048;
 
     private int xAxisSize = 6;
     private JSlider xAxis;
@@ -42,7 +42,7 @@ public class MenuWindow {
     private MouseListener hover;
 
     private JButton startButton;
-    private JButton manuelStart;
+
 
     private ImageIcon preview;
     private JLabel previewLabel;
@@ -91,7 +91,6 @@ public class MenuWindow {
         initStartCells();
         initModeBox();
         initStartButton();
-        initManuelStart();
         initIMG();
 
     }
@@ -123,7 +122,7 @@ public class MenuWindow {
         xAxis.setVisible(true);
 
 
-        xAxisName = new JLabel("Breite in Zellen:");
+        xAxisName = new JLabel("Width in Cells:");
         xAxisName.setBounds(50, 100, 200, 30);
         xAxisName.setFont(text);
         xAxisName.setForeground(Color.decode("#121212"));
@@ -186,7 +185,7 @@ public class MenuWindow {
         });
         yAxis.setVisible(true);
 
-        yAxisName = new JLabel("Höhe in Zellen:");
+        yAxisName = new JLabel("Height in Cells:");
         yAxisName.setBounds(50, 150, 200, 30);
         yAxisName.setFont(text);
         yAxisName.setForeground(Color.decode("#121212"));
@@ -249,7 +248,7 @@ public class MenuWindow {
         });
         startCells.setVisible(true);
 
-        startCellsName = new JLabel("Start Zellen:");
+        startCellsName = new JLabel("Start/Max Cells:");
         startCellsName.setBounds(50, 200, 200, 30);
         startCellsName.setFont(text);
         startCellsName.setForeground(Color.decode("#121212"));
@@ -300,6 +299,7 @@ public class MenuWindow {
         modeBox = new JComboBox<String>();
         modeBox.setBounds(180, 257, 200, 20);
         addComboBoxEntry(modeBox, "Randomized");
+        addComboBoxEntry(modeBox, "Manuel");
         addComboBoxEntry(modeBox, "Task1");
         addComboBoxEntry(modeBox, "Blinker");
         addComboBoxEntry(modeBox, "Toad");
@@ -323,7 +323,7 @@ public class MenuWindow {
         startButton.setBorderPainted(true);
         startButton.setFocusPainted(false);
         startButton.setContentAreaFilled(false);
-        startButton.setBounds(50, 310, 150, 50);
+        startButton.setBounds(50, 310, 330, 50);
         startButton.setVisible(true);
         startButton.addMouseListener(hover);
         startButton.setBorder(new RoundedBorder(25));
@@ -338,26 +338,6 @@ public class MenuWindow {
         });
     }
 
-    private void initManuelStart(){
-        manuelStart = new JButton();
-        manuelStart.setText("Manuel Start");
-        manuelStart.setFont(text);
-        manuelStart.setForeground(Color.decode("#121212"));
-        manuelStart.setBorderPainted(true);
-        manuelStart.setFocusPainted(false);
-        manuelStart.setContentAreaFilled(false);
-        manuelStart.setBounds(225, 310, 150, 50);
-        manuelStart.setVisible(true);
-        manuelStart.addMouseListener(hover);
-        manuelStart.setBorder(new RoundedBorder(25));
-        manuelStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, "Manuel");
-                menuWindow.setVisible(false);
-            }
-        });
-    }
 
     private void initIMG(){
         preview = new ImageIcon("src/data/pictures/Preview.png");
@@ -389,7 +369,6 @@ public class MenuWindow {
         menuWindow.add(startCellsName);
         menuWindow.add(startCellsLabel);
         menuWindow.add(startButton);
-        menuWindow.add(manuelStart);
         menuWindow.add(previewLabel);
         menuWindow.add(modeName);
         menuWindow.add(modeBox);

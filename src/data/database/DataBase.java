@@ -139,10 +139,7 @@ public class DataBase {
 
             boolean[][] cells = new boolean[width][height];
 
-
             ResultSet resultData = resultSetSQL("select * from gameData where id ="+id);
-
-
 
             while (resultData.next()){
                 cells[resultData.getInt("x")][resultData.getInt("y")] = true;
@@ -153,7 +150,6 @@ public class DataBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         disconnect();
 
