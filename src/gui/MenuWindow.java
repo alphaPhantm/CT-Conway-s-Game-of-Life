@@ -1,8 +1,6 @@
 package gui;
 
 
-import game.StartMode;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -333,11 +331,7 @@ public class MenuWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int index = modeBox.getSelectedIndex();
-
-                StartMode startMode = StartMode.values()[index + 1]; // + 1 BECAUSE MANUEL HAS THE FIRST INDEX IN ENUM
-
-                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, startMode);
+                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, modeBox.getSelectedItem().toString());
 
                 menuWindow.setVisible(false);
             }
@@ -359,7 +353,7 @@ public class MenuWindow {
         manuelStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, StartMode.Manuel);
+                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, "Manuel");
                 menuWindow.setVisible(false);
             }
         });

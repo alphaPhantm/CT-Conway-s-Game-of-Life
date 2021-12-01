@@ -121,46 +121,60 @@ public class DataBase {
 
     }
 
-    public Boolean[][] getGrid(String gridName){
+    public boolean[][] getGrid(String gridName){
 
         connect();
 
 
 
-        ResultSet resultSet = resultSetSQL("select * from gameInfo where name = '"+gridName+"'");
+        ResultSet resultInfo = resultSetSQL("select * from gameInfo where name = '"+gridName+"'");
 
         try {
-            resultSet.next();
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            int width = resultSet.getInt("width");
-            int height = resultSet.getInt("height");
-            int gen = resultSet.getInt("generation");
+            resultInfo.next();
+            int id = resultInfo.getInt("id");
+            int width = resultInfo.getInt("width");
+            int height = resultInfo.getInt("height");
+
+            resultInfo.close();
 
             boolean[][] cells = new boolean[width][height];
 
-            ResultSet data = resultSetSQL("select * from gameData where id ="+id);
-            data.next();
-            System.out.println("");
+
+            ResultSet resultData = resultSetSQL("select * from gameData where id ="+id);
 
 
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
 
-                    cells[x][y] = false;
-                }
+            while (resultData.next()){
+                cells[resultData.getInt("x")][resultData.getInt("y")] = true;
             }
+
+            return cells;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-
-
         disconnect();
 
         return null;
+    }
+
+    public int getGen(String gridName){
+        connect();
+        ResultSet resultSet = resultSetSQL("select generation from gameInfo where name = '"+gridName+"'");
+        try {
+            resultSet.next();
+            int gen = resultSet.getInt("generation");
+            disconnect();
+            return gen;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        disconnect();
+        return 0;
+
     }
 
 }

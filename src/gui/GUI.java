@@ -77,7 +77,7 @@ public class GUI {
         gameWindow.showGrid(grid);
     }
 
-    public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode){
+    public void buildGameWindow(int xSize, int ySize, int cellCount, String startMode){
         control.buildGameWindow(xSize, ySize, cellCount, startMode);
     }
 

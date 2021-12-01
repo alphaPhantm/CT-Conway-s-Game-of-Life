@@ -3,11 +3,8 @@ package game;
 import data.database.DataBase;
 import gui.GUI;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static java.lang.Math.round;
 
 public class Control {
 
@@ -41,7 +38,7 @@ public class Control {
         clock.start();
     }
 
-    public void buildGameWindow(int xSize, int ySize, int cellCount, StartMode startMode) {
+    public void buildGameWindow(int xSize, int ySize, int cellCount, String startMode) {
         this.xSize = xSize;
         this.ySize = ySize;
         this.cellCount = cellCount;
@@ -58,14 +55,17 @@ public class Control {
 
         switch (startMode) {
 
-            case Task1 -> {
+            case "Task1" -> {
                 generateTask1();
             }
-            case Randomized -> {
+            case "Randomized" -> {
                 generateRandomized();
             }
-            case Manuel -> {
+            case "Manuel" -> {
                 buildManuelGame();
+            }
+            default -> {
+                getFromDatabase(startMode);
             }
         }
 
@@ -76,7 +76,7 @@ public class Control {
         gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
         setRunning(true);
 
-        if (startMode == StartMode.Manuel) {
+        if (startMode == "Manuel") {
             setRunning(false);
             gui.buildControlWindow();
         }
@@ -93,6 +93,14 @@ public class Control {
             }
         }
 
+        syncCells();
+
+    }
+
+    private void getFromDatabase(String name){
+
+        cells = dataBase.getGrid(name);
+        gen = dataBase.getGen(name);
         syncCells();
 
     }

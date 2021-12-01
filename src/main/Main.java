@@ -2,6 +2,7 @@ package main;
 
 
 import data.database.DataBase;
+import game.Control;
 
 public class Main {
 
@@ -13,8 +14,8 @@ public class Main {
 
     public static void main(String[] args) {
         
-//        Control control = new Control();
-  //      control.start();
+        Control control = new Control();
+        control.start();
         DataBase dataBase = new DataBase();
 //        dataBase.deleteTables();
 //        dataBase.createTables();
@@ -35,7 +36,7 @@ public class Main {
 //
 //        System.out.println(dataBase.getAllGrids());
 
-        dataBase.getGrid("DUstinkst");
+//        boolean[][] x = dataBase.getGrid("penis");
 
 
     }
