@@ -81,8 +81,6 @@ public class MenuWindow {
 
         this.head = gui.getHead();
         this.text = gui.getText();
-        this.hover = gui.getHover();
-
 
 
         initHeading();
@@ -300,9 +298,6 @@ public class MenuWindow {
         modeBox.setBounds(180, 257, 200, 20);
         addComboBoxEntry(modeBox, "Randomized");
         addComboBoxEntry(modeBox, "Manuel");
-        addComboBoxEntry(modeBox, "Task1");
-        addComboBoxEntry(modeBox, "Blinker");
-        addComboBoxEntry(modeBox, "Toad");
 
         for (int i = 0; i < gui.getAllGrids().size(); i++){
             addComboBoxEntry(modeBox, gui.getAllGrids().get(i));
@@ -325,7 +320,7 @@ public class MenuWindow {
         startButton.setContentAreaFilled(false);
         startButton.setBounds(50, 310, 330, 50);
         startButton.setVisible(true);
-        startButton.addMouseListener(hover);
+        startButton.addMouseListener(new Hover());
         startButton.setBorder(new RoundedBorder(25));
         startButton.addActionListener(new ActionListener() {
             @Override

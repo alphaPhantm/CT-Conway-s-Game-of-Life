@@ -9,7 +9,7 @@ public class DataBase {
     private Connection connection;
     private Statement statement;
 
-    public void connect(){
+    private void connect(){
         try {
             connection = DriverManager.getConnection("jdbc:h2:./lib/Conway-Game-Of-Live", "sa", "");
             statement = connection.createStatement();
@@ -18,7 +18,7 @@ public class DataBase {
         }
     }
 
-    public void disconnect(){
+    private void disconnect(){
 
         try {
             statement.close();
@@ -29,7 +29,7 @@ public class DataBase {
 
     }
 
-    public void simpleSQL(String sqlStatement){
+    private void simpleSQL(String sqlStatement){
         try {
             statement.executeUpdate(sqlStatement);
         } catch (SQLException e) {
@@ -37,7 +37,7 @@ public class DataBase {
         }
     }
 
-    public ResultSet resultSetSQL(String sqlStatement){
+    private ResultSet resultSetSQL(String sqlStatement){
         try {
             return statement.executeQuery(sqlStatement);
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class DataBase {
     public void createTables(){
         connect();
 
-        simpleSQL("create table gameInfo(id int not null auto_increment, name varchar, width int, height int, generation int)");
+        simpleSQL("create table gameInfo(id int not null auto_increment, name varchar, width int, height int, generation int, cellcount int)");
         simpleSQL("create table gameData(id int, x int, y int)");
 
         disconnect();
@@ -93,11 +93,11 @@ public class DataBase {
 
     }
 
-    public void saveGrid(boolean[][] grid, String gridName, int generation){
+    public void saveGrid(boolean[][] grid, String gridName, int generation, int cellCount){
 
         connect();
 
-        simpleSQL("insert into GAMEINFO(name, width, height, GENERATION) values ('"+gridName+"', "+grid.length+", "+grid[0].length+", "+generation+")");
+        simpleSQL("insert into GAMEINFO(NAME, WIDTH, HEIGHT, GENERATION, CELLCOUNT) values ('"+gridName+"', "+grid.length+", "+grid[0].length+", "+generation+","+cellCount+")");
         ResultSet resultSet = resultSetSQL("select * from gameInfo order by id desc limit 1");
 
 
@@ -124,8 +124,6 @@ public class DataBase {
     public boolean[][] getGrid(String gridName){
 
         connect();
-
-
 
         ResultSet resultInfo = resultSetSQL("select * from gameInfo where name = '"+gridName+"'");
 
@@ -170,6 +168,34 @@ public class DataBase {
 
         disconnect();
         return 0;
+
+    }
+
+    public int getCellCount(String gridName){
+        connect();
+        ResultSet resultSet = resultSetSQL("select CELLCOUNT from gameInfo where name = '"+gridName+"'");
+        try {
+            resultSet.next();
+            int cellCount = resultSet.getInt("CELLCOUNT");
+            disconnect();
+            return cellCount;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        disconnect();
+        return 0;
+
+    }
+
+    public boolean checkName(String name){
+        List<String> allNames = getAllGrids();
+
+        if (allNames.contains(name)){
+            return false;
+        } else {
+            return true;
+        }
 
     }
 

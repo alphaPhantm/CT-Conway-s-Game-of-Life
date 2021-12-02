@@ -12,11 +12,10 @@ public class ControlWindow {
 
     private final int width = 400, height = 800;
 
-    private Font head;
-    private Font text;
-    private MouseAdapter hover;
+    private final Font head;
+    private final Font text;
 
-    private JFrame controlWindow;
+    private final JFrame controlWindow;
     private JLabel heading;
     private JButton toggleGame;
     private JButton nextGenButton;
@@ -30,14 +29,16 @@ public class ControlWindow {
     private JTextField saveGrid;
     private JLabel saveGridPlaceholder;
 
-    private int velocity, minVelocity = 1 , maxVelocity = 5000;
+    private int velocity;
+    private final int minVelocity = 1;
+    private final int maxVelocity = 5000;
 
 
     private JSlider velocitySlider;
     private JLabel velocitySliderName;
     private JTextField velocitySliderLabel;
 
-    private GUI gui;
+    private final GUI gui;
 
     public ControlWindow(GameWindow gameWindow, GUI gui, int offset) {
 
@@ -45,7 +46,6 @@ public class ControlWindow {
 
         this.head = gui.getHead();
         this.text = gui.getText();
-        this.hover = gui.getHover();
 
         velocity = 500;
 
@@ -68,9 +68,16 @@ public class ControlWindow {
             }
         });
 
+        controlWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                saveGrid.setFocusable(false);
+                saveGrid.setFocusable(true);
+            }
+        });
+
         controlWindow.pack();
         controlWindow.setVisible(true);
-
 
 
         initComponents();
@@ -79,7 +86,7 @@ public class ControlWindow {
 
     }
 
-    private void initComponents(){
+    private void initComponents() {
         initHeading();
         initVelocity();
         initToggleButton();
@@ -92,7 +99,7 @@ public class ControlWindow {
         initSaveGrid();
     }
 
-    private void initHeading(){
+    private void initHeading() {
         heading = new JLabel("Control Panel");
         heading.setFont(head);
         heading.setForeground(Color.decode("#121212"));
@@ -100,7 +107,7 @@ public class ControlWindow {
         heading.setVisible(true);
     }
 
-    private void initVelocity(){
+    private void initVelocity() {
         velocitySlider = new JSlider(minVelocity, maxVelocity);
         velocitySlider.setBounds(120, 110, 230, 20);
         velocitySlider.setFont(text);
@@ -109,7 +116,7 @@ public class ControlWindow {
         velocitySlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!gui.isSliderLocked()) {
+                if (!gui.isSliderLocked()) {
                     velocity = velocitySlider.getValue();
                     velocitySliderLabel.setText(String.valueOf(velocity));
                     gui.setVelocity(velocity);
@@ -166,7 +173,7 @@ public class ControlWindow {
 
     }
 
-    private void initToggleButton(){
+    private void initToggleButton() {
 
         toggleGame = new JButton();
         toggleGame.setText("Start Game");
@@ -177,19 +184,22 @@ public class ControlWindow {
         toggleGame.setContentAreaFilled(false);
         toggleGame.setBounds(50, 750, 300, 50);
         toggleGame.setVisible(true);
-        toggleGame.addMouseListener(hover);
+        toggleGame.addMouseListener(new Hover());
         toggleGame.setBorder(new RoundedBorder(25));
 
 
         toggleGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gui.getGeneration() == 0){
+                if (gui.getGeneration() == 0) {
                     gui.saveFirstGrid();
                 }
-                if (!gui.isRunning()){
+                if (!gui.isRunning()) {
                     gui.setMouseLocked(true);
+                    saveGrid.setFocusable(false);
                     updateLockedMouse();
+                } else {
+                    saveGrid.setFocusable(true);
                 }
                 gui.setRunning(!gui.isRunning());
                 updateToggleButton();
@@ -200,7 +210,7 @@ public class ControlWindow {
         updateToggleButton();
     }
 
-    private void initNextButton(){
+    private void initNextButton() {
         nextGenButton = new JButton();
         nextGenButton.setText("Next Gen.");
         nextGenButton.setFont(text);
@@ -210,7 +220,7 @@ public class ControlWindow {
         nextGenButton.setContentAreaFilled(false);
         nextGenButton.setBounds(225, 675, 125, 50);
         nextGenButton.setVisible(true);
-        nextGenButton.addMouseListener(hover);
+        nextGenButton.addMouseListener(new Hover());
         nextGenButton.setBorder(new RoundedBorder(25));
         nextGenButton.addActionListener(new ActionListener() {
             @Override
@@ -226,7 +236,7 @@ public class ControlWindow {
         });
     }
 
-    private void initPreviousGenButton(){
+    private void initPreviousGenButton() {
         previousGenButton = new JButton();
         previousGenButton.setText("Prior Gen.");
         previousGenButton.setFont(text);
@@ -236,7 +246,7 @@ public class ControlWindow {
         previousGenButton.setContentAreaFilled(false);
         previousGenButton.setBounds(50, 675, 125, 50);
         previousGenButton.setVisible(true);
-        previousGenButton.addMouseListener(hover);
+        previousGenButton.addMouseListener(new Hover());
         previousGenButton.setBorder(new RoundedBorder(25));
         previousGenButton.addActionListener(new ActionListener() {
             @Override
@@ -249,7 +259,7 @@ public class ControlWindow {
         });
     }
 
-    private void initDrawLockButton(){
+    private void initDrawLockButton() {
         lockMouse = new JButton();
         lockMouse.setFont(text);
         lockMouse.setForeground(Color.decode("#121212"));
@@ -258,7 +268,7 @@ public class ControlWindow {
         lockMouse.setContentAreaFilled(false);
         lockMouse.setBounds(50, 450, 300, 50);
         lockMouse.setVisible(true);
-        lockMouse.addMouseListener(hover);
+        lockMouse.addMouseListener(new Hover());
         lockMouse.setBorder(new RoundedBorder(25));
         lockMouse.addActionListener(new ActionListener() {
             @Override
@@ -272,7 +282,7 @@ public class ControlWindow {
         updateLockedMouse();
     }
 
-    private void initClearButton(){
+    private void initClearButton() {
         clearButton = new JButton();
         clearButton.setText("Clear Grid");
         clearButton.setFont(text);
@@ -282,7 +292,7 @@ public class ControlWindow {
         clearButton.setContentAreaFilled(false);
         clearButton.setBounds(50, 375, 300, 50);
         clearButton.setVisible(true);
-        clearButton.addMouseListener(hover);
+        clearButton.addMouseListener(new Hover());
         clearButton.setBorder(new RoundedBorder(25));
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -295,7 +305,7 @@ public class ControlWindow {
         });
     }
 
-    private void initMultibleGenSkip(){
+    private void initMultibleGenSkip() {
 
         multipleGenSkipButton = new JButton();
         multipleGenSkipButton.setText("Next           Generation");
@@ -306,7 +316,7 @@ public class ControlWindow {
         multipleGenSkipButton.setContentAreaFilled(false);
         multipleGenSkipButton.setBounds(50, 600, 300, 50);
         multipleGenSkipButton.setVisible(true);
-        multipleGenSkipButton.addMouseListener(hover);
+        multipleGenSkipButton.addMouseListener(new Hover());
         multipleGenSkipButton.setBorder(new RoundedBorder(25));
         multipleGenSkipButton.addActionListener(new ActionListener() {
             @Override
@@ -335,7 +345,7 @@ public class ControlWindow {
         });
     }
 
-    private void initJump2Gen(){
+    private void initJump2Gen() {
 
         jump2GenButton = new JButton();
         jump2GenButton.setText("Jump to generation");
@@ -346,7 +356,7 @@ public class ControlWindow {
         jump2GenButton.setContentAreaFilled(false);
         jump2GenButton.setBounds(50, 525, 300, 50);
         jump2GenButton.setVisible(true);
-        jump2GenButton.addMouseListener(hover);
+        jump2GenButton.addMouseListener(new Hover());
         jump2GenButton.setBorder(new RoundedBorder(25));
         jump2GenButton.addActionListener(new ActionListener() {
             @Override
@@ -375,7 +385,7 @@ public class ControlWindow {
         });
     }
 
-    private void initSaveGrid(){
+    private void initSaveGrid() {
 
         saveGridPlaceholder = new JLabel("Save Grid...");
         saveGridPlaceholder.setBounds(50, 300, 300, 50);
@@ -385,6 +395,7 @@ public class ControlWindow {
 
         saveGrid = new JTextField();
         saveGrid.setDocument(new JTextFieldLimit(10));
+        saveGrid.setFocusable(false);
         saveGrid.setOpaque(false);
         saveGrid.setBackground(null);
         saveGrid.setBorder(null);
@@ -398,6 +409,21 @@ public class ControlWindow {
                     evt.consume();
                 }
             }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (gui.checkName(saveGrid.getText())) {
+                        gui.saveGridInDB(saveGrid.getText());
+                    } else {
+                        System.out.println("Vergeben");
+                    }
+
+                    saveGrid.setText("");
+                    saveGridPlaceholder.setVisible(true);
+
+                }
+            }
         });
         saveGrid.addFocusListener(new FocusListener() {
             @Override
@@ -407,13 +433,16 @@ public class ControlWindow {
 
             @Override
             public void focusLost(FocusEvent e) {
-                saveGridPlaceholder.setVisible(true);
+                if (saveGrid.getText().equals("")) {
+                    saveGridPlaceholder.setVisible(true);
+                }
+
             }
         });
 
     }
 
-    private void addComponents(){
+    private void addComponents() {
         controlWindow.add(heading);
         controlWindow.add(velocitySlider);
         controlWindow.add(velocitySliderName);
@@ -452,12 +481,12 @@ public class ControlWindow {
         }
     }
 
-    public void dispose(){
+    public void dispose() {
         controlWindow.dispose();
     }
 
 
-    public void setVelocity(int velocity){
+    public void setVelocity(int velocity) {
         gui.setVelocity(velocity);
     }
 }

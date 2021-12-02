@@ -3,6 +3,7 @@ package game;
 import data.database.DataBase;
 import gui.GUI;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -39,6 +40,36 @@ public class Control {
     }
 
     public void buildGameWindow(int xSize, int ySize, int cellCount, String startMode) {
+
+        switch (startMode) {
+
+            case "Randomized" -> {
+                generateRandomized(xSize, ySize, cellCount);
+            }
+            case "Manuel" -> {
+                buildManuelGame(xSize, ySize, cellCount);
+            }
+            default -> {
+                getFromDatabase(startMode);
+            }
+        }
+
+        saveFirstGrid();
+
+        calcSize();
+
+        gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
+
+        if (startMode == "Manuel"){
+            gui.buildControlWindow();
+        }
+
+        startGame();
+
+    }
+
+    private void buildManuelGame(int xSize, int ySize, int cellCount) {
+
         this.xSize = xSize;
         this.ySize = ySize;
         this.cellCount = cellCount;
@@ -52,42 +83,6 @@ public class Control {
         newcells = new boolean[this.xSize][this.ySize];
         startingCells = new boolean[this.xSize][this.ySize];
 
-
-        switch (startMode) {
-
-            case "Task1" -> {
-                generateTask1();
-            }
-            case "Randomized" -> {
-                generateRandomized();
-            }
-            case "Manuel" -> {
-                buildManuelGame();
-            }
-            default -> {
-                getFromDatabase(startMode);
-            }
-        }
-
-        saveFirstGrid();
-
-        calcSize();
-
-        gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
-        setRunning(true);
-
-        if (startMode == "Manuel") {
-            setRunning(false);
-            gui.buildControlWindow();
-            this.mouseLocked = false;
-        }
-
-        startGame();
-
-    }
-
-    private void buildManuelGame() {
-
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
                 cells[x][y] = false;
@@ -95,6 +90,10 @@ public class Control {
         }
 
         syncCells();
+
+        setRunning(false);
+
+        this.mouseLocked = false;
 
     }
 
@@ -102,30 +101,29 @@ public class Control {
 
         cells = dataBase.getGrid(name);
         gen = dataBase.getGen(name);
+        this.xSize = cells.length;
+        this.ySize = cells[0].length;
+        this.cellCount = this.xSize * this.ySize;
+        newcells = new boolean[this.xSize][this.ySize];
+        startingCells = new boolean[this.xSize][this.ySize];
         syncCells();
-
+        setRunning(true);
     }
 
-    private void generateTask1() {
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                cells[x][y] = false;
-            }
-        }
+    private void generateRandomized(int xSize, int ySize, int cellCount) {
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.cellCount = cellCount;
 
+        clock.setFirstGen(true);
 
-        cells[1][2] = true;
-        cells[2][2] = true;
-        cells[2][4] = true;
-        cells[3][1] = true;
-        cells[3][3] = true;
-        cells[4][3] = true;
+        gen = 0;
+        mouseLocked = true;
 
+        cells = new boolean[this.xSize][this.ySize];
+        newcells = new boolean[this.xSize][this.ySize];
+        startingCells = new boolean[this.xSize][this.ySize];
 
-        syncCells();
-    }
-
-    private void generateRandomized() {
         for (int i = 0; i < this.cellCount; i++) {
             int x = rand(0, this.xSize);
             int y = rand(0, this.ySize);
@@ -136,7 +134,7 @@ public class Control {
             }
         }
         syncCells();
-
+        setRunning(true);
     }
 
     private void syncCells() {
@@ -236,71 +234,6 @@ public class Control {
         }
     }
 
-//    public void checkN(Boolean[][] arr, Boolean[][] futureGen, int columns, int rows) {
-//        ArrayList<Thread> threads = new ArrayList<>();
-//        final int NUM_OF_THREADS = 8; //Or can be passed as an argument
-//        for (int tid = 0; tid < NUM_OF_THREADS; tid++) {
-//            Integer thread_local_row_start = tid * rows / NUM_OF_THREADS;
-//            Integer thread_local_row_end = (tid + 1) * rows / NUM_OF_THREADS;
-//            Thread t = new Thread(() -> {
-//                for (int row = thread_local_row_start; row < thread_local_row_end; row++) {
-//                    for (int column = 0; column < columns; column++) {
-//                        countNeighbors(arr, row, column, rows, columns);
-//                        evaluateNeighbors(arr[row][column], futureGen[row][column]);
-//                    }
-//                }
-//            });
-//            t.start();
-//            threads.add(t);
-//        }
-//        for (Thread t : threads) {
-//            try {
-//                t.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-    public boolean[][] nextGenBackup() {
-
-        gen++;
-
-//        System.out.println("Generation:" + gen);
-
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                int n = aliveNeigbours(x, y);
-
-                if (n == 3 && !cells[x][y]) {
-                    newcells[x][y] = true;
-                }
-
-                if (n < 2) {
-                    newcells[x][y] = false;
-                }
-
-                if (n == 2 || n == 3) {
-
-                }
-
-                if (n > 3) {
-                    newcells[x][y] = false;
-                }
-
-            }
-        }
-
-        for (int x = 0; x < this.xSize; x++) {
-            for (int y = 0; y < this.ySize; y++) {
-                cells[x][y] = newcells[x][y];
-            }
-        }
-
-
-        return cells;
-    }
-
     private int aliveNeigbours(int x, int y) {
         int count = 0;
 
@@ -318,16 +251,13 @@ public class Control {
         return count;
     }
 
-
     private int rand(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
-
     public void showGrid(boolean[][] grid) {
         gui.showGrid(grid);
     }
-
 
     public void setVisibility(boolean value) {
         gui.setVisibility(value);
@@ -455,6 +385,14 @@ public class Control {
 
     public List<String> getAllGrids(){
         return dataBase.getAllGrids();
+    }
+
+    public void saveGridInDB(String gridName){
+        dataBase.saveGrid(this.cells, gridName, this.gen, this.cellCount);
+    }
+
+    public boolean checkName(String name){
+        return dataBase.checkName(name);
     }
 }
 
