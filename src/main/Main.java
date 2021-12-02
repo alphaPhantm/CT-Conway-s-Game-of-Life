@@ -5,9 +5,18 @@ import game.Control;
 
 public class Main {
 
-    //TODO: Inputfield witch Changelistner to cange Slider, Generic ActionListener.
-    //TODO: Window visibility, Control window create only one time. Visibility = false when game started, Visibility = true when game quited. :DONE Need a code Check when Brain is awake.
-    //TODO: Database
+    //TODO: Database Seve Button. Alert when Name is already is taken.
+    //TODO: Database window to Delete Entries.
+    //TODO: Save Velocity in DB
+    //TODO: Correct generation saving in DB and read out it
+    //TODO: Save button
+    //TODO: Reset game state when closing game
+    //TODO: Correct new Initialisation when game starts
+    //TODO: Change the population Rules
+    //TODO: Limit input length
+
+    //TODO: Implement Corona Virus. Infected, Vaccinated, Recovered and Normal
+    //TODO: Implement a war mode.
 
 
 

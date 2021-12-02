@@ -27,6 +27,8 @@ public class ControlWindow {
     private JButton jump2GenButton;
     private JTextField multipleGenSkipLable;
     private JTextField jump2GenLable;
+    private JTextField saveGrid;
+    private JLabel saveGridPlaceholder;
 
     private int velocity, minVelocity = 1 , maxVelocity = 5000;
 
@@ -87,6 +89,7 @@ public class ControlWindow {
         initClearButton();
         initMultibleGenSkip();
         initJump2Gen();
+        initSaveGrid();
     }
 
     private void initHeading(){
@@ -372,9 +375,43 @@ public class ControlWindow {
         });
     }
 
-    private void initSaveButton(){}
+    private void initSaveGrid(){
 
-    private void initSaveNameField(){}
+        saveGridPlaceholder = new JLabel("Save Grid...");
+        saveGridPlaceholder.setBounds(50, 300, 300, 50);
+        saveGridPlaceholder.setFont(text);
+        saveGridPlaceholder.setForeground(Color.decode("#121212"));
+        saveGridPlaceholder.setVisible(true);
+
+        saveGrid = new JTextField();
+        saveGrid.setDocument(new JTextFieldLimit(10));
+        saveGrid.setOpaque(false);
+        saveGrid.setBackground(null);
+        saveGrid.setBorder(null);
+        saveGrid.setBounds(50, 300, 300, 50);
+        saveGrid.setFont(text);
+        saveGrid.setForeground(Color.decode("#121212"));
+        saveGrid.setVisible(true);
+        saveGrid.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+                if (!(Character.isDigit(evt.getKeyChar()) || Character.isLetter(evt.getKeyChar()))) {
+                    evt.consume();
+                }
+            }
+        });
+        saveGrid.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                saveGridPlaceholder.setVisible(false);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                saveGridPlaceholder.setVisible(true);
+            }
+        });
+
+    }
 
     private void addComponents(){
         controlWindow.add(heading);
@@ -390,6 +427,8 @@ public class ControlWindow {
         controlWindow.add(jump2GenLable);
         controlWindow.add(multipleGenSkipButton);
         controlWindow.add(jump2GenButton);
+        controlWindow.add(saveGridPlaceholder);
+        controlWindow.add(saveGrid);
     }
 
     public void setVisibility(boolean value) {
