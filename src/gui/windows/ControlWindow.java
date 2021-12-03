@@ -1,4 +1,9 @@
-package gui;
+package gui.windows;
+
+import gui.control.GUI;
+import gui.basics.Hover;
+import gui.basics.JTextFieldLimit;
+import gui.basics.RoundedBorder;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

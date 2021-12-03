@@ -1,8 +1,7 @@
 package main;
 
 
-import data.database.DataBase;
-import game.Control;
+import gamecontrol.Control;
 
 public class Main {
 
@@ -18,10 +17,11 @@ public class Main {
     //TODO: Limit input length
     //TODO: DB Reload when Menu windows Opened
 
-    //TODO: Implement Corona Virus. Infected, Vaccinated, Recovered and Normal
+    //TODO: Implement Corona Virus. Infected, Vaccinated, Recovered and Normal | Normal, 3G, 2G, 2G+ Zones
     //TODO: Implement Picture to grid function
     //TODO: Implement a war mode.
 
+    //TODO: Fucking 3D Grid
 
 
     public static void main(String[] args) {

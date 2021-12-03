@@ -1,9 +1,9 @@
-package draw;
+package gui.draw;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Draw extends JPanel {
+public class DrawGrid extends JPanel {
     private int xSize, ySize;
     private int width, height;
     private float ratio;
@@ -14,7 +14,7 @@ public class Draw extends JPanel {
 
     private boolean drawLocked = false;
 
-    public Draw(int gridSizeX, int gridSizeY, int width, int height, float ratio, int offset) {
+    public DrawGrid(int gridSizeX, int gridSizeY, int width, int height, float ratio, int offset) {
         this.xSize = gridSizeX;
         this.ySize = gridSizeY;
         this.width = width;

@@ -20,8 +20,8 @@ create table gameInfo(id not null auto_increment, name varchar, width int, heigh
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
 	at org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:164)
 	at org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
-	at data.database.DataBase.simpleSQL(DataBase.java:32)
-	at data.database.DataBase.createTables(DataBase.java:52)
+	at database.DataBase.simpleSQL(DataBase.java:32)
+	at database.DataBase.createTables(DataBase.java:52)
 	at main.Main.main(Main.java:19)
 2021-11-30 20:48:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "CRATE[*] TABLE GAMEDATA(ID INT, X INT, Y INT)"; erwartet "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"
@@ -209,8 +209,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.deleteTables(DataBase.java:61)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.deleteTables(DataBase.java:61)
 	at main.Main.main(Main.java:20)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -270,8 +270,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.deleteTables(DataBase.java:61)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.deleteTables(DataBase.java:61)
 	at main.Main.main(Main.java:20)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -522,8 +522,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.deleteTables(DataBase.java:61)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.deleteTables(DataBase.java:61)
 	at main.Main.main(Main.java:20)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -604,8 +604,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.getAllGrids(DataBase.java:73)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.getAllGrids(DataBase.java:73)
 	at main.Main.main(Main.java:22)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -686,8 +686,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.getAllGrids(DataBase.java:73)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.getAllGrids(DataBase.java:73)
 	at main.Main.main(Main.java:22)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -762,8 +762,8 @@ insert into GAMEINFO(name, width, height, GENERATION) values (Grid1, 10, 10, 10)
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
 	at org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:164)
 	at org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
-	at data.database.DataBase.simpleSQL(DataBase.java:34)
-	at data.database.DataBase.saveGrid(DataBase.java:100)
+	at database.DataBase.simpleSQL(DataBase.java:34)
+	at database.DataBase.saveGrid(DataBase.java:100)
 	at main.Main.main(Main.java:22)
 2021-11-30 21:27:13 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Feld "ADSADSAGFSAGWEGEA" nicht gefunden
@@ -782,8 +782,8 @@ insert into GAMEINFO(name, width, height, GENERATION) values (adsadsagfsagwegea,
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
 	at org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:164)
 	at org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
-	at data.database.DataBase.simpleSQL(DataBase.java:34)
-	at data.database.DataBase.saveGrid(DataBase.java:100)
+	at database.DataBase.simpleSQL(DataBase.java:34)
+	at database.DataBase.saveGrid(DataBase.java:100)
 	at main.Main.main(Main.java:22)
 2021-11-30 20:32:49 jdbc[3]: exception
 java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
@@ -851,8 +851,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.getAllGrids(DataBase.java:73)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.getAllGrids(DataBase.java:73)
 	at main.Main.main(Main.java:24)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -944,8 +944,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.saveGrid(DataBase.java:98)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.saveGrid(DataBase.java:98)
 	at main.Main.main(Main.java:32)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -1005,15 +1005,15 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.getAllGrids(DataBase.java:73)
-	at game.Control.getAllGrids(Control.java:448)
-	at gui.GUI.getAllGrids(GUI.java:182)
-	at gui.MenuWindow.initModeBox(MenuWindow.java:309)
-	at gui.MenuWindow.initComponents(MenuWindow.java:94)
-	at gui.MenuWindow.<init>(MenuWindow.java:74)
-	at gui.GUI.createMenuWindow(GUI.java:65)
-	at game.Control.start(Control.java:36)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.getAllGrids(DataBase.java:73)
+	at gamecontrol.Control.getAllGrids(Control.java:448)
+	at gui.control.GUI.getAllGrids(GUI.java:182)
+	at gui.windows.MenuWindow.initModeBox(MenuWindow.java:309)
+	at gui.windows.MenuWindow.initComponents(MenuWindow.java:94)
+	at gui.windows.MenuWindow.<init>(MenuWindow.java:74)
+	at gui.control.GUI.createMenuWindow(GUI.java:65)
+	at gamecontrol.Control.start(Control.java:36)
 	at main.Main.main(Main.java:17)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -1073,8 +1073,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.saveGrid(DataBase.java:98)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.saveGrid(DataBase.java:98)
 	at main.Main.main(Main.java:34)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -1155,15 +1155,15 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
-	at data.database.DataBase.connect(DataBase.java:14)
-	at data.database.DataBase.getAllGrids(DataBase.java:73)
-	at game.Control.getAllGrids(Control.java:448)
-	at gui.GUI.getAllGrids(GUI.java:182)
-	at gui.MenuWindow.initModeBox(MenuWindow.java:309)
-	at gui.MenuWindow.initComponents(MenuWindow.java:94)
-	at gui.MenuWindow.<init>(MenuWindow.java:74)
-	at gui.GUI.createMenuWindow(GUI.java:65)
-	at game.Control.start(Control.java:36)
+	at database.DataBase.connect(DataBase.java:14)
+	at database.DataBase.getAllGrids(DataBase.java:73)
+	at gamecontrol.Control.getAllGrids(Control.java:448)
+	at gui.control.GUI.getAllGrids(GUI.java:182)
+	at gui.windows.MenuWindow.initModeBox(MenuWindow.java:309)
+	at gui.windows.MenuWindow.initComponents(MenuWindow.java:94)
+	at gui.windows.MenuWindow.<init>(MenuWindow.java:74)
+	at gui.control.GUI.createMenuWindow(GUI.java:65)
+	at gamecontrol.Control.start(Control.java:36)
 	at main.Main.main(Main.java:17)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Allgemeiner Fehler: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/nkess/GitHub Repos/CT-Conway-s-Game-of-Life/lib/Conway-Game-Of-Live.mv.db [1.4.200/7]" [50000-200]
@@ -1381,12 +1381,12 @@ select gen from gameInfo where name = 'DUstinkst' [42122-200]
 	at org.h2.engine.Session.prepareCommand(Session.java:595)
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
 	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:78)
-	at data.database.DataBase.resultSetSQL(DataBase.java:42)
-	at data.database.DataBase.getGen(DataBase.java:165)
-	at game.Control.getFromDatabase(Control.java:103)
-	at game.Control.buildGameWindow(Control.java:68)
-	at gui.GUI.buildGameWindow(GUI.java:81)
-	at gui.MenuWindow$10.actionPerformed(MenuWindow.java:334)
+	at database.DataBase.resultSetSQL(DataBase.java:42)
+	at database.DataBase.getGen(DataBase.java:165)
+	at gamecontrol.Control.getFromDatabase(Control.java:103)
+	at gamecontrol.Control.buildGameWindow(Control.java:68)
+	at gui.control.GUI.buildGameWindow(GUI.java:81)
+	at gui.windows.MenuWindow$10.actionPerformed(MenuWindow.java:334)
 	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
 	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2313)
 	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)

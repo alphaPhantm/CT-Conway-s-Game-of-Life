@@ -1,6 +1,6 @@
-package game;
+package gamecontrol;
 
-import gui.GUI;
+import gui.control.GUI;
 
 import java.util.Timer;
 import java.util.TimerTask;

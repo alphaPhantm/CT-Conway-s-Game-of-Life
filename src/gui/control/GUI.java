@@ -1,6 +1,9 @@
-package gui;
+package gui.control;
 
-import game.Control;
+import gamecontrol.Control;
+import gui.windows.ControlWindow;
+import gui.windows.GameWindow;
+import gui.windows.MenuWindow;
 
 import java.awt.*;
 import java.util.List;

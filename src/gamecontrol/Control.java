@@ -1,9 +1,8 @@
-package game;
+package gamecontrol;
 
-import data.database.DataBase;
-import gui.GUI;
+import database.DataBase;
+import gui.control.GUI;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 

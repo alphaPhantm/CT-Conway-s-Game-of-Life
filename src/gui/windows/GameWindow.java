@@ -1,6 +1,7 @@
-package gui;
+package gui.windows;
 
-import draw.Draw;
+import gui.control.GUI;
+import gui.draw.DrawGrid;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.event.*;
 public class GameWindow {
 
     private final JFrame gameWindow;
-    private final Draw draw;
+    private final DrawGrid drawGrid;
 
     private final int cellCountX;
     private final int cellCountY;
@@ -134,14 +135,14 @@ public class GameWindow {
         gameWindow.setResizable(false);
 
         ratio = (float) (cellCountY) / (float) (cellCountX);
-        draw = new Draw(this.cellCountX, this.cellCountY, width, height, ratio, offset);
-        draw.setBounds(0, 0, width, height);
+        drawGrid = new DrawGrid(this.cellCountX, this.cellCountY, width, height, ratio, offset);
+        drawGrid.setBounds(0, 0, width, height);
 
 
 
-        draw.setVisible(true);
+        drawGrid.setVisible(true);
 
-        gameWindow.add(draw);
+        gameWindow.add(drawGrid);
 
         gameWindow.pack();
         gameWindow.setLayout(null);
@@ -150,8 +151,8 @@ public class GameWindow {
     }
 
     public void showGrid(boolean[][] grid) {
-        if (draw != null) {
-            draw.showGrid(grid);
+        if (drawGrid != null) {
+            drawGrid.showGrid(grid);
         } else {
             System.err.println("you need to build the game gameWindow before showing a grid");
         }
