@@ -62,7 +62,7 @@ public class ControlWindow {
         controlWindow.setLocation(gameWindow.getPos().x - (width + offset), gameWindow.getPos().y);
         controlWindow.setLayout(null);
 
-        ImageIcon imageIcon = new ImageIcon("src/data/icons/Icon.png");
+        ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
         controlWindow.setIconImage(imageIcon.getImage());
 
         controlWindow.addWindowListener(new WindowAdapter() {

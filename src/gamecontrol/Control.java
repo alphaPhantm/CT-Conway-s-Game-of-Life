@@ -1,6 +1,7 @@
 package gamecontrol;
 
-import database.DataBase;
+import database.ReadDAO;
+import database.WriteDAO;
 import gui.control.GUI;
 
 import java.util.List;
@@ -10,7 +11,8 @@ public class Control {
 
     private GUI gui;
     private Clock clock;
-    private DataBase dataBase;
+    private ReadDAO readDAO;
+    private WriteDAO writeDAO;
 
     private int xSize, ySize, cellCount, gen;
 
@@ -29,7 +31,8 @@ public class Control {
 
         clock = new Clock(this, gui);
         gui = new GUI(this);
-        dataBase = new DataBase();
+        readDAO = new ReadDAO();
+        writeDAO = new WriteDAO();
         gui.createMenuWindow();
 
     }
@@ -98,8 +101,8 @@ public class Control {
 
     private void getFromDatabase(String name){
 
-        cells = dataBase.getGrid(name);
-        gen = dataBase.getGen(name);
+        cells = readDAO.getGrid(name);
+        gen = readDAO.getGen(name);
         this.xSize = cells.length;
         this.ySize = cells[0].length;
         this.cellCount = this.xSize * this.ySize;
@@ -383,15 +386,15 @@ public class Control {
     }
 
     public List<String> getAllGrids(){
-        return dataBase.getAllGrids();
+        return readDAO.getAllGridNames();
     }
 
     public void saveGridInDB(String gridName){
-        dataBase.saveGrid(this.cells, gridName, this.gen, this.cellCount);
+        writeDAO.saveGrid(this.cells, gridName, this.gen, this.cellCount);
     }
 
     public boolean checkName(String name){
-        return dataBase.checkName(name);
+        return readDAO.checkName(name);
     }
 }
 

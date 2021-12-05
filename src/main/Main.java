@@ -28,12 +28,10 @@ public class Main {
 
         Control control = new Control();
         control.start();
-//        DataBase dataBase = new DataBase();
-//        dataBase.deleteTables();
+//        ReadDAO dataBase = new ReadDAO();
+//        dataBase.deleteTable("gameData");
 //        dataBase.createTables();
 
 
     }
-
-
 }
