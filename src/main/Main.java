@@ -1,7 +1,12 @@
 package main;
 
 
+import database.ArrayParser;
+import database.WriteDAO;
 import gamecontrol.Control;
+
+import javax.swing.*;
+import java.util.Arrays;
 
 public class Main {
 
@@ -28,9 +33,6 @@ public class Main {
 
         Control control = new Control();
         control.start();
-//        ReadDAO dataBase = new ReadDAO();
-//        dataBase.deleteTable("gameData");
-//        dataBase.createTables();
 
 
     }

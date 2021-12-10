@@ -14,7 +14,7 @@ public class ReadDAO extends AbstractDAO {
 
         List<String> result = new ArrayList<>();
 
-        ResultSet resultSet = resultSetStatement("select name from gameInfo");
+        ResultSet resultSet = resultSetStatement("select name from GAME");
 
         while (true){
             try {
@@ -38,32 +38,26 @@ public class ReadDAO extends AbstractDAO {
 
         connect();
 
-        ResultSet resultInfo = resultSetStatement("select * from gameInfo where name = '"+gridName+"'");
+        ResultSet res = resultSetStatement("select * from GAME where name = '"+gridName+"'");
 
         try {
-            resultInfo.next();
-            int id = resultInfo.getInt("id");
-            int width = resultInfo.getInt("width");
-            int height = resultInfo.getInt("height");
+            res.next();
+            int width = res.getInt("width");
+            int height = res.getInt("height");
+            String data = res.getString("data");
+            res.close();
 
-            resultInfo.close();
+            ArrayParser arrayParser = new ArrayParser();
 
-            boolean[][] cells = new boolean[width][height];
-
-            ResultSet resultData = resultSetStatement("select * from gameData where id ="+id);
-
-            while (resultData.next()){
-                cells[resultData.getInt("x")][resultData.getInt("y")] = true;
-            }
-
+            boolean[][] grid = arrayParser.deserialize(width, height, data);
             disconnect();
-
-            return cells;
+            return grid;
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
-
         disconnect();
 
         return null;
@@ -73,7 +67,7 @@ public class ReadDAO extends AbstractDAO {
 
         connect();
 
-        ResultSet resultSet = resultSetStatement("select generation from gameInfo where name = '"+gridName+"'");
+        ResultSet resultSet = resultSetStatement("select generation from GAME where name = '"+gridName+"'");
         try {
 
             resultSet.next();
@@ -94,7 +88,7 @@ public class ReadDAO extends AbstractDAO {
 
         connect();
 
-        ResultSet resultSet = resultSetStatement("select CELLCOUNT from gameInfo where name = '"+gridName+"'");
+        ResultSet resultSet = resultSetStatement("select CELLCOUNT from GAME where name = '"+gridName+"'");
         try {
             resultSet.next();
             int cellCount = resultSet.getInt("CELLCOUNT");

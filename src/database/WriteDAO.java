@@ -4,13 +4,13 @@ import org.h2.tools.DeleteDbFiles;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class WriteDAO extends AbstractDAO{
 
-    public void createTables(){
+    public void createTable(){
         connect();
-        simpleStatement("create table IF NOT EXISTS gameInfo(id int not null auto_increment, name varchar, width int, height int, generation int, cellcount int)");
-        simpleStatement("create table IF NOT EXISTS gameData(id int, x int, y int)");
+        simpleStatement("create table if not exists GAME(id int auto_increment,name varchar not null,width int not null,height int not null,generation int not null,max_cellcount int not null,data clob);create unique index GAME_ID_UINDEX on GAME (id);create unique index GAME_NAME_UINDEX on GAME (name);");
         disconnect();
     }
 
@@ -24,30 +24,13 @@ public class WriteDAO extends AbstractDAO{
         DeleteDbFiles.execute(dbDir, dbName, quiet);
     }
 
-    public void saveGrid(boolean[][] grid, String gridName, int generation, int cellCount){
+    public void saveGrid(boolean[][] grid, String gridName, int generation, int maxCellCount){
+
+        ArrayParser arrayParser = new  ArrayParser();
+        String data = arrayParser.serialize(grid);
 
         connect();
-
-        simpleStatement("insert into GAMEINFO(NAME, WIDTH, HEIGHT, GENERATION, CELLCOUNT) values ('"+gridName+"', "+grid.length+", "+grid[0].length+", "+generation+","+cellCount+")");
-        ResultSet resultSet = resultSetStatement("select * from gameInfo order by id desc limit 1");
-
-
-        try {
-            resultSet.next();
-            int id = resultSet.getInt("id");
-
-            for (int x = 0; x < grid.length; x++) {
-                for (int y = 0; y < grid[0].length; y++) {
-                    if (grid[x][y]){
-                        simpleStatement("insert into gameData (id, x, y) values ("+id+", "+x+", "+y+")");
-                    }
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        simpleStatement("insert into GAME (NAME, WIDTH, HEIGHT, GENERATION, MAX_CELLCOUNT, DATA) VALUES ( '"+gridName+"', "+grid[0].length+", "+grid.length+", "+generation+", "+maxCellCount+", '"+data+"' )");
         disconnect();
 
     }

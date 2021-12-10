@@ -61,13 +61,13 @@ public class DrawGrid extends JPanel {
             cellSizeY *= ratio;
         }
 
-        for (int x = 0; x < xSize; x++)
+        for (int y = 0; y < xSize; y++)
         {
-            for (int y = 0; y < ySize; y++)
+            for (int x = 0; x < ySize; x++)
             {
-                if (currentGrid[x][y])
+                if (currentGrid[y][x])
                 {
-                    g2d.fillRect((int) ((x * cellSizeX) + offset), (int) ((y * cellSizeY) + offset), (int) ((cellSizeX + 1)), (int) (cellSizeY + 1));
+                    g2d.fillRect((int) ((y * cellSizeY) + offset), (int) ((x * cellSizeX) + offset), (int) ((cellSizeY + 1)), (int) (cellSizeX + 1));
 
                 }
             }
