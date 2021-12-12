@@ -36,6 +36,7 @@ public class GameWindow {
         ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
         gameWindow.setIconImage(imageIcon.getImage());
 
+
         gameWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
