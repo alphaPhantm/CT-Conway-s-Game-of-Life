@@ -29,7 +29,7 @@ public class Control {
 
     public void start() {
 
-        clock = new Clock(this, gui);
+        clock = new Clock(this);
         gui = new GUI(this);
         readDAO = new ReadDAO();
         writeDAO = new WriteDAO();

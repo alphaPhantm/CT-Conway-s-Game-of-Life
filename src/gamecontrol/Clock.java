@@ -8,16 +8,14 @@ import java.util.TimerTask;
 public class Clock extends Thread {
 
     private Control control;
-    private GUI gui;
     private boolean running = true;
     private int velocity, delay;
     private boolean isFirstGen;
     private Timer t;
     private TimerTask tt;
 
-    public Clock(Control control, GUI gui) {
+    public Clock(Control control) {
         this.control = control;
-        this.gui = gui;
         this.velocity = 500;
         this.delay = 0;
 
