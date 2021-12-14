@@ -1,14 +1,13 @@
 package database;
 
-import org.h2.tools.DeleteDbFiles;
-
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReadDAO extends AbstractDAO {
 
-    public List<String> getAllGridNames(){
+    public List<String> getAllGridNames() {
 
         connect();
 
@@ -16,9 +15,9 @@ public class ReadDAO extends AbstractDAO {
 
         ResultSet resultSet = resultSetStatement("select name from GAME");
 
-        while (true){
+        while (true) {
             try {
-                if (!resultSet.next()){
+                if (!resultSet.next()) {
                     break;
                 } else {
                     result.add(resultSet.getString(1));
@@ -34,11 +33,11 @@ public class ReadDAO extends AbstractDAO {
         return result;
     }
 
-    public boolean[][] getGrid(String gridName){
+    public boolean[][] getGrid(String gridName) {
 
         connect();
 
-        ResultSet res = resultSetStatement("select * from GAME where name = '"+gridName+"'");
+        ResultSet res = resultSetStatement("select * from GAME where name = '" + gridName + "'");
 
         try {
             res.next();
@@ -63,60 +62,57 @@ public class ReadDAO extends AbstractDAO {
         return null;
     }
 
-    public int getGen(String gridName){
-
-        connect();
-
-        ResultSet resultSet = resultSetStatement("select generation from GAME where name = '"+gridName+"'");
-        try {
-
-            resultSet.next();
-            int gen = resultSet.getInt("generation");
-
-            return gen;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        disconnect();
-
-        return 0;
-
-    }
-
-    public int getCellCount(String gridName){
-
-        connect();
-
-        ResultSet resultSet = resultSetStatement("select CELLCOUNT from GAME where name = '"+gridName+"'");
-        try {
-            resultSet.next();
-            int cellCount = resultSet.getInt("CELLCOUNT");
-            disconnect();
-            return cellCount;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        disconnect();
-
-        return 0;
-
-    }
-
-    public boolean checkName(String name){
-
+    public boolean checkName(String name) {
         connect();
 
         List<String> allNames = getAllGridNames();
 
-        if (allNames.contains(name)){
-            return false;
-        } else {
-            return true;
+        return !allNames.contains(name);
+    }
+
+
+    public String getGameInfo(String gridName, String columnName) {
+
+        connect();
+
+        ResultSet resultSet = resultSetStatement("select "+columnName+" from GAME where name = '" + gridName + "'");
+        try {
+            resultSet.next();
+            String result = resultSet.getString(1);
+            disconnect();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        disconnect();
+
+        return null;
 
     }
 
+    public String[] getGameInfo(String gridName, String[] columnNames) {
+
+        List<String> result = new ArrayList<>();
+
+        connect();
+
+        ResultSet resultSet = resultSetStatement("select * from GAME where name = '" + gridName + "'");
+        try {
+            resultSet.next();
+             for (String columnName: columnNames){
+                    result.add(resultSet.getString(columnName));
+             }
+            disconnect();
+            return result.toArray(new String[0]);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        disconnect();
+
+        return null;
+
+    }
 
 }

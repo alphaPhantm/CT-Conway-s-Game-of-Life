@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Conways_Game_of_Life_jar</output-path>
     <root id="archive" name="Conways-Game-of-Life.jar">
       <element id="module-output" name="Conways-Game-of-Life" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/h2-1.4.200.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

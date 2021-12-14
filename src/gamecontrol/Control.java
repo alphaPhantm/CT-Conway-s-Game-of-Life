@@ -102,7 +102,7 @@ public class Control {
     private void getFromDatabase(String name){
 
         cells = readDAO.getGrid(name);
-        gen = readDAO.getGen(name);
+        gen = Integer.parseInt(readDAO.getGameInfo(name, "GENERATION"));
         this.xSize = cells.length;
         this.ySize = cells[0].length;
         this.cellCount = this.xSize * this.ySize;

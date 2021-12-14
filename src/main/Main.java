@@ -1,12 +1,10 @@
 package main;
 
 
-import database.ArrayParser;
-import database.WriteDAO;
-import gamecontrol.Control;
+import database.ReadDAO;
 
-import javax.swing.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
@@ -31,8 +29,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Control control = new Control();
-        control.start();
+//        Control control = new Control();
+//        control.start();
+
+        ReadDAO readDAO = new ReadDAO();
+        String[] x = readDAO.getGameInfo("test", new String[]{"MAX_CELLCOUNT", "GENERATION"});
+        System.out.println(Arrays.toString(x));
 
 
     }
