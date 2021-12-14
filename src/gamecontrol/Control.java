@@ -2,14 +2,19 @@ package gamecontrol;
 
 import database.ReadDAO;
 import database.WriteDAO;
-import gui.control.GUI;
+import gui.windows.ControlWindow;
+import gui.windows.GameWindow;
+import gui.windows.MenuWindow;
 
+import java.awt.*;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Control {
 
-    private GUI gui;
+    private MenuWindow menuWindow;
+    private GameWindow gameWindow;
+    private ControlWindow controlWindow;
     private Clock clock;
     private ReadDAO readDAO;
     private WriteDAO writeDAO;
@@ -26,22 +31,22 @@ public class Control {
     private int width, height;
 
     private boolean mouseLocked;
+    private boolean manual;
 
     public void start() {
 
         clock = new Clock(this);
-        gui = new GUI(this);
-        readDAO = new ReadDAO();
-        writeDAO = new WriteDAO();
-        gui.createMenuWindow();
+        this.readDAO = new ReadDAO();
+        this.writeDAO = new WriteDAO();
+        menuWindow = new MenuWindow(this);
+
 
     }
 
-    public void startGame() {
-        clock.start();
-    }
 
     public void buildGameWindow(int xSize, int ySize, int cellCount, String startMode) {
+
+        manual = false;
 
         switch (startMode) {
 
@@ -49,6 +54,7 @@ public class Control {
                 generateRandomized(xSize, ySize, cellCount);
             }
             case "Manuel" -> {
+                setManual(true);
                 buildManuelGame(xSize, ySize, cellCount);
             }
             default -> {
@@ -60,13 +66,10 @@ public class Control {
 
         calcSize();
 
-        gui.createGameWindow(this.xSize, this.ySize, this.width, this.height);
+        gameWindow = new GameWindow(this, this.manual, this.xSize, this.ySize, this.width, this.height);
 
-        if (startMode == "Manuel"){
-            gui.buildControlWindow();
-        }
 
-        startGame();
+        clock.start();
 
     }
 
@@ -99,7 +102,7 @@ public class Control {
 
     }
 
-    private void getFromDatabase(String name){
+    private void getFromDatabase(String name) {
 
         cells = readDAO.getGrid(name);
         gen = Integer.parseInt(readDAO.getGameInfo(name, "GENERATION"));
@@ -147,7 +150,7 @@ public class Control {
         }
     }
 
-    public void saveFirstGrid(){
+    public void saveFirstGrid() {
         for (int x = 0; x < this.xSize; x++) {
             for (int y = 0; y < this.ySize; y++) {
                 startingCells[x][y] = cells[x][y];
@@ -155,7 +158,7 @@ public class Control {
         }
     }
 
-    private void resetCells(){
+    private void resetCells() {
         for (int x = 0; x < this.xSize; x++) {
             for (int y = 0; y < this.ySize; y++) {
                 cells[x][y] = startingCells[x][y];
@@ -194,7 +197,7 @@ public class Control {
                 cells[x][y] = newcells[x][y];
             }
         }
-        gui.updateGameWindowTitle(gen);
+        gameWindow.updateTitle(gen);
     }
 
     public void nextGenLight() {
@@ -224,15 +227,15 @@ public class Control {
         }
     }
 
-    public void previousGen(){
-        if(gen > 0) {
+    public void previousGen() {
+        if (gen > 0) {
             resetCells();
             syncCells();
             for (int i = 0; i < gen - 1; i++) {
                 nextGenLight();
             }
             gen--;
-            gui.updateGameWindowTitle(gen);
+            gameWindow.updateTitle(gen);
         }
     }
 
@@ -257,13 +260,6 @@ public class Control {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
-    public void showGrid(boolean[][] grid) {
-        gui.showGrid(grid);
-    }
-
-    public void setVisibility(boolean value) {
-        gui.setVisibility(value);
-    }
 
     public void setCell(int mouseX, int mouseY, boolean value, int offset) {
 
@@ -285,7 +281,7 @@ public class Control {
             cells[x][y] = value;
 
         syncCells();
-        gui.showGrid(cells);
+        gameWindow.showGrid(cells);
     }
 
     private void calcSize() {
@@ -325,12 +321,12 @@ public class Control {
         clock.setRunning(state);
     }
 
-    public void setVelocity(int velocity) {
-        clock.setVelocity(velocity);
-    }
-
     public int getVelocity() {
         return clock.getVelocity();
+    }
+
+    public void setVelocity(int velocity) {
+        clock.setVelocity(velocity);
     }
 
     public boolean isMouseLocked() {
@@ -359,42 +355,74 @@ public class Control {
         }
     }
 
-    public int getGeneration(){
+    public int getGeneration() {
         return gen;
     }
 
-    public void jump2Gen(int wantedtGen){
-        if (wantedtGen <= gen){
+    public void jump2Gen(int wantedtGen) {
+        if (wantedtGen <= gen) {
             resetCells();
             syncCells();
 
-            int counter = ((gen - wantedtGen) / (wantedtGen + 1) );
+            int counter = ((gen - wantedtGen) / (wantedtGen + 1));
 
             for (int i = 0; i < wantedtGen; i++) {
                 nextGenLight();
                 gen = gen - counter;
-                gui.updateGameWindowTitle(gen);
+                gameWindow.updateTitle(gen);
 
             }
 
             gen = wantedtGen;
-            gui.updateGameWindowTitle(gen);
+            gameWindow.updateTitle(gen);
 
         } else {
             multipleGenSkip(wantedtGen - gen);
         }
     }
 
-    public List<String> getAllGrids(){
+    public List<String> getAllGrids() {
         return readDAO.getAllGridNames();
     }
 
-    public void saveGridInDB(String gridName){
+    public void saveGridInDB(String gridName) {
         writeDAO.saveGrid(this.cells, gridName, this.gen, this.cellCount);
     }
 
-    public boolean checkName(String name){
+    public boolean checkName(String name) {
         return readDAO.checkName(name);
+    }
+
+    public boolean isManual() {
+        return manual;
+    }
+
+    public void setManual(boolean manual) {
+        this.manual = manual;
+    }
+
+    public void buildControlWindow() {
+        controlWindow = new ControlWindow(this);
+    }
+
+    public Point getGameWindowPos() {
+        return gameWindow.getPos();
+    }
+
+    public void showGrid(boolean[][] grid) {
+        gameWindow.showGrid(grid);
+    }
+
+    public ControlWindow getControlWindow() {
+        return controlWindow;
+    }
+
+    public MenuWindow getMenuWindow() {
+        return menuWindow;
+    }
+
+    public void setVisibility(boolean value) {
+        controlWindow.setVisibility(value);
     }
 }
 

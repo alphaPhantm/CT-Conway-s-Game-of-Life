@@ -2,6 +2,7 @@ package main;
 
 
 import database.ReadDAO;
+import gamecontrol.Control;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +30,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        Control control = new Control();
-//        control.start();
+        Control control = new Control();
+        control.start();
 
-        ReadDAO readDAO = new ReadDAO();
-        String[] x = readDAO.getGameInfo("test", new String[]{"MAX_CELLCOUNT", "GENERATION"});
-        System.out.println(Arrays.toString(x));
+//        ReadDAO readDAO = new ReadDAO();
+//        String[] x = readDAO.getGameInfo("test", new String[]{"MAX_CELLCOUNT", "GENERATION"});
+//        System.out.println(Arrays.toString(x));
 
 
     }

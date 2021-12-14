@@ -1,7 +1,5 @@
 package gamecontrol;
 
-import gui.control.GUI;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,7 +56,6 @@ public class Clock extends Thread {
     public void setRunning(boolean running) {
         this.running = running;
     }
-
 
     public int getVelocity() {
         return velocity;

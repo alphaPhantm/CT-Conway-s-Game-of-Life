@@ -1,13 +1,13 @@
 package gui.windows;
 
-import gui.control.GUI;
+import gamecontrol.Control;
 import gui.draw.DrawGrid;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GameWindow {
+public class GameWindow extends GUI {
 
     private final JFrame gameWindow;
     private final DrawGrid drawGrid;
@@ -22,13 +22,14 @@ public class GameWindow {
 
     private boolean mouseLeft = false, mouseRight = false;
 
-    public GameWindow(String title, GUI gui, int cellCountX, int cellCountY, int width, int height, int offset) {
+    public GameWindow(Control control, boolean manual, int cellCountX, int cellCountY, int width, int height) {
+        super(control);
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
 
-        this.title = title;
+        initPublicComponents();
 
-        gameWindow = new JFrame(title + " | Generation: " + gui.getGeneration());
+        gameWindow = new JFrame(title + " | Generation: " + getGeneration());
 
         gameWindow.getContentPane().setPreferredSize(new Dimension(width + (2 * offset), height + (2 * offset)));
         gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -36,19 +37,22 @@ public class GameWindow {
         ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
         gameWindow.setIconImage(imageIcon.getImage());
 
+        if (manual){
+            control.buildControlWindow();
+        }
 
         gameWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
 
-                if (gui.getControlWindow() != null){
-                    gui.getControlWindow().dispose();
+                if (control.getControlWindow() != null){
+                    control.getControlWindow().dispose();
                 }
                 gameWindow.dispose();
-                gui.setRunning(false);
-                gui.getMenuWindow().setVisibility(true);
-                gui.getMenuWindow().setFocus();
+                setRunning(false);
+                control.getMenuWindow().setVisibility(true);
+                control.getMenuWindow().setFocus();
             }
         });
 
@@ -61,10 +65,10 @@ public class GameWindow {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == KeyEvent.VK_C) {
-                    if (gui.getControlWindow() == null){
-                        gui.buildControlWindow();
+                    if (control.getControlWindow() == null){
+                        control.buildControlWindow();
                     } else {
-                        gui.setVisibility(true);
+                        control.setVisibility(true);
                     }
 
                 }
@@ -81,9 +85,9 @@ public class GameWindow {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (mouseLeft) {
-                    gui.setCell(e.getX(), e.getY(), true);
+                    setCell(e.getX(), e.getY(), true);
                 } else if (mouseRight) {
-                    gui.setCell(e.getX(), e.getY(), false);
+                    setCell(e.getX(), e.getY(), false);
                 }
             }
 
@@ -104,11 +108,11 @@ public class GameWindow {
                 switch (e.getButton()) {
                     case 1 -> {
                         mouseLeft = true;
-                        gui.setCell(e.getX(), e.getY(), true);
+                        setCell(e.getX(), e.getY(), true);
                     }
                     case 3 -> {
                         mouseRight = true;
-                        gui.setCell(e.getX(), e.getY(), false);
+                        setCell(e.getX(), e.getY(), false);
                     }
                 }
             }
@@ -150,6 +154,7 @@ public class GameWindow {
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
     }
+
 
     public void showGrid(boolean[][] grid) {
         if (drawGrid != null) {

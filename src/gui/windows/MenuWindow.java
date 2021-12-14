@@ -1,9 +1,9 @@
 package gui.windows;
 
 
-import gui.control.GUI;
-import gui.basics.Hover;
-import gui.basics.RoundedBorder;
+import gamecontrol.Control;
+import gui.fundamental.Hover;
+import gui.fundamental.RoundedBorder;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,14 +13,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MenuWindow {
+public class MenuWindow extends GUI {
 
-    private GUI gui;
 
     private final JFrame menuWindow;
-
-    private Font head;
-    private Font text;
 
     private JLabel heading;
 
@@ -51,13 +47,13 @@ public class MenuWindow {
     private ImageIcon preview;
     private JLabel previewLabel;
 
-    public MenuWindow(String title, GUI gui){
-
-        this.gui = gui;
+    public MenuWindow(Control control){
+        super(control);
+        initPublicComponents();
 
         menuWindow = new JFrame();
 
-        menuWindow.setTitle(title);
+        menuWindow.setTitle(this.title);
 
         ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
         menuWindow.setIconImage(imageIcon.getImage());
@@ -82,10 +78,6 @@ public class MenuWindow {
     }
 
     private void initComponents() {
-
-        this.head = gui.getHead();
-        this.text = gui.getText();
-
 
         initHeading();
         initXAxis();
@@ -114,7 +106,7 @@ public class MenuWindow {
         xAxis.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!gui.isSliderLocked()) {
+                if(!isSliderLocked()) {
                     xAxisSize = xAxis.getValue();
                     updateSliderLabels(0, xAxisSize);
                     updateStartCells();
@@ -149,12 +141,12 @@ public class MenuWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                gui.setSliderLocked(true);
+                setSliderLocked(true);
                 String s = xAxisLabel.getText();
                 xAxis.setValue(Integer.parseInt(s));
                 xAxisSize = xAxis.getValue();
                 updateStartCells();
-                gui.setSliderLocked(false);
+                setSliderLocked(false);
             }
 
             @Override
@@ -178,7 +170,7 @@ public class MenuWindow {
         yAxis.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!gui.isSliderLocked()) {
+                if(!isSliderLocked()) {
                     yAxisSize = yAxis.getValue();
                     updateSliderLabels(1, yAxisSize);
                     updateStartCells();
@@ -212,12 +204,12 @@ public class MenuWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                gui.setSliderLocked(true);
+                setSliderLocked(true);
                 String s = yAxisLabel.getText();
                 yAxis.setValue(Integer.parseInt(s));
                 yAxisSize = yAxis.getValue();
                 updateStartCells();
-                gui.setSliderLocked(false);
+                setSliderLocked(false);
             }
 
             @Override
@@ -241,7 +233,7 @@ public class MenuWindow {
         startCells.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(!gui.isSliderLocked()) {
+                if(!isSliderLocked()) {
                     cellCount = startCells.getValue();
                     updateSliderLabels(2, cellCount);
                     updateStartCells();
@@ -275,11 +267,11 @@ public class MenuWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                gui.setSliderLocked(true);
+                setSliderLocked(true);
                 String s = startCellsLabel.getText();
                 startCells.setValue(Integer.parseInt(s));
                 cellCount = startCells.getValue();
-                gui.setSliderLocked(false);
+                setSliderLocked(false);
             }
 
             @Override
@@ -303,8 +295,8 @@ public class MenuWindow {
         addComboBoxEntry(modeBox, "Randomized");
         addComboBoxEntry(modeBox, "Manuel");
 
-        for (int i = 0; i < gui.getAllGrids().size(); i++){
-            addComboBoxEntry(modeBox, gui.getAllGrids().get(i));
+        for (int i = 0; i < getAllGrids().size(); i++){
+            addComboBoxEntry(modeBox, getAllGrids().get(i));
         }
 
         modeName = new JLabel("Select Grid: ");
@@ -330,7 +322,7 @@ public class MenuWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                gui.buildGameWindow(xAxisSize, yAxisSize, cellCount, modeBox.getSelectedItem().toString());
+                buildGameWindow(xAxisSize, yAxisSize, cellCount, modeBox.getSelectedItem().toString());
 
                 menuWindow.setVisible(false);
             }
@@ -380,6 +372,7 @@ public class MenuWindow {
     public void setVisibility(boolean visibility){
         menuWindow.setVisible(visibility);
     }
+
 
     public void setFocus(){
         menuWindow.requestFocus();

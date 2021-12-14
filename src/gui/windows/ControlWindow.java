@@ -1,9 +1,9 @@
 package gui.windows;
 
-import gui.control.GUI;
-import gui.basics.Hover;
-import gui.basics.JTextFieldLimit;
-import gui.basics.RoundedBorder;
+import gamecontrol.Control;
+import gui.fundamental.Hover;
+import gui.fundamental.JTextFieldLimit;
+import gui.fundamental.RoundedBorder;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,12 +13,9 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ControlWindow {
+public class ControlWindow extends GUI {
 
     private final int width = 400, height = 800;
-
-    private final Font head;
-    private final Font text;
 
     private final JFrame controlWindow;
     private JLabel heading;
@@ -43,23 +40,19 @@ public class ControlWindow {
     private JLabel velocitySliderName;
     private JTextField velocitySliderLabel;
 
-    private final GUI gui;
-
-    public ControlWindow(GameWindow gameWindow, GUI gui, int offset) {
-
-        this.gui = gui;
-
-        this.head = gui.getHead();
-        this.text = gui.getText();
+    public ControlWindow(Control control) {
+        super(control);
 
         velocity = 500;
+
+        initPublicComponents();
 
         controlWindow = new JFrame();
 
         controlWindow.getContentPane().setPreferredSize(new Dimension(width, height + (2 * offset)));
         controlWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         controlWindow.setResizable(false);
-        controlWindow.setLocation(gameWindow.getPos().x - (width + offset), gameWindow.getPos().y);
+        controlWindow.setLocation(control.getGameWindowPos().x - (width + offset), control.getGameWindowPos().y);
         controlWindow.setLayout(null);
 
         ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
@@ -117,14 +110,14 @@ public class ControlWindow {
         velocitySlider.setBounds(120, 110, 230, 20);
         velocitySlider.setFont(text);
         velocitySlider.setForeground(Color.decode("#121212"));
-        velocitySlider.setValue(gui.getVelocity());
+        velocitySlider.setValue(getVelocity());
         velocitySlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (!gui.isSliderLocked()) {
+                if (!isSliderLocked()) {
                     velocity = velocitySlider.getValue();
                     velocitySliderLabel.setText(String.valueOf(velocity));
-                    gui.setVelocity(velocity);
+                    setVelocity(velocity);
                 }
             }
         });
@@ -137,7 +130,7 @@ public class ControlWindow {
         velocitySliderName.setForeground(Color.decode("#121212"));
         velocitySliderName.setVisible(true);
 
-        velocitySliderLabel = new JTextField(String.valueOf(gui.getVelocity()));
+        velocitySliderLabel = new JTextField(String.valueOf(getVelocity()));
         velocitySliderLabel.setBackground(null);
         velocitySliderLabel.setBorder(null);
         velocitySliderLabel.setBounds(120, 80, 200, 30);
@@ -156,12 +149,12 @@ public class ControlWindow {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                gui.setSliderLocked(true);
+                setSliderLocked(true);
                 String s = velocitySliderLabel.getText();
                 velocitySlider.setValue(Integer.parseInt(s));
                 velocity = velocitySlider.getValue();
-                gui.setVelocity(velocity);
-                gui.setSliderLocked(false);
+                setVelocity(velocity);
+                setSliderLocked(false);
             }
 
             @Override
@@ -196,19 +189,19 @@ public class ControlWindow {
         toggleGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gui.getGeneration() == 0) {
-                    gui.saveFirstGrid();
+                if (getGeneration() == 0) {
+                    saveFirstGrid();
                 }
-                if (!gui.isRunning()) {
-                    gui.setMouseLocked(true);
+                if (!isRunning()) {
+                    setMouseLocked(true);
                     saveGrid.setFocusable(false);
                     updateLockedMouse();
                 } else {
                     saveGrid.setFocusable(true);
                 }
-                gui.setRunning(!gui.isRunning());
+                setRunning(!isRunning());
                 updateToggleButton();
-                gui.setVelocity(velocity);
+                setVelocity(velocity);
             }
         });
 
@@ -230,12 +223,12 @@ public class ControlWindow {
         nextGenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gui.isRunning()) {
-                    if (gui.getGeneration() == 0) {
-                        gui.saveFirstGrid();
+                if (!isRunning()) {
+                    if (getGeneration() == 0) {
+                        saveFirstGrid();
                     }
-                    gui.nextGen();
-                    gui.showGrid(gui.getCells());
+                    nextGen();
+                    control.showGrid(getCells());
                 }
             }
         });
@@ -256,9 +249,9 @@ public class ControlWindow {
         previousGenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gui.isRunning()) {
-                    gui.previousGen();
-                    gui.showGrid(gui.getCells());
+                if (!isRunning()) {
+                    previousGen();
+                    control.showGrid(getCells());
                 }
             }
         });
@@ -278,8 +271,8 @@ public class ControlWindow {
         lockMouse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gui.isRunning()) {
-                    gui.setMouseLocked(!gui.isMouseLocked());
+                if (!isRunning()) {
+                    setMouseLocked(!isMouseLocked());
                     updateLockedMouse();
                 }
             }
@@ -302,9 +295,9 @@ public class ControlWindow {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gui.isRunning()) {
-                    gui.clearGrid();
-                    gui.showGrid(gui.getCells());
+                if (!isRunning()) {
+                    clearGrid();
+                    control.showGrid(getCells());
                 }
             }
         });
@@ -326,9 +319,9 @@ public class ControlWindow {
         multipleGenSkipButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gui.isRunning()) {
-                    gui.multipleGenSkip(Integer.parseInt(multipleGenSkipLable.getText()));
-                    gui.showGrid(gui.getCells());
+                if (!isRunning()) {
+                    multipleGenSkip(Integer.parseInt(multipleGenSkipLable.getText()));
+                    control.showGrid(getCells());
                 }
             }
         });
@@ -366,9 +359,9 @@ public class ControlWindow {
         jump2GenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!gui.isRunning()) {
-                    gui.jump2Gen(Integer.parseInt(jump2GenLable.getText()));
-                    gui.showGrid(gui.getCells());
+                if (!isRunning()) {
+                    jump2Gen(Integer.parseInt(jump2GenLable.getText()));
+                    control.showGrid(getCells());
                 }
             }
         });
@@ -418,8 +411,8 @@ public class ControlWindow {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (gui.checkName(saveGrid.getText())) {
-                        gui.saveGridInDB(saveGrid.getText());
+                    if (checkName(saveGrid.getText())) {
+                        saveGridInDB(saveGrid.getText());
                     } else {
                         System.out.println("Vergeben");
                     }
@@ -470,7 +463,7 @@ public class ControlWindow {
     }
 
     private void updateToggleButton() {
-        if (!gui.isRunning()) {
+        if (!isRunning()) {
             toggleGame.setText("Resume Game");
         } else {
             toggleGame.setText("Pause Game");
@@ -479,7 +472,7 @@ public class ControlWindow {
 
 
     private void updateLockedMouse() {
-        if (!gui.isMouseLocked()) {
+        if (!isMouseLocked()) {
             lockMouse.setText("Lock Mouse");
         } else {
             lockMouse.setText("Unlock Mouse");
@@ -488,10 +481,5 @@ public class ControlWindow {
 
     public void dispose() {
         controlWindow.dispose();
-    }
-
-
-    public void setVelocity(int velocity) {
-        gui.setVelocity(velocity);
     }
 }
