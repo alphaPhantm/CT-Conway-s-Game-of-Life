@@ -30,7 +30,6 @@ public class ArrayParser {
 
         int index = 0;
         for (int y = 0; y < erg.length; y++) {
-            System.out.println(erg[y].length);
             for (int x = 0; x < erg.length; x++) {
                 erg[y][x] = ints.get(index) == 1;
                 index++;

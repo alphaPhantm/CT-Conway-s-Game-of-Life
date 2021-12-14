@@ -41,7 +41,6 @@ public class GameWindow extends GUI {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
-
                 if (control.getControlWindow() != null){
                     control.getControlWindow().dispose();
                 }

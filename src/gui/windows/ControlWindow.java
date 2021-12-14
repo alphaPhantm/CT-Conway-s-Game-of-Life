@@ -413,8 +413,6 @@ public class ControlWindow extends GUI {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (checkName(saveGrid.getText() ) && getAllGrids().size() < 10) {
                         saveGridInDB(saveGrid.getText());
-                    } else {
-                        System.out.println("Vergeben");
                     }
 
                     saveGrid.setText("");
