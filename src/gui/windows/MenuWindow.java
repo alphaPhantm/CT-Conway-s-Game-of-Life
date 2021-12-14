@@ -3,6 +3,7 @@ package gui.windows;
 
 import gamecontrol.Control;
 import gui.fundamental.Hover;
+import gui.fundamental.JTextFieldLimit;
 import gui.fundamental.RoundedBorder;
 
 import javax.swing.*;
@@ -42,6 +43,7 @@ public class MenuWindow extends GUI {
     private MouseListener hover;
 
     private JButton startButton;
+    private JButton helpButton;
 
 
     private ImageIcon preview;
@@ -66,7 +68,42 @@ public class MenuWindow extends GUI {
         menuWindow.setLayout(null);
         menuWindow.setSize(752, 424);
 
-        menuWindow.setResizable(false);
+        menuWindow.setResizable(true);
+
+
+        menuWindow.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == KeyEvent.VK_D) {
+                    menuWindow.setVisible(false);
+                    if (control.getDatabaseWindow() == null){
+                        control.buildDatabaseWindow();
+                    } else {
+                        control.setDatabaseVisibility(true);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+
+        menuWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                menuWindow.requestFocus();
+            }
+        });
 
 
         initComponents();
@@ -75,6 +112,7 @@ public class MenuWindow extends GUI {
 
         menuWindow.setLocationRelativeTo(null);
         menuWindow.setVisible(true);
+
     }
 
     private void initComponents() {
@@ -86,7 +124,28 @@ public class MenuWindow extends GUI {
         initModeBox();
         initStartButton();
         initIMG();
+        initHelp();
 
+    }
+
+
+    private void initHelp(){
+        helpButton = new JButton();
+        helpButton.setText("?");
+        helpButton.setFont(small);
+        helpButton.setForeground(Color.decode("#121212"));
+        helpButton.setBorderPainted(true);
+        helpButton.setFocusPainted(false);
+        helpButton.setContentAreaFilled(false);
+        helpButton.setBorder(null);
+        helpButton.setBounds(692, 344, 40, 40);
+        helpButton.setVisible(true);
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(menuWindow, "Press CTRL + AlT + D for Database Window or CTRL + ALT + C in Game Window to show Control Panel.");
+            }
+        });
     }
 
     private void initHeading(){
@@ -122,7 +181,9 @@ public class MenuWindow extends GUI {
         xAxisName.setForeground(Color.decode("#121212"));
         xAxisName.setVisible(true);
 
-        xAxisLabel = new JTextField("6");
+        xAxisLabel = new JTextField();
+        xAxisLabel.setDocument(new JTextFieldLimit(4));
+        xAxisLabel.setText("6");
         xAxisLabel.setBackground(null);
         xAxisLabel.setBorder(null);
         xAxisLabel.setBounds(180, 80, 200, 30);
@@ -185,7 +246,9 @@ public class MenuWindow extends GUI {
         yAxisName.setForeground(Color.decode("#121212"));
         yAxisName.setVisible(true);
 
-        yAxisLabel = new JTextField("6");
+        yAxisLabel = new JTextField();
+        yAxisLabel.setDocument(new JTextFieldLimit(4));
+        yAxisLabel.setText("6");
         yAxisLabel.setBackground(null);
         yAxisLabel.setBorder(null);
         yAxisLabel.setBounds(180, 130, 200, 30);
@@ -248,7 +311,9 @@ public class MenuWindow extends GUI {
         startCellsName.setForeground(Color.decode("#121212"));
         startCellsName.setVisible(true);
 
-        startCellsLabel = new JTextField("6");
+        startCellsLabel = new JTextField();
+        startCellsLabel.setDocument(new JTextFieldLimit(7));
+        startCellsLabel.setText("6");
         startCellsLabel.setBackground(null);
         startCellsLabel.setBorder(null);
         startCellsLabel.setBounds(180, 180, 200, 30);
@@ -363,6 +428,7 @@ public class MenuWindow extends GUI {
         menuWindow.add(previewLabel);
         menuWindow.add(modeName);
         menuWindow.add(modeBox);
+        menuWindow.add(helpButton);
     }
 
     private void addComboBoxEntry(JComboBox<String> comboBox, String entry) {
@@ -370,6 +436,10 @@ public class MenuWindow extends GUI {
     }
 
     public void setVisibility(boolean visibility){
+        menuWindow.getContentPane().removeAll();
+        menuWindow.getContentPane().repaint();
+        initComponents();
+        addComponents();
         menuWindow.setVisible(visibility);
     }
 

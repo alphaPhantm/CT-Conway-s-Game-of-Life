@@ -8,9 +8,13 @@ import java.util.Arrays;
 
 public class WriteDAO extends AbstractDAO{
 
+    public WriteDAO(){
+        createTable();
+    }
+
     public void createTable(){
         connect();
-        simpleStatement("create table if not exists GAME(id int auto_increment,name varchar not null,width int not null,height int not null,generation int not null,max_cellcount int not null,data clob);create unique index GAME_ID_UINDEX on GAME (id);create unique index GAME_NAME_UINDEX on GAME (name);");
+        simpleStatement("create table if not exists GAME(id int auto_increment,name varchar not null,width int not null,height int not null,generation int not null,max_cellcount int not null,data clob);");
         disconnect();
     }
 
@@ -31,6 +35,14 @@ public class WriteDAO extends AbstractDAO{
 
         connect();
         simpleStatement("insert into GAME (NAME, WIDTH, HEIGHT, GENERATION, MAX_CELLCOUNT, DATA) VALUES ( '"+gridName+"', "+grid[0].length+", "+grid.length+", "+generation+", "+maxCellCount+", '"+data+"' )");
+        disconnect();
+
+    }
+
+    public void deleteEntry(String gridName){
+
+        connect();
+        simpleStatement("delete from GAME where Name = '"+gridName+"'");
         disconnect();
 
     }

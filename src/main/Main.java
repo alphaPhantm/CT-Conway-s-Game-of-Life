@@ -2,7 +2,9 @@ package main;
 
 
 import database.ReadDAO;
+import database.WriteDAO;
 import gamecontrol.Control;
+import gui.windows.DatabaseWindow;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,11 +34,6 @@ public class Main {
 
         Control control = new Control();
         control.start();
-
-//        ReadDAO readDAO = new ReadDAO();
-//        String[] x = readDAO.getGameInfo("test", new String[]{"MAX_CELLCOUNT", "GENERATION"});
-//        System.out.println(Arrays.toString(x));
-
 
     }
 }

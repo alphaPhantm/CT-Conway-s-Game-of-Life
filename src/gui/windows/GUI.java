@@ -11,7 +11,9 @@ public abstract class GUI {
     protected final int offset = 20;
     protected Control control;
     protected Font head;
+    protected Font sub_head;
     protected Font text;
+    protected Font small;
     protected boolean sliderLocked = false;
 
     public GUI(Control control){
@@ -21,7 +23,9 @@ public abstract class GUI {
     public void initPublicComponents() {
 
         head = new Font("Segoe UI Light", Font.PLAIN, 24);
+        sub_head = new Font("Segoe UI Light", Font.PLAIN, 20);
         text = new Font("Segoe UI Light", Font.PLAIN, 16);
+        small = new Font("Segoe UI Light", Font.PLAIN, 16);
 
     }
 

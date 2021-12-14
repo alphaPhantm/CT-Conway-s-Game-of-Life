@@ -15,14 +15,13 @@ public class GameWindow extends GUI {
     private final int cellCountX;
     private final int cellCountY;
 
-    private String title;
 
     private int width, height;
     private final float ratio;
 
     private boolean mouseLeft = false, mouseRight = false;
 
-    public GameWindow(Control control, boolean manual, int cellCountX, int cellCountY, int width, int height) {
+    public GameWindow(Control control, int cellCountX, int cellCountY, int width, int height) {
         super(control);
         this.cellCountX = cellCountX;
         this.cellCountY = cellCountY;
@@ -30,16 +29,13 @@ public class GameWindow extends GUI {
         initPublicComponents();
 
         gameWindow = new JFrame(title + " | Generation: " + getGeneration());
+        gameWindow.requestFocus();
 
         gameWindow.getContentPane().setPreferredSize(new Dimension(width + (2 * offset), height + (2 * offset)));
         gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
         gameWindow.setIconImage(imageIcon.getImage());
-
-        if (manual){
-            control.buildControlWindow();
-        }
 
         gameWindow.addWindowListener(new WindowAdapter() {
             @Override
@@ -68,7 +64,7 @@ public class GameWindow extends GUI {
                     if (control.getControlWindow() == null){
                         control.buildControlWindow();
                     } else {
-                        control.setVisibility(true);
+                        control.setControlVisibility(true);
                     }
 
                 }

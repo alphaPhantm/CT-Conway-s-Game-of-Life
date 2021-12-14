@@ -47,7 +47,7 @@ public class ControlWindow extends GUI {
 
         initPublicComponents();
 
-        controlWindow = new JFrame();
+        controlWindow = new JFrame(title + " Control");
 
         controlWindow.getContentPane().setPreferredSize(new Dimension(width, height + (2 * offset)));
         controlWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -392,7 +392,7 @@ public class ControlWindow extends GUI {
         saveGridPlaceholder.setVisible(true);
 
         saveGrid = new JTextField();
-        saveGrid.setDocument(new JTextFieldLimit(10));
+        saveGrid.setDocument(new JTextFieldLimit(15));
         saveGrid.setFocusable(false);
         saveGrid.setOpaque(false);
         saveGrid.setBackground(null);
@@ -411,7 +411,7 @@ public class ControlWindow extends GUI {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (checkName(saveGrid.getText())) {
+                    if (checkName(saveGrid.getText() ) && getAllGrids().size() < 10) {
                         saveGridInDB(saveGrid.getText());
                     } else {
                         System.out.println("Vergeben");
@@ -419,6 +419,7 @@ public class ControlWindow extends GUI {
 
                     saveGrid.setText("");
                     saveGridPlaceholder.setVisible(true);
+                    controlWindow.requestFocus();
 
                 }
             }

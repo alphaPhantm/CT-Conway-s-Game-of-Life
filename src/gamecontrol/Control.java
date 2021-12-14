@@ -3,6 +3,7 @@ package gamecontrol;
 import database.ReadDAO;
 import database.WriteDAO;
 import gui.windows.ControlWindow;
+import gui.windows.DatabaseWindow;
 import gui.windows.GameWindow;
 import gui.windows.MenuWindow;
 
@@ -15,6 +16,9 @@ public class Control {
     private MenuWindow menuWindow;
     private GameWindow gameWindow;
     private ControlWindow controlWindow;
+    private DatabaseWindow databaseWindow;
+
+
     private Clock clock;
     private ReadDAO readDAO;
     private WriteDAO writeDAO;
@@ -66,8 +70,10 @@ public class Control {
 
         calcSize();
 
-        gameWindow = new GameWindow(this, this.manual, this.xSize, this.ySize, this.width, this.height);
-
+        gameWindow = new GameWindow(this, this.xSize, this.ySize, this.width, this.height);
+        if (manual){
+            buildControlWindow();
+        }
 
         clock.start();
 
@@ -404,6 +410,9 @@ public class Control {
     public void buildControlWindow() {
         controlWindow = new ControlWindow(this);
     }
+    public void buildDatabaseWindow() {
+        databaseWindow = new DatabaseWindow(this);
+    }
 
     public Point getGameWindowPos() {
         return gameWindow.getPos();
@@ -417,12 +426,28 @@ public class Control {
         return controlWindow;
     }
 
+    public DatabaseWindow getDatabaseWindow() {
+        return databaseWindow;
+    }
+
     public MenuWindow getMenuWindow() {
         return menuWindow;
     }
 
-    public void setVisibility(boolean value) {
+    public void setControlVisibility(boolean value) {
         controlWindow.setVisibility(value);
+    }
+
+    public void setDatabaseVisibility(boolean value) {
+        databaseWindow.setVisibility(value);
+    }
+
+    public String[] getGameInfo(String gridName, String[] columnNames){
+        return readDAO.getGameInfo(gridName, columnNames);
+    }
+
+    public void deleteEntry(String gridName){
+        writeDAO.deleteEntry(gridName);
     }
 }
 
