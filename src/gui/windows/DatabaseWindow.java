@@ -4,14 +4,21 @@ import gamecontrol.Control;
 import gui.fundamental.Hover;
 import gui.fundamental.RoundedBorder;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * This class is the Window to access the Data from the Database and delete some entries.
+ * @author Noah Kessinger
+ */
 public class DatabaseWindow extends GUI {
 
     private JFrame databaseWindow;
@@ -44,7 +51,7 @@ public class DatabaseWindow extends GUI {
 
         databaseWindow.setTitle(this.title + " Database Control");
 
-        ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
+        ImageIcon imageIcon = new ImageIcon(iconPath);
         databaseWindow.setIconImage(imageIcon.getImage());
 
 
@@ -57,7 +64,7 @@ public class DatabaseWindow extends GUI {
         databaseWindow.setSize(1400, getAllGrids().size() * 75 + 200);
 
 
-        databaseWindow.setResizable(true);
+        databaseWindow.setResizable(false);
 
         databaseWindow.addWindowListener(new WindowAdapter() {
             @Override
@@ -129,8 +136,8 @@ public class DatabaseWindow extends GUI {
             max_cellcounts[i].setForeground(Color.decode("#121212"));
             max_cellcounts[i].setVisible(true);
 
-            deleteButtons[i] = new JButton();
-            deleteButtons[i].setText("Delete");
+            Icon icon = new ImageIcon(deleteIconPath);
+            deleteButtons[i] = new JButton(icon);
             deleteButtons[i].setFont(text);
             deleteButtons[i].setForeground(Color.decode("#121212"));
             deleteButtons[i].setBorderPainted(true);
@@ -138,8 +145,7 @@ public class DatabaseWindow extends GUI {
             deleteButtons[i].setContentAreaFilled(false);
             deleteButtons[i].setBounds(1300, 75 * i + 150, 50, 30);
             deleteButtons[i].setVisible(true);
-            deleteButtons[i].addMouseListener(new Hover());
-            deleteButtons[i].setBorder(new RoundedBorder(25));
+            deleteButtons[i].setBorder(null);
             deleteButtons[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -223,6 +229,7 @@ public class DatabaseWindow extends GUI {
     }
 
     public void setVisibility(boolean value) {
+        update();
         databaseWindow.setVisible(value);
         databaseWindow.requestFocus();
     }

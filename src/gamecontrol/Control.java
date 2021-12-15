@@ -277,7 +277,6 @@ public class Control {
             y = (int) ((float) (mouseY - offset) / (800f / ((float) ySize)));
 
         } else {
-
             x = (int) ((float) (mouseX - offset) / (800f / ((float) xSize)));
             y = (int) ((float) (mouseY - offset) / (800f / ((float) ySize * ratio)));
 

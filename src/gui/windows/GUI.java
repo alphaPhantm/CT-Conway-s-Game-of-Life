@@ -8,6 +8,9 @@ import java.util.List;
 public abstract class GUI {
 
     protected final String title = "Conway's game if Live";
+    protected final String iconPath = "src/assets/icons/Icon.png";
+    protected final String picturePath = "src/assets/pictures/Preview.png";
+    protected final String deleteIconPath = "src/assets/icons/delete.png";
     protected final int offset = 20;
     protected Control control;
     protected Font head;

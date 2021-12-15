@@ -14,6 +14,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * This Class is the Menu window in wich you can set up the basic Game Variables.
+ * @author Noah Kessinger
+ */
 public class MenuWindow extends GUI {
 
 
@@ -57,7 +61,7 @@ public class MenuWindow extends GUI {
 
         menuWindow.setTitle(this.title);
 
-        ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
+        ImageIcon imageIcon = new ImageIcon(iconPath);
         menuWindow.setIconImage(imageIcon.getImage());
 
 
@@ -68,7 +72,7 @@ public class MenuWindow extends GUI {
         menuWindow.setLayout(null);
         menuWindow.setSize(752, 424);
 
-        menuWindow.setResizable(true);
+        menuWindow.setResizable(false);
 
 
         menuWindow.addKeyListener(new KeyListener() {
@@ -396,7 +400,7 @@ public class MenuWindow extends GUI {
 
 
     private void initIMG(){
-        preview = new ImageIcon("src/assets/pictures/Preview.png");
+        preview = new ImageIcon(picturePath);
         previewLabel = new JLabel(preview);
         previewLabel.setBounds(450, 45, 203, 302);
     }

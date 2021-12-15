@@ -13,6 +13,11 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 
+
+/**
+ * In this class the Control Window is implemented. In the Control Window you are able to change some game variables and enable the drawing mode.
+ * @author Noah Kessinger
+ */
 public class ControlWindow extends GUI {
 
     private final int width = 400, height = 800;
@@ -55,7 +60,7 @@ public class ControlWindow extends GUI {
         controlWindow.setLocation(control.getGameWindowPos().x - (width + offset), control.getGameWindowPos().y);
         controlWindow.setLayout(null);
 
-        ImageIcon imageIcon = new ImageIcon("src/assets/icons/Icon.png");
+        ImageIcon imageIcon = new ImageIcon(iconPath);
         controlWindow.setIconImage(imageIcon.getImage());
 
         controlWindow.addWindowListener(new WindowAdapter() {
